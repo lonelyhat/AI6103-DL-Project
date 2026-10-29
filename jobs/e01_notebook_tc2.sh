@@ -5,7 +5,8 @@
 #SBATCH --ntasks=1
 #SBATCH --output=logs/e01-nb-%j.out
 #SBATCH --error=logs/e01-nb-%j.err
-set -euo pipefail
+# Conda activation hooks can read optional unset variables.
+set -eo pipefail
 : "${SLURM_JOB_ID:?Submit through sbatch}"
 cd "${SLURM_SUBMIT_DIR:?}"
 phase="${1:-prepare}"
@@ -20,6 +21,7 @@ fi
 module load anaconda
 eval "$(conda shell.bash hook)"
 conda activate e01
+set -u
 export E01_PHASE="$phase"
 export E01_MODEL_REVISION="${2:-}"
 export E01_OUTPUT_DIR="$PWD/runs/e01/notebook-${phase}-${SLURM_JOB_ID}"

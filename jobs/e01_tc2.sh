@@ -10,12 +10,14 @@
 #SBATCH --time=01:00:00
 #SBATCH --output=logs/e01-%j.out
 #SBATCH --error=logs/e01-%j.err
-set -euo pipefail
+# Conda activation hooks can read optional unset variables.
+set -eo pipefail
 : "${SLURM_JOB_ID:?Submit this script with sbatch}"
 cd "${SLURM_SUBMIT_DIR:?}"
 module load anaconda
 eval "$(conda shell.bash hook)"
 conda activate e01
+set -u
 export TOKENIZERS_PARALLELISM=false
 bash jobs/probe_tc2.sh
 python -u e01/run_generation.py \
