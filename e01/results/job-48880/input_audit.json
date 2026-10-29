@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "question_id": "1cea1afa",
+  "stage": "dev",
+  "question": "How many Instagram followers do I currently have?",
+  "question_date": "2023/06/14 (Wed) 13:43",
+  "input_sha256": "f6a91f1b44ad58a34aa37a70937f47d6ad49794565dc1edc1ae99cae2958399c",
+  "canonical_input_sha256": "a723966152338686ff93bbfe8ad9c8ae42781f7724a655090c2c8e3c748e8341",
+  "context_sha256": "43534c3f11d0701de696d29e1dbb5887e73cf3e5ef1ce77e78d27b4a73e7e77f",
+  "round_count": 6,
+  "message_count": 12,
+  "context_characters": 9150,
+  "round_ids": [
+    "m00000",
+    "m00013",
+    "m00172",
+    "m00173",
+    "m00212",
+    "m00232"
+  ],
+  "checks": [
+    "archived DEV membership",
+    "pinned input SHA256",
+    "public field whitelist",
+    "exact context serialization",
+    "unique round IDs",
+    "chronological order",
+    "no archived Qwen chat template"
+  ],
+  "token_count_status": "pending actual Llama tokenizer at the locked model revision",
+  "budget_note": "Historical 2048 uses Qwen tokens; this is not a Llama 2048-token assertion",
+  "provenance_note": "Manifest checked against the original archive during authoring; no original ZIP is needed for these manifest-based checks"
+}

@@ -1,0 +1,3 @@
+[InstallIPythonKernelSpecApp] WARNING | Installing to /home/msai/chunjie001/projects/AI6103-DL-Project/runs/e01/notebook-generate-48880/kernel/share/jupyter/kernels, which is not in ['/home/msai/chunjie001/.conda/envs/e01/share/jupyter/kernels', '/home/msai/chunjie001/.local/share/jupyter/kernels', '/usr/local/share/jupyter/kernels', '/usr/share/jupyter/kernels', '/home/msai/chunjie001/.ipython/kernels']. The kernelspec may not be found.
+[NbConvertApp] Converting notebook e01/E01_environment_and_generation.ipynb to notebook
+[NbConvertApp] Writing 22861 bytes to /home/msai/chunjie001/projects/AI6103-DL-Project/runs/e01/notebook-generate-48880/executed.ipynb
