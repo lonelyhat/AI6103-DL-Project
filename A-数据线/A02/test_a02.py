@@ -76,6 +76,28 @@ check(E.diagnose(q, ev + others, ev) == "all_retained", "证据全选中 → all
 check(E.diagnose(q, ev + others, others[:5], tok, budget=2048) == "selection_missed", "放得下没选 → selection_missed")
 check(E.diagnose(q, ev + others, others[:5], tok, budget=150) == "over_budget", "证据轮总长超预算 → over_budget")
 
+print("8b 重叠轮（连续用户消息，一条消息属于两个轮）")
+q = "4c36ccef"
+ov = [json.loads(l) for l in (E.root / "map" / f"{q}.messages.jsonl").open() if len(json.loads(l)["turn_ids"]) == 2]
+check(len(ov) == 9, f"{q}: 共 9 条消息属于两个轮（与 Noir 核对一致）")
+m = ov[0]; ta, tb = m["turn_ids"]
+fake = dict(E.eval[q], evidence_message_ids=[m["message_id"]], evidence_turn_ids=[ta, tb], unreachable_evidence_message_ids=[])
+E3 = Evidence(); E3.add_eval_rows([fake])
+check(E3.retention(q, [ta])["all_retained"], f"假设 {m['message_id']} 为证据：只选前一轮 {ta[-4:]} → 保留")
+check(E3.retention(q, [tb])["all_retained"], f"只选后一轮 {tb[-4:]} → 保留（旧版只记一个轮，这里会漏计）")
+check(E3.retention(q, [ta, tb])["n_retained_msgs"] == 1, "两轮都选 → 去重后仍只计 1 条，不重复计数")
+others = [t["turn_id"] for t in turns(q) if t["turn_id"] not in (ta, tb)][:20]
+check(not E3.retention(q, others)["any_retained"], "两轮都不选 → 未保留")
+tok = {t["turn_id"]: 100 for t in turns(q)}; tok[ta] = 900; tok[tb] = 300
+check(E3.min_evidence_tokens(q, [ta, tb] + others, tok) == 300, "最少覆盖长度取更短的那一轮（300）")
+
+print("8c 时间排序键")
+for q in ["1cea1afa", "gpt4_7a0daae1"]:
+    ts = turns(q)
+    by_id = [t["session_datetime"] for t in ts]
+    by_key = [t["session_datetime"] for t in sorted(ts, key=lambda t: t["sort_key"])]
+    check(by_id != sorted(by_id) and by_key == sorted(by_key), f"{q}: 按 ID 排序时间倒序，按 sort_key 排序时间单调")
+
 print("9 与官方轮级证据口径对比（开发可回答题）")
 diff = []
 for q, e in E.eval.items():
