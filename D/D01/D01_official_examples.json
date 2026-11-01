@@ -1,0 +1,95 @@
+{
+  "commit": "9e0b455f4ef0e2ab8f2e582289761153549043fc",
+  "method": "Official functions extracted from git HEAD via AST and executed in memory. No implementation changes or model calls. Character tokenizer stub tests truncation only, not real token counts.",
+  "input": {
+    "question": "Compare OLD and NEW rent.",
+    "question_date": "2026/10/27",
+    "haystack_session_ids": [
+      "answer_old",
+      "new"
+    ],
+    "haystack_dates": [
+      "2024/01/01",
+      "2025/01/01"
+    ],
+    "haystack_sessions": [
+      [
+        {
+          "role": "user",
+          "content": "OLD rent 2000",
+          "has_answer": true
+        },
+        {
+          "role": "assistant",
+          "content": "OLD reply"
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "content": "NEW rent 1500"
+        },
+        {
+          "role": "assistant",
+          "content": "NEW reply"
+        }
+      ]
+    ],
+    "retrieval_results": {
+      "ranked_items": [
+        {
+          "corpus_id": "new_1",
+          "text": "NEW rent 1500"
+        },
+        {
+          "corpus_id": "answer_old_1",
+          "text": "OLD rent 2000"
+        }
+      ]
+    }
+  },
+  "results": [
+    {
+      "case": "topk_and_round",
+      "pass": true,
+      "result": "k=1 keeps new_1 and its following assistant reply"
+    },
+    {
+      "case": "date_sort_and_clean",
+      "pass": true,
+      "result": "old round precedes new round; has_answer removed"
+    },
+    {
+      "case": "noans_mapping",
+      "pass": true,
+      "result": "noans_old_1 resolves to answer_old session"
+    },
+    {
+      "case": "prefix_truncation",
+      "pass": true,
+      "result": "110-character stub budget cuts inside old round; new round lost",
+      "history": "\n### Session 1:\nSession Date: 2024/01/01\nSession Content:\n\n[{\"role\": \"user\", \"content\": \"OLD rent 2000\"}, {\"ro"
+    },
+    {
+      "case": "flat_turn_useronly_true",
+      "pass": true,
+      "result": "list indices must be integers or slices, not str",
+      "meaning": "official branch error reproduced; not a working configuration"
+    },
+    {
+      "case": "user_index",
+      "pass": true,
+      "result": {
+        "corpus": [
+          "OLD rent 2000"
+        ],
+        "ids": [
+          "answer_old_1"
+        ],
+        "dates": [
+          "2024/01/01"
+        ]
+      }
+    }
+  ]
+}

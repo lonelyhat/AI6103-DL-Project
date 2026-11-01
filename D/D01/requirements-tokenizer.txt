@@ -1,0 +1,3 @@
+# Optional: required only for HFTokenizer, not character examples or unit tests.
+# Version verified with the local Qwen tokenizer; no model inference is required.
+transformers==4.43.3

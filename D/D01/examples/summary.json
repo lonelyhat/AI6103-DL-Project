@@ -1,0 +1,76 @@
+{
+  "purpose": "D01 functional examples, not retrieval/QA effectiveness results",
+  "tokenizer": "demo:characters",
+  "toy": [
+    {
+      "strategy": "R",
+      "selected_turn_ids": [
+        "toy-s000-t000",
+        "toy-s001-t000"
+      ],
+      "selection_order": [
+        "toy-s000-t000",
+        "toy-s001-t000"
+      ],
+      "context_tokens": 281,
+      "budget_tokens": 282,
+      "stop_reason": "no_candidate_fits"
+    },
+    {
+      "strategy": "MMR",
+      "selected_turn_ids": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "selection_order": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "context_tokens": 282,
+      "budget_tokens": 282,
+      "stop_reason": "no_candidate_fits"
+    },
+    {
+      "strategy": "C",
+      "selected_turn_ids": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "selection_order": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "context_tokens": 282,
+      "budget_tokens": 282,
+      "stop_reason": "no_candidate_fits"
+    },
+    {
+      "strategy": "Q",
+      "selected_turn_ids": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "selection_order": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "context_tokens": 282,
+      "budget_tokens": 282,
+      "stop_reason": "no_candidate_fits"
+    },
+    {
+      "strategy": "FL",
+      "selected_turn_ids": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "selection_order": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "context_tokens": 282,
+      "budget_tokens": 282,
+      "stop_reason": "no_candidate_fits"
+    }
+  ]
+}
