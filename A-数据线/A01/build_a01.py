@@ -5,9 +5,13 @@ ID 规则（详见 A01-开发题与交接格式.md）：
   会话  {qid}-s{会话位置:03d}
   消息  {qid}-s{会话位置:03d}-m{消息位置:03d}
   轮    {qid}-s{会话位置:03d}-t{第k条用户消息:03d}   = 该用户消息 + 紧随的下一条消息
-位置均从 0 开始；会话位置即 haystack_sessions 中的下标（官方已按时间排序）。
+位置均从 0 开始；会话位置即 haystack_sessions 中的下标。
+注意：haystack_sessions 并不总按时间排序（开发题 13/40、全量 211/500 有日期倒序），
+ID 顺序 ≠ 时间顺序。按时间排列材料时用 sort_key = [ISO 日期时间, 会话位置, 用户消息位置]。
+连续用户消息时一条消息可属于两个轮，消息映射保存全部所属轮（turn_ids）。
 """
-import json, sys, hashlib
+import json, sys, hashlib, re
+from datetime import datetime
 from collections import Counter
 from pathlib import Path
 
@@ -22,7 +26,7 @@ FIRST5 = [
     ("4c36ccef", "助手证据", "证据在助手回复中，K0 只索引用户发言，用于检验检索盲区及“候选未找齐”的统计"),
     ("c960da58", "简单对照", "单条用户证据、答案明确；若此题出错，优先怀疑流程本身"),
 ]
-CONFIG_VERSION = "a01-v1"
+CONFIG_VERSION = "a01-v2"
 
 def sid(q, s): return f"{q}-s{s:03d}"
 def mid(q, s, m): return f"{q}-s{s:03d}-m{m:03d}"
@@ -35,29 +39,43 @@ def official_corpus_id(sess_id, pos, has_answer):
         cid = cid.replace("answer", "noans")
     return cid
 
+def parse_date(s):
+    """'2023/05/20 (Sat) 16:16' → '2023-05-20T16:16'（ISO，字符串可直接比较）"""
+    d = datetime.strptime(re.sub(r" \(\w+\)", "", s), "%Y/%m/%d %H:%M")
+    return d.strftime("%Y-%m-%dT%H:%M")
+
+def session_turns(qid, si, sess):
+    """一个会话内的轮：第 k 条用户消息 + 紧随的下一条消息（与官方一致）。
+    连续用户消息时，后一条同时属于两个轮（重叠轮）。"""
+    out, k = [], 0
+    for p, m in enumerate(sess):
+        if m["role"] == "user":
+            members = [p] + ([p + 1] if p + 1 < len(sess) else [])
+            out.append((tid(qid, si, k), p, members)); k += 1
+    return out
+
 def build_question(q):
     qid = q["question_id"]
     msg_rows, turn_rows = [], []
     ev_msgs, ev_turns, unreachable = [], set(), []
     for si, (sess_id, date, sess) in enumerate(zip(q["haystack_session_ids"], q["haystack_dates"], q["haystack_sessions"])):
-        pos2turn, k = {}, 0
+        iso = parse_date(date)
+        pos2turns = {}
+        for t, p, members in session_turns(qid, si, sess):
+            for x in members: pos2turns.setdefault(x, []).append(t)
+            turn_rows.append({"turn_id": t, "session_index": si, "session_date": date, "session_datetime": iso,
+                              "sort_key": [iso, si, p],
+                              "message_ids": [mid(qid, si, x) for x in members],
+                              "official_session_id": sess_id,
+                              "official_corpus_id": official_corpus_id(sess_id, p, bool(m_has(sess, p)))})
         for p, m in enumerate(sess):
-            if m["role"] == "user":
-                t = tid(qid, si, k); k += 1
-                members = [p] + ([p + 1] if p + 1 < len(sess) else [])
-                for x in members: pos2turn.setdefault(x, t)
-                turn_rows.append({"turn_id": t, "session_index": si, "session_date": date,
-                                  "message_ids": [mid(qid, si, x) for x in members],
-                                  "official_session_id": sess_id,
-                                  "official_corpus_id": official_corpus_id(sess_id, p, bool(m.get("has_answer")))})
-        for p, m in enumerate(sess):
-            row = {"message_id": mid(qid, si, p), "turn_id": pos2turn.get(p), "session_index": si,
+            row = {"message_id": mid(qid, si, p), "turn_ids": pos2turns.get(p, []), "session_index": si,
                    "position": p, "role": m["role"], "official_session_id": sess_id}
             msg_rows.append(row)
             if m.get("has_answer"):
                 ev_msgs.append(row["message_id"])
-                if row["turn_id"] is None: unreachable.append(row["message_id"])
-                else: ev_turns.add(row["turn_id"])
+                if not row["turn_ids"]: unreachable.append(row["message_id"])
+                ev_turns.update(row["turn_ids"])
     ev = {"question_id": qid, "question_type": q["question_type"], "is_abstention": qid.endswith("_abs"),
           "answer": q["answer"], "answer_session_ids": q["answer_session_ids"],
           "evidence_session_indices": sorted({i for i, s in enumerate(q["haystack_session_ids"]) if s in q["answer_session_ids"]}),
@@ -67,18 +85,22 @@ def build_question(q):
     pub = {"question_id": qid, "stage": "dev", "question": q["question"], "question_date": q["question_date"]}
     return pub, ev, msg_rows, turn_rows
 
+def m_has(sess, p): return sess[p].get("has_answer")
+
 def public_turns(q):
-    """给检索/选择/回答使用的原文：只有本组 ID、日期和消息内容，无官方 ID、无 has_answer。"""
+    """给检索/选择/回答使用的原文：只有本组 ID、日期、排序键和消息内容，无官方 ID、无 has_answer。"""
     qid, out = q["question_id"], []
     for si, (date, sess) in enumerate(zip(q["haystack_dates"], q["haystack_sessions"])):
-        k = 0
-        for p, m in enumerate(sess):
-            if m["role"] != "user": continue
-            members = [p] + ([p + 1] if p + 1 < len(sess) else [])
-            out.append({"turn_id": tid(qid, si, k), "session_index": si, "session_date": date,
+        iso = parse_date(date)
+        for t, p, members in session_turns(qid, si, sess):
+            out.append({"turn_id": t, "session_index": si, "session_date": date, "session_datetime": iso,
+                        "sort_key": [iso, si, p],
                         "messages": [{"message_id": mid(qid, si, x), "role": sess[x]["role"], "content": sess[x]["content"]} for x in members]})
-            k += 1
     return out
+
+def _has_inversion(q):
+    ds = [parse_date(x) for x in q["haystack_dates"]]
+    return any(a > b for a, b in zip(ds, ds[1:]))
 
 def dump_jsonl(path, rows):
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -112,12 +134,13 @@ def main():
         "dev_ids": DEV_IDS, "dev_answerable_ids": answerable,
         "dev_abstention_ids": [d for d in DEV_IDS if d.endswith("_abs")],
         "dev_type_counts": dict(Counter(data[d]["question_type"] for d in answerable)),
+        "dev_date_inversion_ids": [d for d in DEV_IDS if _has_inversion(data[d])],
         "first_batch": [{"question_id": a, "slot": b, "reason": c, "question_type": data[a]["question_type"]} for a, b, c in FIRST5],
     }
     (out / "dev_manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # ---------- 自检 ----------
-    problems = []
+    problems, n_overlap = [], 0
     for qid in DEV_IDS:
         q = data[qid]
         msgs = [json.loads(l) for l in (out / "map" / f"{qid}.messages.jsonl").open()]
@@ -125,13 +148,19 @@ def main():
         if len({m["message_id"] for m in msgs}) != len(msgs): problems.append((qid, "message_id 重复"))
         if len({t["turn_id"] for t in turns}) != len(turns): problems.append((qid, "turn_id 重复"))
         if len(msgs) != sum(len(s) for s in q["haystack_sessions"]): problems.append((qid, "消息数不符"))
-        # 官方 corpus_id 与 has_answer 一致：证据轮应保留 answer 前缀
+        # 消息→轮 与 轮→消息 双向一致
+        t2m = {t["turn_id"]: set(t["message_ids"]) for t in turns}
+        for m in msgs:
+            if any(m["message_id"] not in t2m[t] for t in m["turn_ids"]): problems.append((qid, "映射不一致", m["message_id"]))
+            n_overlap += len(m["turn_ids"]) > 1
+        if sum(len(v) for v in t2m.values()) != sum(len(m["turn_ids"]) for m in msgs): problems.append((qid, "映射计数不一致"))
+        # 证据轮 = 含任一证据消息的全部轮
         ev = next(e for e in evs if e["question_id"] == qid)
-        for t in turns:
-            if t["turn_id"] in ev["evidence_turn_ids"] and "answer" in t["official_session_id"]:
-                first_msg_has = any(m.get("has_answer") for m in [q["haystack_sessions"][t["session_index"]][int(t["message_ids"][0][-3:])]])
-                if first_msg_has and "noans" in t["official_corpus_id"]: problems.append((qid, "corpus_id 前缀错误", t["turn_id"]))
-        # ID 排序 = 时间顺序
+        exp = sorted({t for t, ms in t2m.items() if ms & set(ev["evidence_message_ids"])})
+        if exp != ev["evidence_turn_ids"]: problems.append((qid, "证据轮不完整"))
+        # sort_key 排序后时间单调不减
+        st = sorted(turns, key=lambda t: t["sort_key"])
+        if any(a["session_datetime"] > b["session_datetime"] for a, b in zip(st, st[1:])): problems.append((qid, "sort_key 排序后时间非单调"))
         ids = [t["turn_id"] for t in turns]
         if ids != sorted(ids): problems.append((qid, "turn_id 字符串排序不等于位置顺序"))
     # 公开文件不得含泄漏字段
@@ -147,6 +176,9 @@ def main():
         if e["question_id"] in first5:
             print(f"  {e['question_id']:15} {e['question_type']:25} evidence msgs={len(e['evidence_message_ids'])} turns={e['evidence_turn_ids']} unreachable={e['unreachable_evidence_message_ids']}")
     print("unreachable evidence among dev:", [(e["question_id"], e["unreachable_evidence_message_ids"]) for e in evs if e["unreachable_evidence_message_ids"]])
+    print("date inversion dev:", len(manifest["dev_date_inversion_ids"]), manifest["dev_date_inversion_ids"])
+    print("first5 affected by inversion:", [x for x in first5 if x in manifest["dev_date_inversion_ids"]])
+    print("dev messages belonging to 2 turns:", n_overlap)
     print("PROBLEMS:", problems or "none")
 
 if __name__ == "__main__":

@@ -3,10 +3,11 @@
 依赖 A01 输出（../A01/output）：
   eval/dev_eval.jsonl        每题证据消息 / 证据轮 / 不可达证据
   map/{qid}.turns.jsonl      turn_id ↔ official_corpus_id
-  map/{qid}.messages.jsonl   message_id → turn_id
+  map/{qid}.messages.jsonl   message_id → turn_ids（连续用户消息时一条消息可属于两个轮）
 
 指标口径（以消息级 has_answer 为准，见 A01 文档第 5 节第 2 条）：
-  一条证据消息“被保留” ⇔ 它所在的轮在给定的轮列表里
+  被保留的消息 = 给定各轮所含消息 ID 的并集（去重）
+  一条证据消息“被保留” ⇔ 它在这个并集里（属于两个轮的消息，任一轮被选中即算保留）
   msg_retention   = 被保留的证据消息数 / 全部证据消息数（不可达证据计入分母）
   all_retained    = 全部证据消息都被保留
   any_retained    = 至少保留一条
@@ -28,18 +29,20 @@ class Evidence:
         self.eval = {}
         for line in (self.root / "eval" / "dev_eval.jsonl").open(encoding="utf-8"):
             r = json.loads(line); self.eval[r["question_id"]] = r
-        self._msg2turn, self._official2turn = {}, {}
+        self._turn2msgs, self._official2turn = {}, {}
 
     def add_eval_rows(self, rows):
         """正式题等其他题目的评价行（格式同 dev_eval.jsonl）可在此加入。"""
         for r in rows: self.eval[r["question_id"]] = r
 
     # ---------- 映射 ----------
-    def msg2turn(self, qid):
-        if qid not in self._msg2turn:
-            self._msg2turn[qid] = {json.loads(l)["message_id"]: json.loads(l)["turn_id"]
-                                   for l in (self.root / "map" / f"{qid}.messages.jsonl").open(encoding="utf-8")}
-        return self._msg2turn[qid]
+    def turn2msgs(self, qid):
+        if qid not in self._turn2msgs:
+            m = {}
+            for l in (self.root / "map" / f"{qid}.turns.jsonl").open(encoding="utf-8"):
+                t = json.loads(l); m[t["turn_id"]] = t["message_ids"]
+            self._turn2msgs[qid] = m
+        return self._turn2msgs[qid]
 
     def official_to_turn(self, qid, corpus_id):
         """官方检索日志 corpus_id → 本组 turn_id。answer_/noans_ 统一后再查，两种写法都能对上。"""
@@ -61,16 +64,20 @@ class Evidence:
         if bad:
             raise ValueError(f"{qid}: 轮 ID 不属于本题: {bad[:3]}")
         kept = set(turn_ids)
-        m2t = self.msg2turn(qid)
+        t2m = self.turn2msgs(qid)
+        unknown = [t for t in kept if t not in t2m]
+        if unknown:
+            raise KeyError(f"{qid}: 未知轮 ID: {unknown[:3]}")
+        kept_msgs = set().union(*(t2m[t] for t in kept)) if kept else set()
         ev_msgs = ev["evidence_message_ids"]
-        res = {"question_id": qid, "question_type": ev["question_type"], "n_turns_given": len(kept),
+        res = {"question_id": qid, "question_type": ev["question_type"], "n_turns_given": len(kept), "n_messages_given": len(kept_msgs),
                "is_abstention": ev["is_abstention"], "has_evidence": bool(ev_msgs), "n_evidence_msgs": len(ev_msgs),
                "n_unreachable": len(ev["unreachable_evidence_message_ids"])}
         if not ev_msgs:
             return res | {"n_retained_msgs": None, "msg_retention": None, "all_retained": None,
                           "any_retained": None, "n_evidence_turns": 0, "n_retained_turns": None,
                           "missing_message_ids": []}
-        retained = [m for m in ev_msgs if m2t.get(m) is not None and m2t[m] in kept]
+        retained = [m for m in ev_msgs if m in kept_msgs]
         ev_turns = ev["evidence_turn_ids"]
         return res | {
             "n_retained_msgs": len(retained),
@@ -82,10 +89,18 @@ class Evidence:
             "missing_message_ids": [m for m in ev_msgs if m not in retained],
         }
 
+    def min_evidence_tokens(self, qid, candidate_turn_ids, turn_tokens):
+        """在候选内覆盖全部证据消息所需的最少 token（重叠轮时可能少于证据轮总和）。"""
+        t2m = self.turn2msgs(qid)
+        need = set(self.eval[qid]["evidence_message_ids"])
+        opts = [(t, set(t2m[t]), turn_tokens[t]) for t in set(candidate_turn_ids)]
+        cost = _min_cover(need, opts)
+        return float("inf") if cost is None else cost
+
     def diagnose(self, qid, candidate_turn_ids, selected_turn_ids, turn_tokens=None, budget=None):
         """错误环节归因（供 A04）：
         candidates_missing  候选没有找齐（含不可达证据）
-        over_budget         证据都在候选里，但证据轮完整长度之和超过预算（需传 turn_tokens 与 budget）
+        over_budget         证据都在候选里，但覆盖全部证据消息所需的最少轮长度之和仍超过预算（需传 turn_tokens 与 budget）
         selection_missed    证据放得下却没有选齐
         all_retained        证据全部留下（若仍答错，问题在阅读/提取/评分）
         """
@@ -97,9 +112,22 @@ class Evidence:
         if self.retention(qid, selected_turn_ids)["all_retained"]:
             return "all_retained"
         if turn_tokens is not None and budget is not None:
-            if sum(turn_tokens[t] for t in ev["evidence_turn_ids"]) > budget:
+            if self.min_evidence_tokens(qid, candidate_turn_ids, turn_tokens) > budget:
                 return "over_budget"
         return "selection_missed"
+
+
+def _min_cover(need, options):
+    """need: 证据消息集合；options: [(turn_id, msgs, tokens)]。消息很少（≤几条），直接枚举子集求最小长度覆盖。"""
+    from itertools import combinations
+    opts = [o for o in options if o[1] & need]
+    best = None
+    for r in range(1, len(need) + 1):
+        for combo in combinations(opts, r):
+            if need <= set().union(*(c[1] for c in combo)):
+                cost = sum(c[2] for c in combo)
+                best = cost if best is None else min(best, cost)
+    return best
 
 
 def _norm(cid):
