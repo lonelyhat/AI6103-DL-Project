@@ -1,0 +1,259 @@
+{
+  "purpose": "D01 functional examples, not retrieval/QA effectiveness results",
+  "tokenizer": "/home/cyr2526/DL_project/LongMemEval/model_cache/Qwen2.5-1.5B-Instruct",
+  "toy": [
+    {
+      "strategy": "R",
+      "selected_turn_ids": [
+        "toy-s000-t000",
+        "toy-s001-t000"
+      ],
+      "selection_order": [
+        "toy-s000-t000",
+        "toy-s001-t000"
+      ],
+      "context_tokens": 107,
+      "budget_tokens": 107,
+      "stop_reason": "no_candidate_fits"
+    },
+    {
+      "strategy": "MMR",
+      "selected_turn_ids": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "selection_order": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "context_tokens": 107,
+      "budget_tokens": 107,
+      "stop_reason": "no_candidate_fits"
+    },
+    {
+      "strategy": "C",
+      "selected_turn_ids": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "selection_order": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "context_tokens": 107,
+      "budget_tokens": 107,
+      "stop_reason": "no_candidate_fits"
+    },
+    {
+      "strategy": "Q",
+      "selected_turn_ids": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "selection_order": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "context_tokens": 107,
+      "budget_tokens": 107,
+      "stop_reason": "no_candidate_fits"
+    },
+    {
+      "strategy": "FL",
+      "selected_turn_ids": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "selection_order": [
+        "toy-s000-t000",
+        "toy-s002-t000"
+      ],
+      "context_tokens": 107,
+      "budget_tokens": 107,
+      "stop_reason": "no_candidate_fits"
+    }
+  ],
+  "public_smoke": {
+    "score_source": "synthetic lexical question/original-round overlap; NOT B retrieval scores",
+    "questions": 5,
+    "records": 25,
+    "all_within_budget": true,
+    "rows": [
+      {
+        "question_id": "1cea1afa",
+        "strategy": "R",
+        "context_tokens": 1972,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "1cea1afa",
+        "strategy": "MMR",
+        "context_tokens": 2004,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "1cea1afa",
+        "strategy": "C",
+        "context_tokens": 1890,
+        "budget_tokens": 2048,
+        "stop_reason": "nonpositive_gain"
+      },
+      {
+        "question_id": "1cea1afa",
+        "strategy": "Q",
+        "context_tokens": 1890,
+        "budget_tokens": 2048,
+        "stop_reason": "nonpositive_gain"
+      },
+      {
+        "question_id": "1cea1afa",
+        "strategy": "FL",
+        "context_tokens": 1913,
+        "budget_tokens": 2048,
+        "stop_reason": "nonpositive_gain"
+      },
+      {
+        "question_id": "2318644b",
+        "strategy": "R",
+        "context_tokens": 2044,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "2318644b",
+        "strategy": "MMR",
+        "context_tokens": 2028,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "2318644b",
+        "strategy": "C",
+        "context_tokens": 1951,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "2318644b",
+        "strategy": "Q",
+        "context_tokens": 1951,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "2318644b",
+        "strategy": "FL",
+        "context_tokens": 2027,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "4c36ccef",
+        "strategy": "R",
+        "context_tokens": 1998,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "4c36ccef",
+        "strategy": "MMR",
+        "context_tokens": 1862,
+        "budget_tokens": 2048,
+        "stop_reason": "nonpositive_gain"
+      },
+      {
+        "question_id": "4c36ccef",
+        "strategy": "C",
+        "context_tokens": 2047,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "4c36ccef",
+        "strategy": "Q",
+        "context_tokens": 2047,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "4c36ccef",
+        "strategy": "FL",
+        "context_tokens": 2018,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "c960da58",
+        "strategy": "R",
+        "context_tokens": 1985,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "c960da58",
+        "strategy": "MMR",
+        "context_tokens": 1985,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "c960da58",
+        "strategy": "C",
+        "context_tokens": 1985,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "c960da58",
+        "strategy": "Q",
+        "context_tokens": 1985,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "c960da58",
+        "strategy": "FL",
+        "context_tokens": 1924,
+        "budget_tokens": 2048,
+        "stop_reason": "nonpositive_gain"
+      },
+      {
+        "question_id": "gpt4_7a0daae1",
+        "strategy": "R",
+        "context_tokens": 2043,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "gpt4_7a0daae1",
+        "strategy": "MMR",
+        "context_tokens": 2043,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "gpt4_7a0daae1",
+        "strategy": "C",
+        "context_tokens": 2043,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "gpt4_7a0daae1",
+        "strategy": "Q",
+        "context_tokens": 2043,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      },
+      {
+        "question_id": "gpt4_7a0daae1",
+        "strategy": "FL",
+        "context_tokens": 2043,
+        "budget_tokens": 2048,
+        "stop_reason": "no_candidate_fits"
+      }
+    ]
+  }
+}
