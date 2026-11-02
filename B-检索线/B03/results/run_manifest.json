@@ -1,0 +1,39 @@
+{
+  "job_id": "50064",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "elapsed_s": 954,
+  "node": "TC2N01",
+  "gpu": "NVIDIA A40",
+  "driver": "570.148.08",
+  "code_base_commit": "e1f58bdbc74d23c3903085c1be23175d7bd505b1",
+  "official_source_commit": "9e0b455f4ef0e2ab8f2e582289761153549043fc",
+  "questions": 40,
+  "main_questions": 34,
+  "abstention_questions": 6,
+  "public_turns": 9957,
+  "total_candidates": 4000,
+  "official_top100_exact_order_matches": 40,
+  "B02_regression_max_score_difference": 0.0,
+  "real_resume_skipped_questions": 40,
+  "real_resume_files_byte_identical": 3,
+  "unit_recovery_tests_passed": 3,
+  "query_elapsed_s": 440.1089147169978,
+  "source_sha256": {
+    "B-检索线/B03/common.py": "cce1c1216ed28c5d01be9dfb37b83f70c198f80f582af6e9ecbcf674543d57c5",
+    "B-检索线/B03/prepare_inputs.py": "6bf044a47f8e6f864cb134703f7ba0fade681106768778d320cda8890b7fd07d",
+    "B-检索线/B03/retrieve_dev.py": "fb241386c9de88e9cc1640f113e3b482d9d69b36dd59d7ec0c5693a653e08ac2",
+    "B-检索线/B03/test_resume.py": "ee7c8bcc8e9e92a720111ce888b6b13bee200b437ae9b52b53e6a37cd43ac4fa",
+    "B-检索线/B03/validate_results.py": "12e6b92c277156cd0e87f46471292734e347dd01b878a0cd95077ef9b4e6b486",
+    "B-检索线/B03/job_b03.sh": "0c527494cc503c84671309cbe45a9d239f30b9efb7516f1e58bb9013b1359294",
+    "A-数据线/A01/build_a01.py": "1af3edc5986b02748f1486ce021a5b7fcf214d0abf431de5dae5d027205513bd",
+    "B-检索线/B02/retrieve_k0.py": "87cf63d187d4d6740b65f80b50d72177de27ab633278dd41d7d16932d0dff86c",
+    "official/run_retrieval.py": "efd7fc5969a904717741fadca3c7dc73611ddbb2aaf3ef33117ebb6943b3e346"
+  },
+  "candidate_sha256": {
+    "dev_K0.jsonl": "016129fa1143e7f5c40ccf2269a7331d1d7803f22f243ce384f1f85e76be0345",
+    "dev_abstention_K0.jsonl": "a7e5ad46c0103eb478fd92227d62e54b231b09166cb61a965e8826f3bee1bc72",
+    "dev_all_K0.jsonl": "8d56d6d0dba9aae56b7cb3755a053686f2e431444c02b218e613d9ebbff6abb9"
+  },
+  "scope": "K0 candidates only; no selection, answer generation, scoring or evidence-quality conclusion"
+}
