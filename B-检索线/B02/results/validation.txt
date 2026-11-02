@@ -1,0 +1,9 @@
+格式检查: 通过
+
+== 与官方排序对比（前100名，按 turn_id）==
+2318644b: 前100顺序完全一致=True  集合一致=True  首个不同名次=None
+1cea1afa: 前100顺序完全一致=True  集合一致=True  首个不同名次=None
+gpt4_7a0daae1: 前100顺序完全一致=True  集合一致=True  首个不同名次=None
+4c36ccef: 前100顺序完全一致=True  集合一致=True  首个不同名次=None
+c960da58: 前100顺序完全一致=True  集合一致=True  首个不同名次=None
+结论: 完全一致
