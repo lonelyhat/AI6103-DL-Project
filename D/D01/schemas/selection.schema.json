@@ -1,0 +1,235 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "D01 selection",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "question_id": {
+      "type": "string"
+    },
+    "stage": {
+      "enum": [
+        "dev",
+        "formal"
+      ]
+    },
+    "index": {
+      "enum": [
+        "K0",
+        "K1"
+      ]
+    },
+    "strategy": {
+      "enum": [
+        "R",
+        "MMR",
+        "C",
+        "Q",
+        "FL"
+      ]
+    },
+    "budget_tokens": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tokenizer": {
+      "type": "string"
+    },
+    "config_version": {
+      "type": "string"
+    },
+    "config_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "config": {
+      "type": "object"
+    },
+    "input_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "selected_turn_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "selection_order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "selected_message_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "context_tokens": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "history_text": {
+      "type": "string"
+    },
+    "history_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "skipped_turn_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "skipped": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "turn_id": {
+            "type": "string"
+          },
+          "reason": {
+            "enum": [
+              "over_budget",
+              "nonpositive_gain"
+            ]
+          },
+          "proposed_context_tokens": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "score": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "turn_id",
+          "reason",
+          "proposed_context_tokens",
+          "score"
+        ]
+      }
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "step": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "turn_id": {
+            "type": "string"
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "relevance": {
+            "type": "number"
+          },
+          "redundancy": {
+            "type": "number"
+          },
+          "new_clues": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "coverage_gain": {
+            "type": "number"
+          },
+          "facility_gain": {
+            "type": "number"
+          },
+          "score": {
+            "type": "number"
+          },
+          "marginal_tokens": {
+            "type": "integer"
+          },
+          "cost_denominator": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "context_tokens": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "step",
+          "turn_id",
+          "rank",
+          "relevance",
+          "redundancy",
+          "new_clues",
+          "coverage_gain",
+          "facility_gain",
+          "score",
+          "marginal_tokens",
+          "cost_denominator",
+          "context_tokens"
+        ]
+      }
+    },
+    "stop_reason": {
+      "enum": [
+        "exhausted",
+        "no_candidate_fits",
+        "nonpositive_gain"
+      ]
+    },
+    "question_clues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "covered_clues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "question_id",
+    "stage",
+    "index",
+    "strategy",
+    "budget_tokens",
+    "tokenizer",
+    "config_version",
+    "config_id",
+    "config",
+    "input_sha256",
+    "selected_turn_ids",
+    "selection_order",
+    "selected_message_ids",
+    "context_tokens",
+    "history_text",
+    "history_sha256",
+    "skipped_turn_ids",
+    "skipped",
+    "steps",
+    "stop_reason",
+    "question_clues",
+    "covered_clues"
+  ]
+}

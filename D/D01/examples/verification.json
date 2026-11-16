@@ -1,0 +1,53 @@
+{
+  "implementation": "d01-v1",
+  "test_command": "python3 -m unittest discover -s D/D01 -p 'test_*.py' -v",
+  "unit_tests_passed": 29,
+  "toy": {
+    "rows": 5,
+    "questions": 1,
+    "all_within_budget": true,
+    "histories_reconstructed": true,
+    "hashes_verified": true,
+    "full_algorithm_replay": true,
+    "min_context_tokens": 281,
+    "max_context_tokens": 282,
+    "cli_api_identical": true
+  },
+  "public_smoke": {
+    "rows": 25,
+    "questions": 5,
+    "all_within_budget": true,
+    "histories_reconstructed": true,
+    "hashes_verified": true,
+    "full_algorithm_replay": true,
+    "min_context_tokens": 1862,
+    "max_context_tokens": 2047,
+    "score_source": "synthetic lexical overlap; not B retrieval"
+  },
+  "qwen_toy": {
+    "rows": 5,
+    "questions": 1,
+    "all_within_budget": true,
+    "histories_reconstructed": true,
+    "hashes_verified": true,
+    "full_algorithm_replay": true,
+    "min_context_tokens": 107,
+    "max_context_tokens": 107
+  },
+  "tokenizer_fingerprint": "428232b70ba96534ac34aa014f3a271a1bde0ae2dc719a96f81d30c334c74192",
+  "source_sha256": {
+    "__init__.py": "4acf42cf9e1608f4aecffe31768991bd80ca0c64eb93572831448dcb5c29bb76",
+    "run_examples.py": "bb4aaabca9d95559df627f7c0abbe8b5f8da7dc33e9e0118a1c8809f21abd7ce",
+    "run_selection.py": "5149ee00f98424f4ea319420a45829970060cb72eeb42ddfb1c6cf85b929ff45",
+    "selection.py": "0121e12529e29402fb3a8e0e9b0aeab75b6e8a3a638466a9c9078fe591ea19b0",
+    "test_cli.py": "ccb6b8cd097613cf9f65f1a5d0cae6b71fd919a6597599b2f177fce02b7a6596",
+    "test_delivery.py": "2b0db3d6695777060588360fa6285ae25add6bfe876b6f1df837d7976def8e03",
+    "test_selection.py": "77162eea75a974dc64bfe83b13a434e46355e141174e86278667c43e8ac1357b",
+    "verify_delivery.py": "43780bb7e7303468d2988d36d087f55e6d314cc032d04cbdf9fa3e1aca70a10a"
+  },
+  "schemas_sha256": {
+    "public_turn.schema.json": "2549987aa812b979fc71bc369fdc7161e1edc6dd5738c055f43322caaef3308e",
+    "request.schema.json": "55f45a6fc7aba989f5f62984580b2719a528cf38de542133078a7b18d727a835",
+    "selection.schema.json": "49ba79fb479b7bb7456e9ff0debcbf23790b2ef2e980475bd517e50e1a0061a8"
+  }
+}
