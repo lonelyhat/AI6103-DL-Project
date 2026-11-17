@@ -66,19 +66,20 @@ def build(sources, output, topk=50):
         if s['stage'] != 'dev' or s['index'] != 'K0' or s['strategy'] != 'R' or s['budget_tokens'] != 2048:
             raise ValueError('Unexpected D02 setting')
         common = {k: s[k] for k in ('question_id', 'question', 'question_date', 'stage', 'index', 'tokenizer')}
-        common.update(tokenizer_fingerprint=s['config']['tokenizer_fingerprint'],
-                      input_config_version=c['config_version'], serialization='a01-dedup-json-v1')
-        row = dict(common, variant='budget', strategy='R', budget_tokens=2048,
+        row = dict(common, tokenizer_fingerprint=s['config']['tokenizer_fingerprint'],
+                   input_config_version=c['config_version'], serialization='a01-dedup-json-v1',
+                   variant='budget', strategy='R', budget_tokens=2048,
                    config_version=s['config_version'], context=history,
                    context_tokens=s['context_tokens'], history_sha256=s['history_sha256'],
                    selected_turn_ids=s['selected_turn_ids'], source=manifest['provenance'])
         budget.append(row)
         ref_text, selected_ids = render_official_topk([records[v['turn_id']] for v in ranked[:topk]])
-        ref = dict(common, variant='original_topk', strategy='original_topk', topk=topk,
+        ref = dict(common, input_config_version=c['config_version'],
+                   serialization='longmemeval-9e0b455-flat-turn-json',
+                   variant='original_topk', strategy='original_topk', topk=topk,
                    budget_tokens=None, config_version=f'e02-top{topk}-v1', context=ref_text,
                    history_sha256=sha(ref_text.encode()), selected_turn_ids=selected_ids,
                    source=manifest['provenance'])
-        ref['serialization'] = 'longmemeval-9e0b455-flat-turn-json'
         references.append(ref)
         reference_selections.append({k: v for k, v in ref.items() if k != 'context'})
     output.mkdir(parents=True, exist_ok=True)

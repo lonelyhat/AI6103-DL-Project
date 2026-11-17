@@ -23,7 +23,7 @@
 
 参照版遵循：按检索排名取top-k → 稳定按日期排序（同日期保留排名顺序）→ 用户及下一条消息 → 编号 Session、默认 JSON 格式，不对重叠消息去重。预算版继续使用 D02 的去重、原文顺序及紧凑 JSON 格式。两者都不在 E 端偷偷截断；超过容量就停止，因此不是逐字节复现整个官方后端。
 
-输入来源 commit 和文件 SHA-256 在 `inputs/sources/manifest.json`。运行器校验 context 哈希，预算版同时核对 D02 的 token 数与 tokenizer 指纹；如果指纹不一致，先排查版本或 tokenizer 文件，不能直接删除检查。
+输入来源 commit 和文件 SHA-256 在 `inputs/sources/manifest.json`。预算版核对 D02 的 token 数与 tokenizer 指纹。top-50 参照版按检索排名构建，以 E02 固定的 Llama 版本现场计数。两版都核对 context 哈希和模型容量，生成时都在 `config.json` 记录实际 tokenizer 指纹。比较两版结果前，核对两次运行的 tokenizer 指纹一致。
 
 ## 本地离线检查
 

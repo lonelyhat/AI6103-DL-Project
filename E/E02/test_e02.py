@@ -32,6 +32,8 @@ class E02Tests(unittest.TestCase):
         self.assertEqual(len(self.rows), 10)
         self.assertEqual({r['question_id'] for r in self.rows[:5]}, {r['question_id'] for r in self.rows[5:]})
         self.assertTrue(all(len(r['selected_turn_ids']) == 50 for r in self.rows[5:]))
+        self.assertTrue(all(r.get('tokenizer_fingerprint') for r in self.rows[:5]))
+        self.assertTrue(all('tokenizer_fingerprint' not in r for r in self.rows[5:]))
 
     def test_hash_tampering_rejected(self):
         row = copy.deepcopy(self.rows[0]); row['context'] += 'changed'
