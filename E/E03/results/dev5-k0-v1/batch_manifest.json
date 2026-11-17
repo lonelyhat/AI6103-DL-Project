@@ -1,0 +1,192 @@
+{
+  "config_version": "d03-d05-v1",
+  "config": {
+    "config_version": "d03-d05-v1",
+    "input_config_version": "a01-v2",
+    "stage": "dev",
+    "index": "K0",
+    "budget_tokens": 2048,
+    "question_ids": [
+      "2318644b",
+      "1cea1afa",
+      "gpt4_7a0daae1",
+      "4c36ccef",
+      "c960da58"
+    ],
+    "strategies": [
+      "MMR",
+      "C",
+      "Q",
+      "FL"
+    ],
+    "redundancy_weight": 0.5,
+    "coverage_weight": 0.5
+  },
+  "n_questions": 5,
+  "n_records": 20,
+  "tokenizer_source": "/home/msai/chunjie001/.cache/huggingface/hub/models--meta-llama--Llama-3.1-8B-Instruct/snapshots/0e9e39f249a16976918f6564b8830bc894c89659",
+  "tokenizer_label": "meta-llama/Llama-3.1-8B-Instruct",
+  "tokenizer_fingerprint": "b47fcb7017102fb3594326d69acc6b74872032ed15def90890d49d61ea94d220",
+  "candidate_file": "/home/msai/chunjie001/projects/AI6103-DL-Project/E/E02/inputs/sources/b02_candidates.jsonl",
+  "public_root": "/home/msai/chunjie001/projects/AI6103-DL-Project/A-数据线/A01/output/public",
+  "input_sha256": {
+    "/home/msai/chunjie001/projects/AI6103-DL-Project/E/E02/inputs/sources/b02_candidates.jsonl": "d5cc3f3d9ad0e9f005d50da4bae322fe46c478ad01c86e7b464684dbf1cc2c6e",
+    "/home/msai/chunjie001/projects/AI6103-DL-Project/A-数据线/A01/output/public/dev_questions.jsonl": "70c2b33432d7453d8ff48bb2fc64e36a5657f0af9c4acb12b749765fb07f4157",
+    "/home/msai/chunjie001/projects/AI6103-DL-Project/A-数据线/A01/output/public/turns/2318644b.jsonl": "600c9b785b7c9a375673fbe188133e170e1ec13f2ba82ba1afeea260d1664015",
+    "/home/msai/chunjie001/projects/AI6103-DL-Project/A-数据线/A01/output/public/turns/1cea1afa.jsonl": "45a00497da40b8ac9431fdbde02fa532b6406eadc847c55eeedf8f07c55477fc",
+    "/home/msai/chunjie001/projects/AI6103-DL-Project/A-数据线/A01/output/public/turns/gpt4_7a0daae1.jsonl": "231e6eb9c9734f21c16736d981e1aa2a9aabd555938a9a1e266e8f5f56b3bbc2",
+    "/home/msai/chunjie001/projects/AI6103-DL-Project/A-数据线/A01/output/public/turns/4c36ccef.jsonl": "938294e7a9a3d7e094010d6fffbb9c3a3bfd2b1c3aa1c111a4c6922e7b1c03e1",
+    "/home/msai/chunjie001/projects/AI6103-DL-Project/A-数据线/A01/output/public/turns/c960da58.jsonl": "61e1583b47fac5cf0b5121ccbfcad3eaf6fcaf65efa560f2368d5b6bb08afbf2"
+  },
+  "source_sha256": {
+    "D/selection_batch.py": "595b882a61e88256e38a34cc069f983e73f29fc64f4d56fee41f91b2c9f35972",
+    "D/selection_config.json": "7cf7d63fd40a8d67660d4cc98a93889e4e8091694f64d32887394b9f7d50b1bc",
+    "D/D01/selection.py": "0121e12529e29402fb3a8e0e9b0aeab75b6e8a3a638466a9c9078fe591ea19b0",
+    "D/D02/prepare_materials.py": "c374b29e4dd9c2f4e0012ba638d314b37f01b2b863e07ec45e9feff2e732b0dd",
+    "D/verify_selection.py": "1e7ba0946356b1915f0cb173262d1581327dd841af92328bd849f15ea4b109ba"
+  },
+  "selection_total_elapsed_s": 66.2441612931434,
+  "status": "materials_generated_pending_replay",
+  "records": [
+    {
+      "question_id": "2318644b",
+      "strategy": "MMR",
+      "context_tokens": 2011,
+      "history_file": "materials/MMR-2318644b.txt",
+      "history_sha256": "425fed5ed3d86c9b24c7ee9d99198121c91bc033df43d182f6bd55e87f79f4f9"
+    },
+    {
+      "question_id": "2318644b",
+      "strategy": "C",
+      "context_tokens": 1932,
+      "history_file": "materials/C-2318644b.txt",
+      "history_sha256": "b1a432bd7292f76a72c51fb08e6a6da8b805e98d469c3c717ae5631458537fb5"
+    },
+    {
+      "question_id": "2318644b",
+      "strategy": "Q",
+      "context_tokens": 1981,
+      "history_file": "materials/Q-2318644b.txt",
+      "history_sha256": "2f3403e7fee43f86603cfc6dbc175bf6658d461469bcefd02df62c268e284b17"
+    },
+    {
+      "question_id": "2318644b",
+      "strategy": "FL",
+      "context_tokens": 2013,
+      "history_file": "materials/FL-2318644b.txt",
+      "history_sha256": "f04e46e37bc06d102baf1275c4d15eb077acc53924ae4def670a2e10547d491f"
+    },
+    {
+      "question_id": "1cea1afa",
+      "strategy": "MMR",
+      "context_tokens": 2003,
+      "history_file": "materials/MMR-1cea1afa.txt",
+      "history_sha256": "6192dca3e8540a48dd084ace99195b8d7480a3780e0a3fee8bfc0b337766ca1f"
+    },
+    {
+      "question_id": "1cea1afa",
+      "strategy": "C",
+      "context_tokens": 1953,
+      "history_file": "materials/C-1cea1afa.txt",
+      "history_sha256": "ff9816f79043311cda8b1fc08cce2980ed00d14d5ac9be0148d5be7d37772445"
+    },
+    {
+      "question_id": "1cea1afa",
+      "strategy": "Q",
+      "context_tokens": 1953,
+      "history_file": "materials/Q-1cea1afa.txt",
+      "history_sha256": "ff9816f79043311cda8b1fc08cce2980ed00d14d5ac9be0148d5be7d37772445"
+    },
+    {
+      "question_id": "1cea1afa",
+      "strategy": "FL",
+      "context_tokens": 1983,
+      "history_file": "materials/FL-1cea1afa.txt",
+      "history_sha256": "879990c266f97c1d4e8148992f9548edb57dcc369eccb2c298e4db4741b5bf33"
+    },
+    {
+      "question_id": "gpt4_7a0daae1",
+      "strategy": "MMR",
+      "context_tokens": 2022,
+      "history_file": "materials/MMR-gpt4_7a0daae1.txt",
+      "history_sha256": "626db07493b2ebef4353b1917b230dc8c052a26d44f5342546d73abdd712afc4"
+    },
+    {
+      "question_id": "gpt4_7a0daae1",
+      "strategy": "C",
+      "context_tokens": 2009,
+      "history_file": "materials/C-gpt4_7a0daae1.txt",
+      "history_sha256": "9f2e5f12b56263eb394a778a9957f2772ef9cc6756503a7887a313b45cf89194"
+    },
+    {
+      "question_id": "gpt4_7a0daae1",
+      "strategy": "Q",
+      "context_tokens": 1981,
+      "history_file": "materials/Q-gpt4_7a0daae1.txt",
+      "history_sha256": "ad1a98e34a5fb52020f6892869b4900b0ce08130c50c3064f5f94ace59f4f96c"
+    },
+    {
+      "question_id": "gpt4_7a0daae1",
+      "strategy": "FL",
+      "context_tokens": 2001,
+      "history_file": "materials/FL-gpt4_7a0daae1.txt",
+      "history_sha256": "ddbc433269e468de81ac988797e4a07824eb54d32370c36b702b63a60a4b6292"
+    },
+    {
+      "question_id": "4c36ccef",
+      "strategy": "MMR",
+      "context_tokens": 2017,
+      "history_file": "materials/MMR-4c36ccef.txt",
+      "history_sha256": "859dc401b4d4cd21fff8ab512448b967c57cd800ac537aee66a05e3199827bdf"
+    },
+    {
+      "question_id": "4c36ccef",
+      "strategy": "C",
+      "context_tokens": 2001,
+      "history_file": "materials/C-4c36ccef.txt",
+      "history_sha256": "3465e8fb7897a863cd593ab5dc07703c9252e12783d049c060cd277030359d41"
+    },
+    {
+      "question_id": "4c36ccef",
+      "strategy": "Q",
+      "context_tokens": 2001,
+      "history_file": "materials/Q-4c36ccef.txt",
+      "history_sha256": "3465e8fb7897a863cd593ab5dc07703c9252e12783d049c060cd277030359d41"
+    },
+    {
+      "question_id": "4c36ccef",
+      "strategy": "FL",
+      "context_tokens": 1934,
+      "history_file": "materials/FL-4c36ccef.txt",
+      "history_sha256": "9bcf908c878b91aea7a9c6fb7c52923f92d5e0612697ed1c1dedf87d93ab711e"
+    },
+    {
+      "question_id": "c960da58",
+      "strategy": "MMR",
+      "context_tokens": 2011,
+      "history_file": "materials/MMR-c960da58.txt",
+      "history_sha256": "3ee1a9d26e98c567b7f6b1b25a92be0b2e668b6255fb9dbe9a0ee1bee47d25f0"
+    },
+    {
+      "question_id": "c960da58",
+      "strategy": "C",
+      "context_tokens": 2040,
+      "history_file": "materials/C-c960da58.txt",
+      "history_sha256": "f27ea6cf948b491eeaf91a4eb676f67f39645d8e9bba1c44a8e1fc363d3161f1"
+    },
+    {
+      "question_id": "c960da58",
+      "strategy": "Q",
+      "context_tokens": 2029,
+      "history_file": "materials/Q-c960da58.txt",
+      "history_sha256": "78cdabfed35d5eca2baec565587b16628fe45b5262ed1f410b8c13656beaa5c9"
+    },
+    {
+      "question_id": "c960da58",
+      "strategy": "FL",
+      "context_tokens": 2046,
+      "history_file": "materials/FL-c960da58.txt",
+      "history_sha256": "296239a70aacf0bcfcbbd456394f80c58c57ce6e668d3a14fbe8d0a9ce990449"
+    }
+  ]
+}

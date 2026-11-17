@@ -1,0 +1,17 @@
+{
+  "source_commit": "eacd6b246edef166ceae5b630cc2a4f2a2fc3cc6",
+  "files": {
+    "d03_selections.jsonl": {
+      "git_path": "D/D03/output/d03-d05-20261117-111733/selections.jsonl",
+      "sha256": "8502d6a4e1801f37ef1cb9cc3dd444fb85f16e39e1c512a11158ded8e870e3bc"
+    },
+    "d04_selections.jsonl": {
+      "git_path": "D/D04/output/d03-d05-20261117-111733/selections.jsonl",
+      "sha256": "58d8d8f5a68cce963d687bb11d02a5fca56af910b08ebebdc42a8a000bbd8f4f"
+    },
+    "d05_selections.jsonl": {
+      "git_path": "D/D05/output/d03-d05-20261117-111733/selections.jsonl",
+      "sha256": "b2c8dd676aebd0b791ce6dd904ebd178cf410395cf428ef0a8fba29fc8c5c778"
+    }
+  }
+}
