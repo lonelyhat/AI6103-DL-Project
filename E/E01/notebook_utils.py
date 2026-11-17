@@ -32,9 +32,9 @@ def command(args, cwd=None):
 
 def inspect_input(repo):
     repo = Path(repo)
-    path = repo / 'e01/input_dev.json'
+    path = repo / 'E/E01/input_dev.json'
     item = json.loads(path.read_text(encoding='utf-8'))
-    manifest = json.loads((repo / 'e01/input_manifest.json').read_text(encoding='utf-8'))
+    manifest = json.loads((repo / 'E/E01/input_manifest.json').read_text(encoding='utf-8'))
     assert set(item) == {'stage', 'question_id', 'question_date', 'question', 'context', 'units', 'source'}
     assert item['stage'] == 'dev' and item['question_id'] in manifest['archived_dev_ids']
     assert item['question_id'] == manifest['question_id']
@@ -143,8 +143,8 @@ def collect_records(repo, output):
         'git_branch': command(['git', 'branch', '--show-current'], repo),
         'git_status': command(['git', 'status', '--short'], repo),
         'file_sha256': {str(p.relative_to(repo)): sha(p) for p in
-                        [repo / 'e01/input_dev.json', repo / 'e01/run_generation.py',
-                         repo / 'e01/notebook_utils.py', repo / 'e01/E01_environment_and_generation.ipynb']},
+                        [repo / 'E/E01/input_dev.json', repo / 'E/E01/run_generation.py',
+                         repo / 'E/E01/notebook_utils.py', repo / 'E/E01/E01_environment_and_generation.ipynb']},
     }
     write_json(output / 'preparation_environment.json', environment)
     freeze = command([sys.executable, '-m', 'pip', 'freeze'], repo)
@@ -185,6 +185,6 @@ def write_report(output, audit, records, generation=None):
               '- [ ] 已核对模型 SHA、tokenizer SHA、精度和实际作业 GPU。',
               '- [ ] 已区分排队、下载/加载、warmup 与生成时间。',
               '- [ ] 已填写实际产物路径并交付全员。', '',
-              '本次为 E01 直接回答试跑；E02 的 D02 材料与官方多次调用 CoN 流程仍待接入。',
+              '本次为 E01 直接回答试跑；E02 的 D02 材料与官方单次 con 流程仍待接入。',
               '输入结构检查和生成成功均不等于答案已经完成评分。', '']
     (output / 'REPORT_CN.md').write_text('\n'.join(lines), encoding='utf-8')

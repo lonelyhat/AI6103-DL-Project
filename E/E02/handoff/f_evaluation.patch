@@ -1,0 +1,100 @@
+--- a/F/src/evaluation/judge.py
++++ b/F/src/evaluation/judge.py
+@@ -57,10 +57,10 @@
+ # 1. 預設設定
+ # ===========================================================================
+ # 專案根目錄：本檔在 <根目錄>/src/evaluation/judge.py，所以往上兩層
+-PROJECT_ROOT = Path(__file__).resolve().parents[2]
++PROJECT_ROOT = Path(__file__).resolve().parents[3]
+ 
+ # A01 的輸出資料夾（組內專案資料夾中的位置）
+-A01_OUTPUT = PROJECT_ROOT / "AI6103-DL-Project-main_V1" / "A-数据线" / "A01" / "output"
++A01_OUTPUT = PROJECT_ROOT / "A-数据线" / "A01" / "output"
+ DEFAULT_EVAL_FILE = A01_OUTPUT / "eval" / "dev_eval.jsonl"
+ DEFAULT_QUESTIONS_FILE = A01_OUTPUT / "public" / "dev_questions.jsonl"
+ DEFAULT_SCORES_DIR = PROJECT_ROOT / "scores"
+@@ -183,6 +183,12 @@
+     「是否一致」只在 E 和 F 都有提取到答案時才比較；否則記為 None（無法比較）。
+     不一致不影響評分，但會列在摘要中，用來確認雙方的提取規則是否相同。
+     """
++    # E02 v2 owns extraction; do not silently apply a second parser.
++    if answer.get("reader_config_version") == "e02-v2":
++        hypothesis = (answer.get("hypothesis") or "").strip()
++        if hypothesis and answer.get("parse_status") == "explicit_marker":
++            return hypothesis, "hypothesis", None
++        return (answer.get("raw_output") or "").strip(), "raw_output", None
+     hypothesis = (answer.get("hypothesis") or "").strip()
+     f_extracted = extract_final_answer(answer.get("raw_output", ""))
+ 
+@@ -273,7 +279,8 @@
+     用公共欄位組成一筆紀錄的唯一識別。
+     同一題在不同索引、策略、預算、設定版本下，是不同的紀錄。
+     """
+-    return "|".join(str(r.get(k)) for k in COMMON_FIELDS if k != "tokenizer")
++    fields = COMMON_FIELDS + ["variant", "topk", "reader_config_version", "history_sha256"]
++    return json.dumps([r.get(k) for k in fields], ensure_ascii=False)
+ 
+ 
+ def load_finished_keys(scores_path):
+@@ -441,6 +448,8 @@
+ 
+             # (1) 先放入 A01 公共欄位，再加上題目資訊
+             record = {k: a[k] for k in COMMON_FIELDS}
++            record.update({k: a[k] for k in ("variant", "topk", "reader_config_version",
++                           "history_sha256", "generation_status", "needs_review") if k in a})
+             record.update({
+                 "question_type": ev["question_type"],
+                 "is_abstention": ev["is_abstention"],
+--- a/F/src/evaluation/join_f02.py
++++ b/F/src/evaluation/join_f02.py
+@@ -40,10 +40,10 @@
+ from collections import Counter, defaultdict
+ from pathlib import Path
+ 
+-PROJECT_ROOT = Path(__file__).resolve().parents[2]
++PROJECT_ROOT = Path(__file__).resolve().parents[3]
+ 
+ # A02 的程式放在組內專案裡；把它的資料夾加入搜尋路徑後即可 import
+-A02_DIR = PROJECT_ROOT / "AI6103-DL-Project-main_V1" / "A-数据线" / "A02"
++A02_DIR = PROJECT_ROOT / "A-数据线" / "A02"
+ sys.path.insert(0, str(A02_DIR))
+ from evidence_metrics import Evidence  # noqa: E402  （A02 的證據計算類別）
+ 
+@@ -56,7 +56,7 @@
+                  "budget_tokens", "tokenizer", "config_version"]
+ 
+ # 「選中材料」和「評分」用這 5 個欄位對應（同一題、同一設定）
+-SELECTION_KEY = ["question_id", "stage", "index", "strategy", "budget_tokens"]
++SELECTION_KEY = ["question_id", "stage", "index", "strategy", "budget_tokens", "config_version", "variant", "topk"]
+ # 「候選」只跟索引有關（同一索引下五種選擇辦法共用同一份候選），所以只用 3 個欄位對應
+ CANDIDATE_KEY = ["question_id", "stage", "index"]
+ 
+@@ -81,7 +81,7 @@
+ 
+ def make_key(record, fields):
+     """用指定欄位組成對應用的鍵，例如 ("2318644b", "dev", "K0", "R", 2048)。"""
+-    return tuple(record.get(k) for k in fields)
++    return tuple(record.get(k, "budget" if k == "variant" else None) for k in fields)
+ 
+ 
+ def index_records(records, fields, file_label, issues):
+@@ -110,7 +110,10 @@
+     """
+     problems = []
+     for field in ("config_version", "tokenizer"):
+-        if other.get(field) != selection.get(field):
++        expected = selection.get(field)
++        if other_label == "candidates" and field == "config_version":
++            expected = selection.get("input_config_version", selection.get("config", {}).get("input_config_version", expected))
++        if other.get(field) != expected:
+             problems.append(f"{field} 不一致：selections={selection.get(field)!r}，"
+                             f"{other_label}={other.get(field)!r}")
+     return problems
+@@ -141,6 +144,7 @@
+     issues = []
+ 
+     row = {k: selection.get(k) for k in COMMON_FIELDS}
++    row.update(variant=selection.get("variant", "budget"), topk=selection.get("topk"))
+     row["question_type"] = ev["question_type"]
+     row["is_abstention"] = ev["is_abstention"]
+     row["answer"] = ev["answer"]

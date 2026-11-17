@@ -49,10 +49,10 @@ def prepare(archive, question_id=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--archive', type=Path, default=Path(__file__).resolve().parents[1] /
+    parser.add_argument('--archive', type=Path, default=Path(__file__).resolve().parents[2] /
                         'artifacts/raw/baseline_v1/baseline_v1_20261013_160804_baseline_results.zip')
     parser.add_argument('--question-id')
-    parser.add_argument('--output', type=Path, default=Path('e01/input_dev.json'))
+    parser.add_argument('--output', type=Path, default=Path('E/E01/input_dev.json'))
     args = parser.parse_args()
     payload = prepare(args.archive, args.question_id)
     args.output.parent.mkdir(parents=True, exist_ok=True)

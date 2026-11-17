@@ -35,6 +35,6 @@ fi
 # Install the kernelspec into this run only, using the active e01 interpreter.
 python -m ipykernel install --prefix "$E01_OUTPUT_DIR/kernel" --name e01 --display-name 'Python (e01 job)'
 export JUPYTER_PATH="$E01_OUTPUT_DIR/kernel/share/jupyter${JUPYTER_PATH:+:$JUPYTER_PATH}"
-python -m nbconvert --to notebook --execute e01/E01_environment_and_generation.ipynb \
+python -m nbconvert --to notebook --execute E/E01/E01_environment_and_generation.ipynb \
   --ExecutePreprocessor.kernel_name=e01 --ExecutePreprocessor.timeout=2700 \
   --output executed.ipynb --output-dir "$E01_OUTPUT_DIR"

@@ -144,7 +144,7 @@ def run(args, output):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--input', type=Path, default=Path('e01/input_dev.json'))
+    parser.add_argument('--input', type=Path, default=Path('E/E01/input_dev.json'))
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--model', default='meta-llama/Llama-3.1-8B-Instruct')
     parser.add_argument('--revision', default='main', help='Resolved to a commit SHA before loading')

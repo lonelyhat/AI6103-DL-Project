@@ -17,6 +17,6 @@ conda activate e01
 set -u
 export TOKENIZERS_PARALLELISM=false
 export HF_HUB_OFFLINE=1
-python -u e02/run_generation.py \
+python -u E/E02/run_generation.py \
   --input "${1:?Supply the prepared D02 JSONL path}" \
   --output "runs/e02/job-${SLURM_JOB_ID}"

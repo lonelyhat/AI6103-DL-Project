@@ -5,6 +5,7 @@ src/generation/run_generation.py. Backend adapted to local Transformers.
 This runner does not retrieve, select, reorder, or truncate history.
 """
 import argparse
+import hashlib
 import importlib.metadata
 import json
 import os
@@ -43,14 +44,25 @@ def load_inputs(path):
         if row['variant'] not in ('budget', 'original_topk'):
             raise ValueError('variant must be budget or original_topk')
         row['stage'] = 'dev'
-        for key in ('index', 'strategy', 'source', 'context_tokens'):
+        for key in ('index', 'strategy', 'tokenizer', 'config_version', 'history_sha256'):
+            if not isinstance(source.get(key), str) or not source[key]:
+                raise ValueError(f'{row["question_id"]}: missing {key}')
+        for key in ('index', 'strategy', 'source', 'context_tokens', 'tokenizer',
+                    'config_version', 'history_sha256', 'tokenizer_fingerprint',
+                    'selected_turn_ids', 'input_config_version', 'serialization'):
             if key in source:
                 row[key] = source[key]
+        if row['tokenizer'] != MODEL:
+            raise ValueError('E02 requires the E01 Llama tokenizer')
+        if hashlib.sha256(row['context'].encode('utf-8')).hexdigest() != row['history_sha256']:
+            raise ValueError(f'{row["question_id"]}: context hash mismatch')
         setting = 'budget_tokens' if row['variant'] == 'budget' else 'topk'
         value = source.get(setting)
         if type(value) is not int or value <= 0:
             raise ValueError(f'{row["question_id"]}: requires positive integer {setting}')
         row[setting] = value
+        if row['variant'] == 'original_topk':
+            row['budget_tokens'] = None  # No fixed-token budget for this reference.
         identity = (row['question_id'], row['variant'])
         if identity in seen:
             raise ValueError(f'Duplicate question/variant: {identity}')
@@ -62,6 +74,11 @@ def load_inputs(path):
 
 
 def prepare(row, tokenizer, capacity, max_new_tokens):
+    expected = row.get('tokenizer_fingerprint')
+    if expected:
+        actual = hashlib.sha256(tokenizer.backend_tokenizer.to_str().encode()).hexdigest()
+        if actual != expected:
+            raise ValueError('Tokenizer fingerprint differs from D02; resolve before generation')
     context_tokens = len(tokenizer.encode(row['context'], add_special_tokens=False))
     if row['variant'] == 'budget' and context_tokens > row['budget_tokens']:
         raise ValueError(f'{row["question_id"]}: context {context_tokens} exceeds budget')
@@ -80,11 +97,23 @@ def prepare(row, tokenizer, capacity, max_new_tokens):
 def extract_answer(text):
     """Only extract an explicit final-answer marker; never guess the last sentence."""
     normalized = text.replace('**', '')
-    matches = re.findall(r'^\s*(?:Final answer|最终答案)\s*[:：]\s*(.+?)\s*$',
-                         normalized, flags=re.MULTILINE | re.IGNORECASE)
+    matches = list(re.finditer(r'^[ \t]*(?:Final answer|最终答案)[ \t]*[:：]',
+                               normalized, flags=re.MULTILINE | re.IGNORECASE))
     if len(matches) == 1:
-        return matches[0].strip(), 'explicit_marker'
+        answer = normalized[matches[0].end():].strip()
+        if answer:
+            return answer, 'explicit_marker'
     return None, 'needs_review'
+
+
+def answer_fields(text, hit_limit):
+    answer, parse_status = extract_answer(text)
+    if hit_limit or not text:
+        answer, parse_status = None, 'needs_review'
+    return dict(raw_output=text, hypothesis=answer or '', extracted_answer=answer,
+                parse_status=parse_status, hit_output_limit=hit_limit,
+                status='truncated' if hit_limit else ('generated' if text else 'empty'),
+                reader_config_version='e02-v2')
 
 
 def git_value(*args):
@@ -101,14 +130,18 @@ def main():
     parser.add_argument('--input', type=Path, required=True)
     parser.add_argument('--output', type=Path)
     parser.add_argument('--check-only', action='store_true', help='CPU tokenizer check; no model load')
+    parser.add_argument('--schema-only', action='store_true', help='Validate fields/hashes without model dependencies')
     parser.add_argument('--max-new-tokens', type=int, default=800)
     args = parser.parse_args()
     if args.max_new_tokens < 1:
         parser.error('--max-new-tokens must be positive')
-    if not args.check_only and (args.output is None or not os.environ.get('SLURM_JOB_ID')):
+    if not (args.check_only or args.schema_only) and (args.output is None or not os.environ.get('SLURM_JOB_ID')):
         parser.error('Generation needs --output and a Slurm GPU allocation')
 
     rows = load_inputs(args.input)
+    if args.schema_only:
+        print(f'Schema and context hashes passed: {len(rows)} records. No tokenizer/GPU check.')
+        return
     # Import after input validation; --help and interface checks need only Python.
     from transformers import AutoConfig, AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained(MODEL, revision=REVISION, local_files_only=True)
@@ -138,6 +171,10 @@ def main():
         'attention': 'sdpa', 'batch_size': 1, 'do_sample': False, 'num_beams': 1,
         'seed': 42, 'max_new_tokens': args.max_new_tokens,
         'input_file': str(args.input), 'records': len(rows), 'variants': variants,
+        'input_sha256': hashlib.sha256(args.input.read_bytes()).hexdigest(),
+        'runner_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'tokenizer_fingerprint': hashlib.sha256(tokenizer.backend_tokenizer.to_str().encode()).hexdigest(),
+        'reader_config_version': 'e02-v2',
         'git_commit': git_value('rev-parse', 'HEAD'), 'git_status': git_value('status', '--short'),
         'python': platform.python_version(), 'gpu': torch.cuda.get_device_name(0),
         'hostname': platform.node(), 'torch_cuda': torch.version.cuda,
@@ -191,18 +228,15 @@ def main():
                 tokens = output[0, ids.shape[1]:].tolist()
                 text = tokenizer.decode(tokens, skip_special_tokens=True).strip()
                 hit_limit = len(tokens) >= args.max_new_tokens and tokens[-1] not in eos
-                answer, parse_status = extract_answer(text)
-                if hit_limit or not text:
-                    answer, parse_status = None, 'needs_review'
+                record.update(answer_fields(text, hit_limit))
                 record.update(
-                    hypothesis=text, extracted_answer=answer, parse_status=parse_status,
                     output_tokens_including_stop=len(tokens), generation_seconds=seconds,
-                    peak_allocated_gib=torch.cuda.max_memory_allocated() / 2**30,
-                    hit_output_limit=hit_limit,
-                    status='truncated' if hit_limit else ('generated' if text else 'empty'))
+                    peak_allocated_gib=torch.cuda.max_memory_allocated() / 2**30)
                 del ids, mask, output
             except Exception as error:
-                record.update(status='technical_failure', error=str(error))
+                record.update(raw_output='', hypothesis='', extracted_answer=None,
+                              parse_status='needs_review', reader_config_version='e02-v2',
+                              status='technical_failure', error=str(error))
                 handle.write(json.dumps(record, ensure_ascii=False) + '\n')
                 handle.flush()
                 raise  # Preserve completed rows; recovery belongs to E03.

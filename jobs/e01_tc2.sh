@@ -20,6 +20,6 @@ conda activate e01
 set -u
 export TOKENIZERS_PARALLELISM=false
 bash jobs/probe_tc2.sh
-python -u e01/run_generation.py \
-  --input e01/input_dev.json \
+python -u E/E01/run_generation.py \
+  --input E/E01/input_dev.json \
   --output "runs/e01/job-${SLURM_JOB_ID}" "$@"

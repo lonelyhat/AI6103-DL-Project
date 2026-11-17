@@ -1,5 +1,7 @@
 # E01 notebook：先准备，模型批准后再生成
 
+2026-11-17 更新：E01 已有完成归档，见 `ACCEPTANCE_UPDATE_20261117.md`。以下保留为复核/复跑步骤，代码路径已迁移到 `E/E01/`，当前无需为目录调整重跑实验。
+
 本地仓库：`C:\Users\avalon\Desktop\Project\AI6103-DL-Project`。
 服务器仓库：`/home/msai/chunjie001/projects/AI6103-DL-Project`。
 Git 分支：`e01`。后续命令均在 VS Code Terminal 中执行。
@@ -20,7 +22,7 @@ Notebook 首个代码单元会阻止在未分配 SLURM 作业的 Linux 环境中
 ```powershell
 Set-Location 'C:\Users\avalon\Desktop\Project\AI6103-DL-Project'
 git status --short --branch
-git add e01/E01_environment_and_generation.ipynb e01/notebook_utils.py e01/input_manifest.json e01/requirements-notebook.txt e01/NOTEBOOK_GUIDE_CN.md jobs/e01_notebook_tc2.sh
+git add E/E01/E01_environment_and_generation.ipynb E/E01/notebook_utils.py E/E01/input_manifest.json E/E01/requirements-notebook.txt E/E01/NOTEBOOK_GUIDE_CN.md jobs/e01_notebook_tc2.sh
 git commit -m "Add E01 preparation and generation notebook"
 git push origin e01
 ```
@@ -34,7 +36,7 @@ git pull --ff-only origin e01
 module load anaconda
 eval "$(conda shell.bash hook)"
 conda activate e01
-python -m pip install -r e01/requirements-notebook.txt
+python -m pip install -r E/E01/requirements-notebook.txt
 python -m pip check
 mkdir -p logs runs/e01
 ```
