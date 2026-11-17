@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "scope": "input/source hashes, greedy replay, score components, stop/skip decisions, original messages, ordering, deduplication, tokenizer and budget",
+  "n_questions": 5,
+  "n_records": 10,
+  "all_ready_for_reader": true,
+  "answer_or_evidence_evaluation": "not_performed"
+}

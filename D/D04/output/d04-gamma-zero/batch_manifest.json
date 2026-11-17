@@ -1,0 +1,120 @@
+{
+  "config_version": "d03-d05-v1",
+  "config": {
+    "config_version": "d03-d05-v1",
+    "input_config_version": "a01-v2",
+    "stage": "dev",
+    "index": "K0",
+    "budget_tokens": 2048,
+    "question_ids": [
+      "2318644b",
+      "1cea1afa",
+      "gpt4_7a0daae1",
+      "4c36ccef",
+      "c960da58"
+    ],
+    "strategies": [
+      "C",
+      "Q"
+    ],
+    "redundancy_weight": 0.5,
+    "coverage_weight": 0.0
+  },
+  "n_questions": 5,
+  "n_records": 10,
+  "tokenizer_source": "/home/cyr2526/DL_project/model_cache/Llama-3.1-8B-Instruct-tokenizer",
+  "tokenizer_label": "meta-llama/Llama-3.1-8B-Instruct",
+  "tokenizer_fingerprint": "86099636e3238f26a12bb00de8544154d81430b7c36047edcf8ef5b1413a9b2e",
+  "candidate_file": "B-检索线/B02/candidates/dev_K0.jsonl",
+  "public_root": "A-数据线/A01/output/public",
+  "input_sha256": {
+    "B-检索线/B02/candidates/dev_K0.jsonl": "d5cc3f3d9ad0e9f005d50da4bae322fe46c478ad01c86e7b464684dbf1cc2c6e",
+    "A-数据线/A01/output/public/dev_questions.jsonl": "70c2b33432d7453d8ff48bb2fc64e36a5657f0af9c4acb12b749765fb07f4157",
+    "A-数据线/A01/output/public/turns/2318644b.jsonl": "600c9b785b7c9a375673fbe188133e170e1ec13f2ba82ba1afeea260d1664015",
+    "A-数据线/A01/output/public/turns/1cea1afa.jsonl": "45a00497da40b8ac9431fdbde02fa532b6406eadc847c55eeedf8f07c55477fc",
+    "A-数据线/A01/output/public/turns/gpt4_7a0daae1.jsonl": "231e6eb9c9734f21c16736d981e1aa2a9aabd555938a9a1e266e8f5f56b3bbc2",
+    "A-数据线/A01/output/public/turns/4c36ccef.jsonl": "938294e7a9a3d7e094010d6fffbb9c3a3bfd2b1c3aa1c111a4c6922e7b1c03e1",
+    "A-数据线/A01/output/public/turns/c960da58.jsonl": "61e1583b47fac5cf0b5121ccbfcad3eaf6fcaf65efa560f2368d5b6bb08afbf2"
+  },
+  "source_sha256": {
+    "D/selection_batch.py": "595b882a61e88256e38a34cc069f983e73f29fc64f4d56fee41f91b2c9f35972",
+    "D/selection_config.json": "7cf7d63fd40a8d67660d4cc98a93889e4e8091694f64d32887394b9f7d50b1bc",
+    "D/D01/selection.py": "0121e12529e29402fb3a8e0e9b0aeab75b6e8a3a638466a9c9078fe591ea19b0",
+    "D/D02/prepare_materials.py": "c374b29e4dd9c2f4e0012ba638d314b37f01b2b863e07ec45e9feff2e732b0dd",
+    "D/verify_selection.py": "1e7ba0946356b1915f0cb173262d1581327dd841af92328bd849f15ea4b109ba"
+  },
+  "selection_total_elapsed_s": 18.11061254699962,
+  "status": "materials_generated_pending_replay",
+  "records": [
+    {
+      "question_id": "2318644b",
+      "strategy": "C",
+      "context_tokens": 1932,
+      "history_file": "materials/C-2318644b.txt",
+      "history_sha256": "b1a432bd7292f76a72c51fb08e6a6da8b805e98d469c3c717ae5631458537fb5"
+    },
+    {
+      "question_id": "2318644b",
+      "strategy": "Q",
+      "context_tokens": 1932,
+      "history_file": "materials/Q-2318644b.txt",
+      "history_sha256": "b1a432bd7292f76a72c51fb08e6a6da8b805e98d469c3c717ae5631458537fb5"
+    },
+    {
+      "question_id": "1cea1afa",
+      "strategy": "C",
+      "context_tokens": 1953,
+      "history_file": "materials/C-1cea1afa.txt",
+      "history_sha256": "ff9816f79043311cda8b1fc08cce2980ed00d14d5ac9be0148d5be7d37772445"
+    },
+    {
+      "question_id": "1cea1afa",
+      "strategy": "Q",
+      "context_tokens": 1953,
+      "history_file": "materials/Q-1cea1afa.txt",
+      "history_sha256": "ff9816f79043311cda8b1fc08cce2980ed00d14d5ac9be0148d5be7d37772445"
+    },
+    {
+      "question_id": "gpt4_7a0daae1",
+      "strategy": "C",
+      "context_tokens": 2009,
+      "history_file": "materials/C-gpt4_7a0daae1.txt",
+      "history_sha256": "9f2e5f12b56263eb394a778a9957f2772ef9cc6756503a7887a313b45cf89194"
+    },
+    {
+      "question_id": "gpt4_7a0daae1",
+      "strategy": "Q",
+      "context_tokens": 2009,
+      "history_file": "materials/Q-gpt4_7a0daae1.txt",
+      "history_sha256": "9f2e5f12b56263eb394a778a9957f2772ef9cc6756503a7887a313b45cf89194"
+    },
+    {
+      "question_id": "4c36ccef",
+      "strategy": "C",
+      "context_tokens": 2001,
+      "history_file": "materials/C-4c36ccef.txt",
+      "history_sha256": "3465e8fb7897a863cd593ab5dc07703c9252e12783d049c060cd277030359d41"
+    },
+    {
+      "question_id": "4c36ccef",
+      "strategy": "Q",
+      "context_tokens": 2001,
+      "history_file": "materials/Q-4c36ccef.txt",
+      "history_sha256": "3465e8fb7897a863cd593ab5dc07703c9252e12783d049c060cd277030359d41"
+    },
+    {
+      "question_id": "c960da58",
+      "strategy": "C",
+      "context_tokens": 2040,
+      "history_file": "materials/C-c960da58.txt",
+      "history_sha256": "f27ea6cf948b491eeaf91a4eb676f67f39645d8e9bba1c44a8e1fc363d3161f1"
+    },
+    {
+      "question_id": "c960da58",
+      "strategy": "Q",
+      "context_tokens": 2040,
+      "history_file": "materials/Q-c960da58.txt",
+      "history_sha256": "f27ea6cf948b491eeaf91a4eb676f67f39645d8e9bba1c44a8e1fc363d3161f1"
+    }
+  ]
+}

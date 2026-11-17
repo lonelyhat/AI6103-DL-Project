@@ -1,0 +1,48 @@
+test_bad_candidates_and_labels_rejected (D.D01.test_selection.SelectionTests) ... ok
+test_chronological_and_same_timestamp (D.D01.test_selection.SelectionTests) ... ok
+test_cost_prefers_shorter (D.D01.test_selection.SelectionTests) ... ok
+test_empty_and_zero_budget (D.D01.test_selection.SelectionTests) ... ok
+test_equivalent_numeric_config_identity (D.D01.test_selection.SelectionTests) ... ok
+test_exact_counter_nonadditivity (D.D01.test_selection.SelectionTests) ... ok
+test_extreme_finite_scores (D.D01.test_selection.SelectionTests) ... ok
+test_features_do_not_depend_on_index_or_labels (D.D01.test_selection.SelectionTests) ... ok
+test_fl_gain_matches_objective (D.D01.test_selection.SelectionTests) ... ok
+test_gamma_zero_exact_ablation (D.D01.test_selection.SelectionTests) ... ok
+test_invalid_calendar_and_metadata (D.D01.test_selection.SelectionTests) ... ok
+test_invalid_weight (D.D01.test_selection.SelectionTests) ... ok
+test_lexical_rules_and_similarity (D.D01.test_selection.SelectionTests) ... ok
+test_message_conflict_and_label_rejected (D.D01.test_selection.SelectionTests) ... ok
+test_mmr_prefers_different_content (D.D01.test_selection.SelectionTests) ... ok
+test_negative_marginal_cost (D.D01.test_selection.SelectionTests) ... ok
+test_negative_scores_normalized_finite (D.D01.test_selection.SelectionTests) ... ok
+test_one_character_below_boundary (D.D01.test_selection.SelectionTests) ... ok
+test_overlap_dedup_and_zero_marginal (D.D01.test_selection.SelectionTests) ... ok
+test_q_rewards_new_clue (D.D01.test_selection.SelectionTests) ... ok
+test_reproducible_and_no_mutation (D.D01.test_selection.SelectionTests) ... ok
+test_whole_round_skip_and_exact_budget (D.D01.test_selection.SelectionTests) ... ok
+test_a01_version_and_tokenizer_must_match (D.D02.test_materials.D02PendingTests) ... ok
+test_batch_question_join_and_missing_B02 (D.D02.test_materials.D02PendingTests) ... ok
+test_bundle_does_not_overwrite_previous_batch (D.D02.test_materials.D02PendingTests) ... ok
+test_context_oversize_is_distinct_from_singleton_oversize (D.D02.test_materials.D02PendingTests) ... ok
+test_empty_candidates_exhausted_and_no_input_mutation (D.D02.test_materials.D02PendingTests) ... ok
+test_identical_dates_original_position_tiebreak (D.D02.test_materials.D02PendingTests) ... ok
+test_one_below_exact_boundary (D.D02.test_materials.D02PendingTests) ... ok
+test_overlapping_rounds_deduplicate_messages (D.D02.test_materials.D02PendingTests) ... ok
+test_rank_scan_never_revisits_skipped_candidates (D.D02.test_materials.D02PendingTests) ... ok
+test_skip_oversize_and_continue_whole_round (D.D02.test_materials.D02PendingTests) ... ok
+test_time_sort_not_turn_id (D.D02.test_materials.D02PendingTests) ... ok
+test_all_methods_replay_and_input_immutability (D.test_selection_batch.BatchTests) ... ok
+test_bundle_detects_saved_text_and_source_corruption (D.test_selection_batch.BatchTests) ... ok
+test_conflicting_public_metadata_rejected (D.test_selection_batch.BatchTests) ... ok
+test_gamma_zero_is_cost_ablation (D.test_selection_batch.BatchTests) ... ok
+test_invalid_parameters_and_duplicate_methods (D.test_selection_batch.BatchTests) ... ok
+test_missing_duplicate_foreign_or_labelled_inputs_rejected (D.test_selection_batch.BatchTests) ... ok
+test_replay_detects_score_cost_history_and_selection_tampering (D.test_selection_batch.BatchTests) ... ok
+test_replay_empty_and_oversize_stop (D.test_selection_batch.BatchTests) ... ok
+test_replay_overlap_preserves_message_union (D.test_selection_batch.BatchTests) ... ok
+test_replay_zero_and_negative_marginal_cost (D.test_selection_batch.BatchTests) ... ok
+
+----------------------------------------------------------------------
+Ran 43 tests in 0.029s
+
+OK
