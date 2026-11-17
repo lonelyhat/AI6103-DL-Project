@@ -6,3 +6,7 @@
 /jobs/*.sh text eol=lf
 # A unified patch uses a leading space for blank context lines.
 /E/E02/handoff/*.patch text eol=lf -whitespace
+# Keep E03 offline fixtures byte-exact and scripts portable.
+/E/E03/inputs/** -text whitespace=cr-at-eol
+/E/E03/*.py text eol=lf
+/E/E03/*.sh text eol=lf
