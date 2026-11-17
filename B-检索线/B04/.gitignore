@@ -1,0 +1,4 @@
+.private/
+results/official/
+results/checkpoint*
+results/candidates/

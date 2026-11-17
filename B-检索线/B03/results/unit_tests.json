@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "tests": [
+    "interruption resumes only unfinished questions; completed resume recomputes none",
+    "changed fingerprint rejected; checkpoint bytes unchanged",
+    "incomplete state cannot replace an existing delivery"
+  ],
+  "count": 3,
+  "note": "Deterministic scoring stub exercises failure/recovery control flow; embedding correctness is checked by real GPU official comparison."
+}

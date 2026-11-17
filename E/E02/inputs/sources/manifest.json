@@ -1,0 +1,18 @@
+{
+  "provenance": {
+    "HEAD": "c71134ebfe49174c5812a181114182568b8f5768",
+    "origin/b02-k0-retrieval": "d4ef0d2ec87419900cc8733206b1e814ba62a271",
+    "origin/d02-materials": "fdc3492c5d2a0b49b4fb1dece4ec42721f679393",
+    "origin/F_Evaluation": "36dd0a8f39ae89d416c81dda6a95f06a1945a8c7"
+  },
+  "scope": "DEV public histories only; no gold answers or evidence labels",
+  "sha256": {
+    "b02_candidates.jsonl": "d5cc3f3d9ad0e9f005d50da4bae322fe46c478ad01c86e7b464684dbf1cc2c6e",
+    "d02_selections.jsonl": "c0129587418df7b5578422819f6f000b511e4898363d6c40c3834e17f5c23801",
+    "turns/1cea1afa.jsonl": "06a1fc795d3d9e82836bd8244a06d02ff041a25499fc22822bedaab5b8fd1efb",
+    "turns/2318644b.jsonl": "2b009b17f249e4bbbc89c98e3e10cdf57395949d1c6e4bd35d08ab748660718a",
+    "turns/4c36ccef.jsonl": "4031db297d2c4f5bfdbbc57ab7304f9845d8a45c0165d123b69b4480502767c9",
+    "turns/c960da58.jsonl": "df022d1b62ab3f5a6591a3ec09ec61f664e5fc0a789f7301da0a201fb4e5448b",
+    "turns/gpt4_7a0daae1.jsonl": "1f89e2d2de5f49c00430724b0cd9f4afa3ea241528e13d93460a9a379887c69c"
+  }
+}
