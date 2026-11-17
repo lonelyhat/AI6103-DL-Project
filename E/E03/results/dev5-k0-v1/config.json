@@ -1,0 +1,41 @@
+{
+  "task": "E03",
+  "batch_runner_version": "e03-v1",
+  "reader_config_version": "e02-v2",
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+  "tokenizer_revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+  "reader": "con",
+  "backend": "transformers",
+  "dtype": "bfloat16",
+  "quantization": null,
+  "attention": "sdpa",
+  "batch_size": 1,
+  "do_sample": false,
+  "num_beams": 1,
+  "seed": 42,
+  "max_new_tokens": 800,
+  "stage": "dev",
+  "input_sha256": "b1c03755c9696055f1d61d4ce8b4ec4647656123aa09ca75a24c55ecce617137",
+  "records": 25,
+  "source_sha256": {
+    "E03/run_generation.py": "a18d5f2d2e822a4ca5de48555117c90e66f28b3e4b2e37a6fdddc95f466cb2f1",
+    "E03/batch.py": "32ce9984f6874a901a5e9876c1e703ddee962d4869264e8821ca8d676f61c8d0",
+    "E02/run_generation.py": "f4d0b0d1ded7a1ba1046bacfeebb45687126ca6bc248855adcfdad3be7c7a831"
+  },
+  "tokenizer_fingerprint": "b47fcb7017102fb3594326d69acc6b74872032ed15def90890d49d61ea94d220",
+  "prompt_sha256": "9e2b3110622929ab896696dd8937231c7436740ec3b9586f653f97346e19ab2c",
+  "chat_template_sha256": "e10ca381b1ccc5cf9db52e371f3b6651576caee0a630b452e2816b2d404d4b65",
+  "gpu": "NVIDIA A40",
+  "python": "3.11.18",
+  "torch_cuda": "12.4",
+  "packages": {
+    "torch": "2.6.0+cu124",
+    "transformers": "4.51.3",
+    "tokenizers": "0.21.4",
+    "huggingface-hub": "0.30.2",
+    "accelerate": "1.6.0",
+    "safetensors": "0.5.3"
+  },
+  "retry_policy": "resume technical_failure/missing only; preserve truncated/empty for review"
+}

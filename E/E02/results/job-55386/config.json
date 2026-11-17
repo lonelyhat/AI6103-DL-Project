@@ -1,0 +1,42 @@
+{
+  "task": "E02",
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+  "tokenizer_revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+  "reader": "con",
+  "backend": "transformers",
+  "dtype": "bfloat16",
+  "quantization": null,
+  "attention": "sdpa",
+  "batch_size": 1,
+  "do_sample": false,
+  "num_beams": 1,
+  "seed": 42,
+  "max_new_tokens": 800,
+  "input_file": "/home/msai/chunjie001/projects/AI6103-DL-Project/runs/e02/budget-rebuild.7jmm9m/inputs/dev5_budget.jsonl",
+  "records": 5,
+  "variants": [
+    "budget"
+  ],
+  "input_sha256": "dd0bfb67db988a50bea5dc642f36f3e57fb2e959fdc2fc87a85855f0d036fb41",
+  "runner_sha256": "f4d0b0d1ded7a1ba1046bacfeebb45687126ca6bc248855adcfdad3be7c7a831",
+  "tokenizer_fingerprint": "b47fcb7017102fb3594326d69acc6b74872032ed15def90890d49d61ea94d220",
+  "reader_config_version": "e02-v2",
+  "git_commit": "6335b96450bf1450b34eaf80e3bfcb3f7b5d38ee",
+  "git_status": "?? logs/\n?? runs/",
+  "python": "3.11.18",
+  "gpu": "NVIDIA A40",
+  "hostname": "TC2N01",
+  "torch_cuda": "12.4",
+  "packages": {
+    "torch": "2.6.0+cu124",
+    "transformers": "4.51.3",
+    "huggingface-hub": "0.30.2",
+    "accelerate": "1.6.0",
+    "safetensors": "0.5.3"
+  },
+  "slurm_job_id": "55386",
+  "answer_extraction": "explicit final-answer marker only; otherwise needs_review",
+  "model_load_seconds": 130.1168673040811,
+  "warmup_seconds": 3.4695161550771445
+}

@@ -1,0 +1,25 @@
+{
+  "records": 25,
+  "questions": 5,
+  "settings": [
+    "K0/C",
+    "K0/FL",
+    "K0/MMR",
+    "K0/Q",
+    "K0/R"
+  ],
+  "input_sha256": "e408c01d1257d63094974aad225948574582c951c51eda096585b5fb95b6bdf3",
+  "source_sha256": {
+    "E\\E02\\inputs\\sources\\d02_selections.jsonl": "c0129587418df7b5578422819f6f000b511e4898363d6c40c3834e17f5c23801",
+    "E\\E02\\inputs\\sources\\turns\\2318644b.jsonl": "2b009b17f249e4bbbc89c98e3e10cdf57395949d1c6e4bd35d08ab748660718a",
+    "E\\E02\\inputs\\sources\\turns\\1cea1afa.jsonl": "06a1fc795d3d9e82836bd8244a06d02ff041a25499fc22822bedaab5b8fd1efb",
+    "E\\E02\\inputs\\sources\\turns\\gpt4_7a0daae1.jsonl": "1f89e2d2de5f49c00430724b0cd9f4afa3ea241528e13d93460a9a379887c69c",
+    "E\\E02\\inputs\\sources\\turns\\4c36ccef.jsonl": "4031db297d2c4f5bfdbbc57ab7304f9845d8a45c0165d123b69b4480502767c9",
+    "E\\E02\\inputs\\sources\\turns\\c960da58.jsonl": "df022d1b62ab3f5a6591a3ec09ec61f664e5fc0a789f7301da0a201fb4e5448b",
+    "E\\E03\\inputs\\sources\\d03_selections.jsonl": "8502d6a4e1801f37ef1cb9cc3dd444fb85f16e39e1c512a11158ded8e870e3bc",
+    "E\\E03\\inputs\\sources\\d04_selections.jsonl": "58d8d8f5a68cce963d687bb11d02a5fca56af910b08ebebdc42a8a000bbd8f4f",
+    "E\\E03\\inputs\\sources\\d05_selections.jsonl": "b2c8dd676aebd0b791ce6dd904ebd178cf410395cf428ef0a8fba29fc8c5c778"
+  },
+  "status": "prepared_not_generated",
+  "tokenizer_check": "pending on server"
+}

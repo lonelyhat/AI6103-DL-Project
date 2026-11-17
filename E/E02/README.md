@@ -1,10 +1,29 @@
 # E02：五题阅读验证
 
-2026-11-17：本地输入适配与离线接口检查已完成。真实 tokenizer 检查、GPU 生成、人工答案核对及真实 Judge 评分尚未执行，**E02 尚未完成**。
+2026-11-17：**E02 生成、解析核对及交接验收完成**。两种设置各有五条真实回答，F02 正确性评分和证据统计待完成。
+
+| 设置 | 作业与耗时 | 实际输入 | 归档 |
+| --- | --- | --- | --- |
+| K0/R，历史预算 2048 Token | 55386，3m33s | [固定分词器重建的五题输入](results/job-55386/dev5_budget.jsonl) | [预算版](results/job-55386/) |
+| B02 排名前 50，flat-turn 原格式 | 55287，3m29s | [五题 top-50 输入](inputs/dev5_topk.jsonl) | [参照版](results/job-55287/) |
+
+预算材料用 E02 固定版本的 Llama 分词器重新执行 D02 选材。两次作业使用一致的阅读器配置及分词器指纹，均为 `COMPLETED / 0:0`。逐题核对输入 SHA-256、历史文本和选中轮次，两个导出文件均可从对应原始结果原样重建。预算材料为 2003–2037 Token，10 条回答均非空且无输出截断。
+
+逐条阅读了原始回答。10 条均未出现可被解析器识别的 `Final answer:` 标记，保留 `needs_review` 和全文。下表记录模型表达的结论，供 F02 复核。
+
+| 题号 | 预算版原答结论 | top-50 原答结论 |
+| --- | --- | --- |
+| `2318644b` | 未给出费用差额，附带推测 | 未给出费用差额，附带推测 |
+| `1cea1afa` | 600 位关注者 | 600 位关注者 |
+| `gpt4_7a0daae1` | 称缺少购买日期，随后计算了另一时间段并给出约 4 周 5 天 | 给出 1 周，但使用了自行假设且先后颠倒的日期 |
+| `4c36ccef` | Roscioli | Roscioli |
+| `c960da58` | 20 个播放列表 | 20 个播放列表 |
+
+F02 的主交接使用 [预算版回答](results/job-55386/answers_for_f.jsonl)、[本次重建的 D02 选择记录](results/job-55386/selections.jsonl) 和 [原 B02 K0 候选](inputs/sources/b02_candidates.jsonl)。在 F 的 `judge.py` 中使用 `--answers` 读取预算版回答，再将 `--scores`、`--selections` 和 `--candidates` 交给 `join_f02.py`。保留 `history_sha256` 和设置字段；`needs_review` 使用 `raw_output`。如另行评价 top-50，使用其对应的回答和 `inputs/topk_selections.jsonl`，单独保存结果。
 
 ## 已准备的文件
 
-- `inputs/dev5_budget.jsonl`：D02 的五题 K0/R、2048 Token 材料，历史文本逐字保留。
+- `inputs/dev5_budget.jsonl`：初版 D02 五题 K0/R、2048 Token 材料。复跑预算版使用作业 55386 归档中的 `dev5_budget.jsonl`。
 - `inputs/dev5_topk.jsonl`：相同五题，按 B02 排名取前50轮，采用官方 flat-turn JSON 排序/序列化，作为原排名参照。
 - `inputs/dev5.jsonl`：以上合计10条；运行时建议两种版本分开提交，长参照输入失败不影响预算版。
 - `inputs/topk_selections.jsonl`：参照版选中轮次，供 F 的证据汇总使用；实际 context_tokens 需从生成结果补充。
@@ -53,19 +72,19 @@ conda activate e01
 mkdir -p logs
 
 # CPU 分词、指纹、预算与容量检查；失败时不要提交生成。
-python E/E02/run_generation.py --input E/E02/inputs/dev5_budget.jsonl --check-only
+python E/E02/run_generation.py --input E/E02/results/job-55386/dev5_budget.jsonl --check-only
 python E/E02/run_generation.py --input E/E02/inputs/dev5_topk.jsonl --check-only
 ```
 
 检查通过后提交。可先提交预算版，再提交参照版，以控制并发额度：
 
 ```bash
-sbatch --partition=MGPU-TC2 --qos=normal jobs/e02_tc2.sh E/E02/inputs/dev5_budget.jsonl
+sbatch --partition=MGPU-TC2 --qos=normal jobs/e02_tc2.sh E/E02/results/job-55386/dev5_budget.jsonl
 sbatch --partition=MGPU-TC2 --qos=normal jobs/e02_tc2.sh E/E02/inputs/dev5_topk.jsonl
 squeue -u "$USER"
 ```
 
-使用已有 `e01` 环境及缓存模型，不重新下载。参照版尚未实测显存；若OOM，记录失败再处理，不能静默减少top-k或换量化精度。每次作业输出到 `runs/e02/job-<JOBID>/`；SBATCH断线后仍可继续。
+使用已有 `e01` 环境及缓存模型。若 OOM，记录失败再处理，保持 top-k 和精度配置。每次作业输出到 `runs/e02/job-<JOBID>/`。提交后断开终端不影响作业。
 
 ## E→F 交接
 

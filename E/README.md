@@ -1,12 +1,13 @@
 # E：回答模型与生成
 
-成员5（Noir / 张纯洁）。E01、E02 统一放在本目录；作业启动脚本仍在仓库根目录 `jobs/`，Git分支和 Conda 环境仍叫 `e01`。
+成员5（Noir / 张纯洁）。E01、E02、E03 统一放在本目录；作业启动脚本仍在仓库根目录 `jobs/`，Git分支和 Conda 环境仍叫 `e01`。
 
 | 任务 | 入口 | 当前状态 |
 |---|---|---|
 | E01：环境与一次真实生成 | [E01/README_CN.md](E01/README_CN.md) | 已有真实运行和归档；见验收补充。单题错误拒答不代表生成失败，也不代表模型效果合格 |
-| E02：五题阅读验证 | [E02/README.md](E02/README.md) | 5题预算版＋5题top-50参照输入、接口和离线检查已完成；等待服务器真实分词检查与GPU生成 |
-| E→F 交接 | [E02/handoff/README.md](E02/handoff/README.md) | 导出程序和F兼容补丁已准备；未调用真实Judge |
+| E02：五题阅读验证 | [E02/README.md](E02/README.md) | 预算版 55386 与 top-50 版 55287 均已生成并通过归档核对 |
+| E03：批量生成和恢复 | [E03/README.md](E03/README.md) | 服务器输入重建脚本与续跑入口已准备，待 CPU 预检及 GPU 验收 |
+| E→F 交接 | [E02/README.md](E02/README.md) | 预算版回答和对应的重建 D02 选择记录已归档，待 F02 评分和统计证据 |
 
 ## 从仓库根目录运行
 
@@ -18,8 +19,8 @@ python -B E/E02/test_e02.py
 学校服务器沿用已有 e01 环境，输入检查通过后提交：
 
 ```bash
-python E/E02/run_generation.py --input E/E02/inputs/dev5_budget.jsonl --check-only
-sbatch --partition=MGPU-TC2 --qos=normal jobs/e02_tc2.sh E/E02/inputs/dev5_budget.jsonl
+python E/E02/run_generation.py --input E/E02/results/job-55386/dev5_budget.jsonl --check-only &&
+sbatch --partition=MGPU-TC2 --qos=normal jobs/e02_tc2.sh E/E02/results/job-55386/dev5_budget.jsonl
 ```
 
 参照版使用 `E/E02/inputs/dev5_topk.jsonl`，也先执行 `--check-only`。完整步骤在 E02 README。
