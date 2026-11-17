@@ -62,8 +62,9 @@ DL Final Project/
 │   ├── longmemeval_oracle.json       （15 MB，只含證據 session）
 │   └── longmemeval_s_cleaned.json    （277 MB，專案使用的 LongMemEval-S）
 ├── third_party/LongMemEval/          ← 官方 repo（只讀取，不直接執行）
-├── AI6103-DL-Project-main_V1/        ← 組內專案舊版（保留比對用，程式已不使用）
-└── AI6103-DL-Project-main_V2/        ← 組內專案（2026-11-17 下載；A01、A02、E02 在這裡）
+├── AI6103-DL-Project/                ← 組內專案（git clone，F_Evaluation 分支；程式讀這裡的 A01、A02、E02）
+├── AI6103-DL-Project-main_V1/        ← 組內專案舊版下載（保留比對用，程式已不使用）
+└── AI6103-DL-Project-main_V2/        ← 組內專案 2026-11-17 下載（保留比對用，程式已不使用）
 ```
 
 ---
@@ -398,7 +399,7 @@ judge 與預期的一致率可以當作「評分程式與規則是否正確」�
 
 注意 A02 的「放不下」定義：**連最省的證據組合都超過預算**才算。D02 紀錄裡的 `over_budget` 只是「依序挑選時當下剩餘空間不夠」，不等於 A02 的放不下。
 
-**E02 首批 5 題的實際檔案**（都在 `AI6103-DL-Project-main_V2/E/E02/`）：
+**E02 首批 5 題的實際檔案**（本機在 `AI6103-DL-Project/E/E02/`；repo 中為 `../E/E02/`）：
 
 | 用途 | 預算版（K0/R/2048） | top-50 參照版 |
 |---|---|---|
@@ -593,3 +594,16 @@ judge 與預期的一致率可以當作「評分程式與規則是否正確」�
 | `F/tests/`（88 KB） | 建議新增（測試資料，讓組員能自行驗證） |
 | `.env`、`.venv/`、`data/`、`third_party/`、`results/` | **不要上傳** |
 | `scores/`、`f02/` | 待全組決定是否把評分結果放進 repo |
+
+### 2026-11-17　改讀 git clone 的組內專案、同步 F_Evaluation 分支
+
+- 組內專案改用 `git clone` 放在 `AI6103-DL-Project/`，切換到 `F_Evaluation` 分支並合併 main（29 個 commit，無衝突）。
+- 已 push 到 `origin/F_Evaluation`：新增 `paths.py`、`EVAL_NOTES.md`、`requirements.txt`、`.env.example`、`tests/`；更新 `judge.py`、`join_f02.py`；刪除 `__pycache__/` 與根目錄的空檔案 `F_Evaluation`。分支相對 main 為領先 4、落後 0。
+- `EVAL_NOTES.md` 新增第〇節「在組內 repo 中使用」。
+- `paths.py`：本機預設資料夾由 `AI6103-DL-Project-main_V2` 改為 `AI6103-DL-Project`。在 repo 中會自動判斷，不受這個設定影響。
+- 比對：clone 的 A 線資料是 V2 的超集（A01 補齊其餘開發題的輪次檔，A03 多了 map 與 turns）；評價檔、問題檔、A02 程式、E02 完全相同，評分結果不受影響。
+
+**已驗證**：本機改讀 clone 後，E02 參照版串聯（0.800、答對 4、選到仍答錯 1、問題 0 項）與 F02 測試資料（Q 1/1、R 1/3、問題 3+1 項）結果都和先前相同。
+
+**注意**：本機程式讀的是 `AI6103-DL-Project/` **目前切換到的分支**。切到其他分支時，A01、E02 的內容可能不同。
+

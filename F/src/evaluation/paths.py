@@ -4,7 +4,8 @@
 【為什麼需要這個檔案】
   同一份程式會放在兩個地方執行：
     1. 本機：/Users/.../DL Final Project/src/evaluation/
-             組內專案另外下載在 /Users/.../DL Final Project/AI6103-DL-Project-main_V2/
+             組內專案用 git clone 放在 /Users/.../DL Final Project/AI6103-DL-Project/
+             （2026-11-17 起；更新時在該資料夾執行 git fetch + git merge，不必再手動下載）
     2. 組內 GitHub 的 F_Evaluation 分支：<repo>/F/src/evaluation/
              組內專案就是 <repo> 本身
   兩種情況下，A01、A02 的位置不同。這裡統一判斷，其他程式只要 import 這個檔案即可，
@@ -19,8 +20,9 @@
 import os
 from pathlib import Path
 
-# 本機下載的組內專案資料夾名稱（換新版時只要改這一行）
-LOCAL_TEAM_FOLDER = "AI6103-DL-Project-main_V2"
+# 本機的組內專案資料夾名稱（git clone 下來的資料夾；要改用其他資料夾時只改這一行）
+#   注意：程式讀的是這個資料夾「目前切換到的分支」的內容
+LOCAL_TEAM_FOLDER = "AI6103-DL-Project"
 
 # 程式根目錄：本檔在 <程式根目錄>/src/evaluation/paths.py，往上兩層
 #   本機 → DL Final Project/；組內 repo → <repo>/F/
