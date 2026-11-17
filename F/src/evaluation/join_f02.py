@@ -40,10 +40,11 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+# 路徑統一在 paths.py 設定（本機與組內 repo 都適用）
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from paths import A02_DIR  # noqa: E402
 
 # A02 的程式放在組內專案裡；把它的資料夾加入搜尋路徑後即可 import
-A02_DIR = PROJECT_ROOT / "AI6103-DL-Project-main_V1" / "A-数据线" / "A02"
 sys.path.insert(0, str(A02_DIR))
 from evidence_metrics import Evidence  # noqa: E402  （A02 的證據計算類別）
 
@@ -55,8 +56,13 @@ from evidence_metrics import Evidence  # noqa: E402  （A02 的證據計算類�
 COMMON_FIELDS = ["question_id", "stage", "index", "strategy",
                  "budget_tokens", "tokenizer", "config_version"]
 
-# 「選中材料」和「評分」用這 5 個欄位對應（同一題、同一設定）
-SELECTION_KEY = ["question_id", "stage", "index", "strategy", "budget_tokens"]
+# 「選中材料」和「評分」用這些欄位對應（同一題、同一設定）
+#   2026-11-17 起加入 config_version、variant、topk（依 E02 交接補丁），
+#   避免預算版（variant=budget）和 top-50 參照版（variant=original_topk）的結果混在一起。
+#   舊資料沒有 variant 時視為 budget（見 make_key）。
+SELECTION_KEY = ["question_id", "stage", "index", "strategy", "budget_tokens",
+                 "config_version", "variant", "topk"]
+DEFAULT_VARIANT = "budget"
 # 「候選」只跟索引有關（同一索引下五種選擇辦法共用同一份候選），所以只用 3 個欄位對應
 CANDIDATE_KEY = ["question_id", "stage", "index"]
 
@@ -81,7 +87,7 @@ def load_jsonl(path):
 
 def make_key(record, fields):
     """用指定欄位組成對應用的鍵，例如 ("2318644b", "dev", "K0", "R", 2048)。"""
-    return tuple(record.get(k) for k in fields)
+    return tuple(record.get(k, DEFAULT_VARIANT if k == "variant" else None) for k in fields)
 
 
 def index_records(records, fields, file_label, issues):
@@ -107,10 +113,19 @@ def check_config_match(selection, other, other_label):
     """
     檢查兩個檔案的設定版本與分詞器是否一致。
     不一致代表兩邊用了不同版本的規則，結果不能直接比較，需要記錄。
+
+    【候選的版本要另外對照】
+      B（候選）和 D（選中）是不同階段，版本號本來就不同（例如 B 是 a01-v2、D 是 d02-v1）。
+      D 會另外記錄它依據的 B 版本 input_config_version（在最外層或 config 裡），
+      所以比對候選時改用這個值；沒有記錄時才退回比較 config_version。
     """
     problems = []
     for field in ("config_version", "tokenizer"):
-        if other.get(field) != selection.get(field):
+        expected = selection.get(field)
+        if other_label == "candidates" and field == "config_version":
+            expected = selection.get("input_config_version",
+                                     (selection.get("config") or {}).get("input_config_version", expected))
+        if other.get(field) != expected:
             problems.append(f"{field} 不一致：selections={selection.get(field)!r}，"
                             f"{other_label}={other.get(field)!r}")
     return problems
@@ -131,6 +146,20 @@ def evidence_block(evidence, qid, turn_ids, prefix):
     return {f"{prefix}{k}": m[k] for k in keep}, None
 
 
+def tokens_from_d02(selection):
+    """
+    從 D02 選中紀錄的 candidate_trials 取出每個候選輪的 token 數，回傳 {turn_id: tokens}。
+    使用 standalone_context_tokens：該輪單獨序列化（含 session 標頭）後的 token 數，
+    由 D02 用閱讀模型的 tokenizer 實際計算，比「字元數 ÷ 4」準確。
+    沒有 candidate_trials（例如 top-k 參照版、舊格式）時回傳 None。
+    """
+    trials = selection.get("candidate_trials")
+    if not trials:
+        return None
+    return {t["turn_id"]: t["standalone_context_tokens"] for t in trials
+            if t.get("standalone_context_tokens") is not None}
+
+
 def build_row(selection, candidate, score, evidence, turn_tokens):
     """
     組出一列：公共欄位 + 候選證據 + 選中證據 + 歸因 + 評分 + 問題清單。
@@ -141,6 +170,8 @@ def build_row(selection, candidate, score, evidence, turn_tokens):
     issues = []
 
     row = {k: selection.get(k) for k in COMMON_FIELDS}
+    row["variant"] = selection.get("variant", DEFAULT_VARIANT)
+    row["topk"] = selection.get("topk")
     row["question_type"] = ev["question_type"]
     row["is_abstention"] = ev["is_abstention"]
     row["answer"] = ev["answer"]
@@ -173,6 +204,10 @@ def build_row(selection, candidate, score, evidence, turn_tokens):
     # ---- (3) 證據在哪個環節丟掉（A02 diagnose） ----
     if candidate_ids is not None and "cand_error" not in row and "sel_error" not in row:
         budget = selection.get("budget_tokens")
+        # 每輪 token 數的來源：優先用 --turn-tokens 檔；沒有的話，用 D02 選中紀錄內建的
+        # candidate_trials（D02 對每個候選輪記錄了單獨序列化後的 token 數）
+        if not turn_tokens:
+            turn_tokens = tokens_from_d02(selection)
         tokens = turn_tokens if (turn_tokens and budget is not None) else None
         if tokens is not None:
             lacking = [t for t in candidate_ids if t not in tokens]
@@ -260,7 +295,7 @@ def summarize(rows, global_issues):
 # 5. 輸出
 # ===========================================================================
 CSV_COLUMNS = [
-    "question_id", "question_type", "is_abstention", "index", "strategy", "budget_tokens",
+    "question_id", "question_type", "is_abstention", "index", "strategy", "budget_tokens", "variant",
     "cand_n_turns_given", "cand_msg_retention", "cand_all_retained",
     "sel_n_turns_given", "sel_msg_retention", "sel_all_retained", "context_tokens",
     "diagnosis", "label", "outcome", "sel_missing_message_ids", "issues",

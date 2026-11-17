@@ -51,16 +51,15 @@ from pathlib import Path                      # 處理檔案路徑
 # 匯入同資料夾的 prompts.py（先把本檔所在資料夾加入搜尋路徑）
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from prompts import PROMPT_SOURCE, build_judge_prompt  # noqa: E402
+from paths import CODE_ROOT, A01_OUTPUT  # noqa: E402  （路徑統一在 paths.py 設定）
 
 
 # ===========================================================================
 # 1. 預設設定
 # ===========================================================================
-# 專案根目錄：本檔在 <根目錄>/src/evaluation/judge.py，所以往上兩層
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+# 程式根目錄（.env、scores/ 的位置）；組內專案與 A01 的位置見 paths.py
+PROJECT_ROOT = CODE_ROOT
 
-# A01 的輸出資料夾（組內專案資料夾中的位置）
-A01_OUTPUT = PROJECT_ROOT / "AI6103-DL-Project-main_V1" / "A-数据线" / "A01" / "output"
 DEFAULT_EVAL_FILE = A01_OUTPUT / "eval" / "dev_eval.jsonl"
 DEFAULT_QUESTIONS_FILE = A01_OUTPUT / "public" / "dev_questions.jsonl"
 DEFAULT_SCORES_DIR = PROJECT_ROOT / "scores"
@@ -70,6 +69,15 @@ DEFAULT_JUDGE_MODEL = "gpt-4o-2024-08-06"   # 論文 p.6 §3.3；2027-01-14 停�
 # A01 第 4.3 節規定每筆交接紀錄都要帶的公共欄位
 COMMON_FIELDS = ["question_id", "stage", "index", "strategy",
                  "budget_tokens", "tokenizer", "config_version"]
+
+# E02 交接新增、用來區分紀錄的欄位（識別鍵用，也會原樣抄進評分檔）
+EXTRA_KEY_FIELDS = ["variant", "topk", "reader_config_version", "history_sha256"]
+# E02 交接新增、只需抄進評分檔的欄位：{回答檔欄位: 評分檔欄位}
+#   E 的 parse_status（答案標記提取結果）改名 e_parse_status，
+#   避免和評分檔自己的 parse_status（judge 回覆是否清楚）混淆
+EXTRA_COPY_FIELDS = {"generation_status": "generation_status",
+                     "needs_review": "needs_review",
+                     "parse_status": "e_parse_status"}
 
 # E 回答檔中，哪些 status 代表「有正常產生回答」。
 # 注意：E 線尚未公布 status 的正式取值，這裡先接受 "ok" 與 "success"，確認後再調整。
@@ -182,7 +190,18 @@ def choose_response(answer):
 
     「是否一致」只在 E 和 F 都有提取到答案時才比較；否則記為 None（無法比較）。
     不一致不影響評分，但會列在摘要中，用來確認雙方的提取規則是否相同。
+
+    【E02 v2 的例外】（2026-11-17，依 E02 交接補丁）
+      E02 v2 起由 E 線負責提取答案，F 不再用第二套規則提取，避免兩邊規則不一致：
+        - E 有明確答案標記（parse_status = explicit_marker）→ 用 E 的 hypothesis
+        - 否則 → 送整段 raw_output（與官方評分程式的做法相同）
     """
+    if answer.get("reader_config_version") == "e02-v2":
+        hypothesis = (answer.get("hypothesis") or "").strip()
+        if hypothesis and answer.get("parse_status") == "explicit_marker":
+            return hypothesis, "hypothesis", None
+        return (answer.get("raw_output") or "").strip(), "raw_output", None
+
     hypothesis = (answer.get("hypothesis") or "").strip()
     f_extracted = extract_final_answer(answer.get("raw_output", ""))
 
@@ -272,8 +291,10 @@ def record_key(r):
     """
     用公共欄位組成一筆紀錄的唯一識別。
     同一題在不同索引、策略、預算、設定版本下，是不同的紀錄。
+    E02 起另外加入 variant（budget / original_topk）、topk、閱讀器版本、歷史文字雜湊，
+    避免預算版與參照版、或不同次生成的結果互相覆蓋。舊資料沒有這些欄位時記為 None。
     """
-    return "|".join(str(r.get(k)) for k in COMMON_FIELDS if k != "tokenizer")
+    return json.dumps([r.get(k) for k in COMMON_FIELDS + EXTRA_KEY_FIELDS], ensure_ascii=False)
 
 
 def load_finished_keys(scores_path):
@@ -441,6 +462,9 @@ def main():
 
             # (1) 先放入 A01 公共欄位，再加上題目資訊
             record = {k: a[k] for k in COMMON_FIELDS}
+            #     E02 起的額外欄位：回答檔有才抄（舊格式沒有也能跑）
+            record.update({k: a[k] for k in EXTRA_KEY_FIELDS if k in a})
+            record.update({new: a[old] for old, new in EXTRA_COPY_FIELDS.items() if old in a})
             record.update({
                 "question_type": ev["question_type"],
                 "is_abstention": ev["is_abstention"],
