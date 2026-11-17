@@ -1,0 +1,4 @@
+# Add to the existing e01 environment; model dependencies stay in requirements.txt.
+nbformat>=5.10,<6
+nbconvert>=7.16,<8
+ipykernel>=6.29,<7

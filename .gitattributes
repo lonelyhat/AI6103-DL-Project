@@ -1,0 +1,6 @@
+# Preserve byte-exact E02 fixtures and their recorded SHA-256 values.
+/E/E02/inputs/** -text whitespace=cr-at-eol
+# Slurm scripts must retain Unix line endings after checkout.
+/jobs/*.sh text eol=lf
+# A unified patch uses a leading space for blank context lines.
+/E/E02/handoff/*.patch text eol=lf -whitespace

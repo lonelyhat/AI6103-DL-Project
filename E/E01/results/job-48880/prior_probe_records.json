@@ -1,0 +1,42 @@
+[
+  {
+    "expected_stem": "probe-48841",
+    "status": "parsed_raw_log",
+    "parsed": {
+      "job_id": "48841",
+      "gpu": "NVIDIA A40",
+      "memory_total_mib": 46068,
+      "driver": "570.148.08",
+      "python": "3.11.18",
+      "packages": {
+        "torch": "not installed",
+        "transformers": "not installed",
+        "huggingface-hub": "not installed",
+        "sentence-transformers": "not installed"
+      },
+      "cuda_available": null,
+      "torch_cuda": null
+    },
+    "stdout_sha256": "5098303e3cf6c7e6e092dac3da04dd4cfbe33775c3082e32523daa5d729b429b"
+  },
+  {
+    "expected_stem": "cuda-check-48855",
+    "status": "parsed_raw_log",
+    "parsed": {
+      "job_id": "48855",
+      "gpu": "NVIDIA L40S",
+      "memory_total_mib": 46068,
+      "driver": "570.148.08",
+      "python": "3.11.18",
+      "packages": {
+        "torch": "2.6.0+cu124",
+        "transformers": "4.51.3",
+        "huggingface-hub": "0.30.2",
+        "sentence-transformers": "not installed"
+      },
+      "cuda_available": true,
+      "torch_cuda": "12.4"
+    },
+    "stdout_sha256": "26b5696eaafe56d90d913bac94680fa67ba74415eafbd3e53e90e16e637f8d60"
+  }
+]

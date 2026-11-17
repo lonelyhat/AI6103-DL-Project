@@ -1,0 +1,19 @@
+{
+  "task": "E01",
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+  "tokenizer_revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+  "dtype": "bfloat16",
+  "quantization": null,
+  "batch_size": 1,
+  "do_sample": false,
+  "num_beams": 1,
+  "seed": 42,
+  "max_new_tokens": 512,
+  "attention": "sdpa",
+  "device": "cuda:0",
+  "cpu_offload": false,
+  "reader_mode": "direct answer smoke test; official multi-call CoN is pending E02",
+  "input_sha256": "f6a91f1b44ad58a34aa37a70937f47d6ad49794565dc1edc1ae99cae2958399c",
+  "question_id": "1cea1afa"
+}

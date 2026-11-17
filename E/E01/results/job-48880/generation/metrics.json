@@ -1,0 +1,15 @@
+{
+  "question_id": "1cea1afa",
+  "input_tokens": 2056,
+  "context_tokens": 1949,
+  "output_tokens_including_stop": 11,
+  "setup_seconds_including_download_if_needed": 108.63443113304675,
+  "warmup_seconds": 3.050567283295095,
+  "generation_seconds": 0.8060001032426953,
+  "output_tokens_per_second_including_prefill": 13.647640931737921,
+  "peak_allocated_gib": 15.444947242736816,
+  "peak_reserved_gib": 15.54296875,
+  "hit_output_limit": false,
+  "nonempty_output": true,
+  "status": "generated"
+}
