@@ -1,0 +1,339 @@
+Mon Nov  2 03:11:41 UTC 2026
+TC2N01
+name, memory.total [MiB], driver_version
+NVIDIA A40, 46068 MiB, 570.148.08
+Validated 40 histories, 9957 turns
+All 12 model file hashes verified
+Model loaded in 5.99s
+982b5123_abs: 100 candidates, 11.68s (1/40)
+1cea1afa: 100 candidates, 11.87s (2/40)
+2318644b: 100 candidates, 11.89s (3/40)
+4c36ccef: 100 candidates, 12.63s (4/40)
+38146c39: 100 candidates, 11.82s (5/40)
+dccbc061: 100 candidates, 10.33s (6/40)
+gpt4_7a0daae1: 100 candidates, 10.41s (7/40)
+19b5f2b3_abs: 100 candidates, 11.56s (8/40)
+6a1eabeb: 100 candidates, 9.43s (9/40)
+8e91e7d9: 100 candidates, 14.47s (10/40)
+71a3fd6b: 100 candidates, 13.21s (11/40)
+afdc33df: 100 candidates, 8.15s (12/40)
+c960da58: 100 candidates, 14.67s (13/40)
+b46e15ee: 100 candidates, 11.29s (14/40)
+0862e8bf_abs: 100 candidates, 10.32s (15/40)
+b6019101: 100 candidates, 8.74s (16/40)
+60036106: 100 candidates, 14.48s (17/40)
+c4f10528: 100 candidates, 16.30s (18/40)
+07b6f563: 100 candidates, 14.46s (19/40)
+af8d2e46: 100 candidates, 11.05s (20/40)
+gpt4_93159ced_abs: 100 candidates, 5.53s (21/40)
+01493427: 100 candidates, 15.24s (22/40)
+a3332713: 100 candidates, 10.56s (23/40)
+c7cf7dfd: 100 candidates, 10.05s (24/40)
+d24813b1: 100 candidates, 5.42s (25/40)
+4fd1909e: 100 candidates, 13.59s (26/40)
+9a707b82: 100 candidates, 5.79s (27/40)
+e5ba910e_abs: 100 candidates, 9.11s (28/40)
+6071bd76: 100 candidates, 9.61s (29/40)
+7024f17c: 100 candidates, 6.08s (30/40)
+4388e9dd: 100 candidates, 14.87s (31/40)
+505af2f5: 100 candidates, 17.43s (32/40)
+gpt4_e072b769: 100 candidates, 10.51s (33/40)
+88432d0a_abs: 100 candidates, 10.75s (34/40)
+4b24c848: 100 candidates, 6.64s (35/40)
+4adc0475: 100 candidates, 5.00s (36/40)
+fea54f57: 100 candidates, 14.11s (37/40)
+54026fce: 100 candidates, 13.73s (38/40)
+faba32e5: 100 candidates, 9.23s (39/40)
+gpt4_4cd9eba1: 100 candidates, 8.08s (40/40)
+Exported all=40, main=34, abstention=6
+Namespace(in_file='/home/msai/wang2496/B03/dev40_longmemeval_s.json', out_dir='/home/msai/wang2496/B03/results/official', outfile_prefix='dev40', cache_dir='/home/msai/wang2496/B02/stella', retriever='flat-stella', granularity='turn', index_expansion_method='none', index_expansion_llm=None, index_expansion_result_cache=None, index_expansion_result_join_mode='none')
+Warning: found 6 abstention instances within the data
+Setting num processes = 1 with retriever flat-stella
+Ignored 6 instances due to abstention: {'982b5123_abs', 'e5ba910e_abs', '88432d0a_abs', '19b5f2b3_abs', '0862e8bf_abs', 'gpt4_93159ced_abs'}
+Additionally ignored 5 instances due to no target turns from the user side: {'4c36ccef', 'c4f10528', 'c7cf7dfd', '71a3fd6b', 'fea54f57'}
+{"session": {"recall_any@1": 0.7586206896551724, "recall_all@1": 0.3448275862068966, "ndcg_any@1": 0.7586206896551724, "recall_any@3": 0.9310344827586207, "recall_all@3": 0.7931034482758621, "ndcg_any@3": 0.8255476851797756, "recall_any@5": 0.9310344827586207, "recall_all@5": 0.8275862068965517, "ndcg_any@5": 0.834168374834948, "recall_any@10": 1.0, "recall_all@10": 0.9655172413793104, "ndcg_any@10": 0.8636361781041697, "recall_any@30": 1.0, "recall_all@30": 1.0, "ndcg_any@30": 0.8668982532682538, "recall_any@50": 1.0, "recall_all@50": 1.0, "ndcg_any@50": 0.8668982532682538}, "turn": {"recall_any@1": 0.7586206896551724, "recall_all@1": 0.3103448275862069, "ndcg_any@1": 0.7586206896551724, "recall_any@3": 0.9310344827586207, "recall_all@3": 0.6896551724137931, "ndcg_any@3": 0.8017529650639836, "recall_any@5": 0.9310344827586207, "recall_all@5": 0.8275862068965517, "ndcg_any@5": 0.834168374834948, "recall_any@10": 0.9655172413793104, "recall_all@10": 0.8620689655172413, "ndcg_any@10": 0.8445487195130164, "recall_any@30": 1.0, "recall_all@30": 0.9655172413793104, "ndcg_any@30": 0.8636361781041697, "recall_any@50": 1.0, "recall_all@50": 1.0, "ndcg_any@50": 0.8668982532682538}}
+{
+  "passed": true,
+  "all_questions": 40,
+  "main_questions": 34,
+  "abstention_questions": 6,
+  "candidates_per_question": 100,
+  "total_candidates": 4000,
+  "D01_public_input_validation": "passed for all 40",
+  "official_top100_comparison": [
+    {
+      "question_id": "982b5123_abs",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "1cea1afa",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "2318644b",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "4c36ccef",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "38146c39",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "dccbc061",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "gpt4_7a0daae1",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "19b5f2b3_abs",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "6a1eabeb",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "8e91e7d9",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "71a3fd6b",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "afdc33df",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "c960da58",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "b46e15ee",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "0862e8bf_abs",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "b6019101",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "60036106",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "c4f10528",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "07b6f563",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "af8d2e46",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "gpt4_93159ced_abs",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "01493427",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "a3332713",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "c7cf7dfd",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "d24813b1",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "4fd1909e",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "9a707b82",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "e5ba910e_abs",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "6071bd76",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "7024f17c",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "4388e9dd",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "505af2f5",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "gpt4_e072b769",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "88432d0a_abs",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "4b24c848",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "4adc0475",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "fea54f57",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "54026fce",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "faba32e5",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    },
+    {
+      "question_id": "gpt4_4cd9eba1",
+      "same_order": true,
+      "same_set": true,
+      "different_positions": []
+    }
+  ],
+  "B02_regression": [
+    {
+      "question_id": "2318644b",
+      "same_order": true,
+      "max_absolute_score_difference": 0.0
+    },
+    {
+      "question_id": "1cea1afa",
+      "same_order": true,
+      "max_absolute_score_difference": 0.0
+    },
+    {
+      "question_id": "gpt4_7a0daae1",
+      "same_order": true,
+      "max_absolute_score_difference": 0.0
+    },
+    {
+      "question_id": "4c36ccef",
+      "same_order": true,
+      "max_absolute_score_difference": 0.0
+    },
+    {
+      "question_id": "c960da58",
+      "same_order": true,
+      "max_absolute_score_difference": 0.0
+    }
+  ],
+  "candidate_sha256": {
+    "dev_K0.jsonl": "016129fa1143e7f5c40ccf2269a7331d1d7803f22f243ce384f1f85e76be0345",
+    "dev_abstention_K0.jsonl": "a7e5ad46c0103eb478fd92227d62e54b231b09166cb61a965e8826f3bee1bc72",
+    "dev_all_K0.jsonl": "8d56d6d0dba9aae56b7cb3755a053686f2e431444c02b218e613d9ebbff6abb9"
+  },
+  "scope": "rank/order comparison only; official log contains no numerical scores; not an answer-accuracy evaluation"
+}
+B03 COMPLETED

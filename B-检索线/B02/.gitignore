@@ -1,0 +1,7 @@
+# Official raw logs contain reference answers and protected official IDs.
+results/official/
+# Download/setup logs and model weights stay outside the repository.
+*.safetensors
+*.bin
+# Canonical checked delivery is candidates/dev_K0.jsonl.
+results/dev_K0.jsonl

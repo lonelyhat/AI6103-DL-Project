@@ -1,0 +1,35 @@
+{
+  "scope": "D01 input and cross-field validation only; no selection or answer generation",
+  "results": [
+    {
+      "question_id": "2318644b",
+      "candidate_count": 100,
+      "public_turn_count": 260,
+      "D01_validate": "passed"
+    },
+    {
+      "question_id": "1cea1afa",
+      "candidate_count": 100,
+      "public_turn_count": 241,
+      "D01_validate": "passed"
+    },
+    {
+      "question_id": "gpt4_7a0daae1",
+      "candidate_count": 100,
+      "public_turn_count": 276,
+      "D01_validate": "passed"
+    },
+    {
+      "question_id": "4c36ccef",
+      "candidate_count": 100,
+      "public_turn_count": 263,
+      "D01_validate": "passed"
+    },
+    {
+      "question_id": "c960da58",
+      "candidate_count": 100,
+      "public_turn_count": 250,
+      "D01_validate": "passed"
+    }
+  ]
+}

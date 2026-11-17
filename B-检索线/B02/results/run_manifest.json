@@ -1,0 +1,50 @@
+{
+  "job_id": "50055",
+  "node": "TC2N01",
+  "gpu": "NVIDIA A40",
+  "gpu_memory_mib": 46068,
+  "driver": "570.148.08",
+  "base_main_commit": "1826385a78a89cf9793a3fbe084755541bf7e41a",
+  "official_source_commit": "9e0b455f4ef0e2ab8f2e582289761153549043fc",
+  "official_source_verified_against_github": true,
+  "method": {
+    "index": "K0",
+    "retriever": "dunzhang/stella_en_1.5B_v5",
+    "retrieval_text": "first user message in each A01 turn",
+    "query_prefix": "",
+    "max_length": 512,
+    "batch_size": 64,
+    "dtype": "float32",
+    "pooling": "attention-mask mean",
+    "projection_dim": 1024,
+    "normalization": "sklearn.preprocessing.normalize L2",
+    "score": "NumPy dot product",
+    "ranking": "torch.argsort(descending=True)",
+    "top_k": 100,
+    "config_version": "a01-v2"
+  },
+  "candidate_sha256": "d5cc3f3d9ad0e9f005d50da4bae322fe46c478ad01c86e7b464684dbf1cc2c6e",
+  "counts": {
+    "2318644b": 100,
+    "1cea1afa": 100,
+    "gpt4_7a0daae1": 100,
+    "4c36ccef": 100,
+    "c960da58": 100
+  },
+  "timing_scope": "per-question query and history encoding, dot-product scoring, sorting and candidate assembly; excludes model loading and official comparison",
+  "per_question_elapsed_s": {
+    "2318644b": 24.6,
+    "1cea1afa": 12.0,
+    "gpt4_7a0daae1": 10.4,
+    "4c36ccef": 12.8,
+    "c960da58": 14.8
+  },
+  "job_state": "COMPLETED",
+  "job_exit_code": "0:0",
+  "job_elapsed_s": 276,
+  "job_max_rss_kib": 7438956,
+  "official_top100_exact_order_match": true,
+  "official_score_comparison": "not available: official retrieval log does not include numerical scores",
+  "D01_input_validation": "passed for all five questions",
+  "candidate_path": "B-检索线/B02/candidates/dev_K0.jsonl"
+}

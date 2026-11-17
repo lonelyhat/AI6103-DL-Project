@@ -1,0 +1,48 @@
+== 环境 ==
+Mon Nov  2 02:43:25 AM UTC 2026
+TC2N01
+name, memory.total [MiB], driver_version
+NVIDIA A40, 46068 MiB, 570.148.08
+torch 2.11.0+cu128 cuda True transformers 4.43.3
+== 1/2 本组脚本 ==
+2318644b: 260 public turns
+1cea1afa: 241 public turns
+gpt4_7a0daae1: 276 public turns
+4c36ccef: 263 public turns
+c960da58: 250 public turns
+2318644b: 100 ranked in 24.6s
+1cea1afa: 100 ranked in 12.0s
+gpt4_7a0daae1: 100 ranked in 10.4s
+4c36ccef: 100 ranked in 12.8s
+c960da58: 100 ranked in 14.8s
+Wrote 5 questions to /home/msai/wang2496/B02/results/dev_K0.jsonl
+== 2/2 官方 run_retrieval.py 对照 ==
+Namespace(in_file='/home/msai/wang2496/B02/dev5_longmemeval_s.json', out_dir='/home/msai/wang2496/B02/results/official', outfile_prefix='dev5', cache_dir='/home/msai/wang2496/B02/stella', retriever='flat-stella', granularity='turn', index_expansion_method='none', index_expansion_llm=None, index_expansion_result_cache=None, index_expansion_result_join_mode='none')
+Setting num processes = 1 with retriever flat-stella
+Ignored 0 instances due to abstention: set()
+Additionally ignored 1 instances due to no target turns from the user side: {'4c36ccef'}
+{"session": {"recall_any@1": 1.0, "recall_all@1": 0.25, "ndcg_any@1": 1.0, "recall_any@3": 1.0, "recall_all@3": 0.5, "ndcg_any@3": 0.75, "recall_any@5": 1.0, "recall_all@5": 0.75, "ndcg_any@5": 0.8125, "recall_any@10": 1.0, "recall_all@10": 1.0, "ndcg_any@10": 0.8473678682063912, "recall_any@30": 1.0, "recall_all@30": 1.0, "ndcg_any@30": 0.8473678682063912, "recall_any@50": 1.0, "recall_all@50": 1.0, "ndcg_any@50": 0.8473678682063912}, "turn": {"recall_any@1": 1.0, "recall_all@1": 0.25, "ndcg_any@1": 1.0, "recall_any@3": 1.0, "recall_all@3": 0.5, "ndcg_any@3": 0.75, "recall_any@5": 1.0, "recall_all@5": 0.75, "ndcg_any@5": 0.8125, "recall_any@10": 1.0, "recall_all@10": 0.75, "ndcg_any@10": 0.8125, "recall_any@30": 1.0, "recall_all@30": 1.0, "ndcg_any@30": 0.8473678682063912, "recall_any@50": 1.0, "recall_all@50": 1.0, "ndcg_any@50": 0.8473678682063912}}
+格式检查: 通过
+
+== 与官方排序对比（前100名，按 turn_id）==
+2318644b: 前100顺序完全一致=True  集合一致=True  首个不同名次=None
+1cea1afa: 前100顺序完全一致=True  集合一致=True  首个不同名次=None
+gpt4_7a0daae1: 前100顺序完全一致=True  集合一致=True  首个不同名次=None
+4c36ccef: 前100顺序完全一致=True  集合一致=True  首个不同名次=None
+c960da58: 前100顺序完全一致=True  集合一致=True  首个不同名次=None
+结论: 完全一致
+== 完成 ==
+/home/msai/wang2496/B02/results:
+total 72
+drwxr-xr-x 3 wang2496 wang2496  8192 Nov  2 10:48 .
+drwxr-xr-x 8 wang2496 wang2496  8192 Nov  2 10:15 ..
+-rw------- 1 wang2496 wang2496 39616 Nov  2 10:46 dev_K0.jsonl
+-rw-r--r-- 1 wang2496 wang2496  1434 Nov  2 10:43 environment.txt
+drwxr-xr-x 2 wang2496 wang2496   152 Nov  2 10:46 official
+-rw-r--r-- 1 wang2496 wang2496   524 Nov  2 10:48 validation.txt
+
+/home/msai/wang2496/B02/results/official:
+total 2928
+drwxr-xr-x 2 wang2496 wang2496     152 Nov  2 10:46 .
+drwxr-xr-x 3 wang2496 wang2496    8192 Nov  2 10:48 ..
+-rw-r--r-- 1 wang2496 wang2496 2977935 Nov  2 10:47 dev5_retrievallog_turn_flat-stella

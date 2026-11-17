@@ -1,0 +1,43 @@
+Validated 40 dev histories, 9957 turns
+All 12 model file hashes verified
+982b5123_abs: resume skip
+1cea1afa: resume skip
+2318644b: resume skip
+4c36ccef: resume skip
+38146c39: resume skip
+dccbc061: resume skip
+gpt4_7a0daae1: resume skip
+19b5f2b3_abs: resume skip
+6a1eabeb: resume skip
+8e91e7d9: resume skip
+71a3fd6b: resume skip
+afdc33df: resume skip
+c960da58: resume skip
+b46e15ee: resume skip
+0862e8bf_abs: resume skip
+b6019101: resume skip
+60036106: resume skip
+c4f10528: resume skip
+07b6f563: resume skip
+af8d2e46: resume skip
+gpt4_93159ced_abs: resume skip
+01493427: resume skip
+a3332713: resume skip
+c7cf7dfd: resume skip
+d24813b1: resume skip
+4fd1909e: resume skip
+9a707b82: resume skip
+e5ba910e_abs: resume skip
+6071bd76: resume skip
+7024f17c: resume skip
+4388e9dd: resume skip
+505af2f5: resume skip
+gpt4_e072b769: resume skip
+88432d0a_abs: resume skip
+4b24c848: resume skip
+4adc0475: resume skip
+fea54f57: resume skip
+54026fce: resume skip
+faba32e5: resume skip
+gpt4_4cd9eba1: resume skip
+Exported all=40, main=34, abstention=6

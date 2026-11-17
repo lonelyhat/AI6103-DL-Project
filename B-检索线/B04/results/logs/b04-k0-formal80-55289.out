@@ -1,0 +1,114 @@
+Tue Nov 17 04:46:54 AM UTC 2026
+TC2N01
+name, memory.total [MiB], driver_version
+NVIDIA A40, 46068 MiB, 570.148.08
+Validated 80 formal histories, 19606 turns
+All 12 model file hashes verified
+Model loaded in 6.96s
+10d9b85a: 100 candidates, 13.60s (1/80)
+69fee5aa: 100 candidates, 15.06s (2/80)
+a4996e51: 100 candidates, 15.40s (3/80)
+gpt4_731e37d7: 100 candidates, 14.69s (4/80)
+f0853d11: 100 candidates, 8.42s (5/80)
+gpt4_15e38248: 100 candidates, 10.21s (6/80)
+a40e080f: 100 candidates, 10.86s (7/80)
+gpt4_8e165409: 100 candidates, 15.71s (8/80)
+70b3e69b: 100 candidates, 14.56s (9/80)
+7a87bd0c: 100 candidates, 13.57s (10/80)
+6e984301: 100 candidates, 9.36s (11/80)
+85fa3a3f: 100 candidates, 13.93s (12/80)
+gpt4_7ca326fa: 100 candidates, 8.46s (13/80)
+e56a43b9: 100 candidates, 17.04s (14/80)
+0e5e2d1a: 100 candidates, 17.02s (15/80)
+gpt4_65aabe59: 100 candidates, 8.61s (16/80)
+311778f1: 100 candidates, 14.52s (17/80)
+gpt4_8c8961ae: 100 candidates, 17.30s (18/80)
+07741c45: 100 candidates, 14.94s (19/80)
+a2f3aa27: 100 candidates, 7.02s (20/80)
+a08a253f: 100 candidates, 10.48s (21/80)
+f523d9fe: 100 candidates, 12.94s (22/80)
+c8c3f81d: 100 candidates, 9.60s (23/80)
+c14c00dd: 100 candidates, 10.69s (24/80)
+ef9cf60a: 100 candidates, 18.72s (25/80)
+ba61f0b9: 100 candidates, 18.12s (26/80)
+58bf7951: 100 candidates, 13.67s (27/80)
+0db4c65d: 100 candidates, 11.19s (28/80)
+60bf93ed: 100 candidates, 14.68s (29/80)
+dd2973ad: 100 candidates, 8.51s (30/80)
+gpt4_88806d6e: 100 candidates, 13.74s (31/80)
+c7dc5443: 100 candidates, 13.30s (32/80)
+0977f2af: 100 candidates, 7.64s (33/80)
+eace081b: 100 candidates, 12.94s (34/80)
+a3045048: 100 candidates, 5.55s (35/80)
+89941a93: 100 candidates, 13.69s (36/80)
+gpt4_85da3956: 100 candidates, 19.05s (37/80)
+cc06de0d: 100 candidates, 7.04s (38/80)
+94f70d80: 100 candidates, 9.60s (39/80)
+gpt4_213fd887: 100 candidates, 7.94s (40/80)
+gpt4_1e4a8aeb: 100 candidates, 12.54s (41/80)
+0edc2aef: 100 candidates, 13.75s (42/80)
+2ce6a0f2: 100 candidates, 8.47s (43/80)
+gpt4_61e13b3c: 100 candidates, 11.92s (44/80)
+00ca467f: 100 candidates, 9.68s (45/80)
+618f13b2: 100 candidates, 11.13s (46/80)
+d905b33f: 100 candidates, 11.17s (47/80)
+8464fc84: 100 candidates, 12.14s (48/80)
+gpt4_c27434e8: 100 candidates, 16.77s (49/80)
+2e6d26dc: 100 candidates, 15.23s (50/80)
+ccb36322: 100 candidates, 11.19s (51/80)
+e01b8e2f: 100 candidates, 11.82s (52/80)
+852ce960: 100 candidates, 11.41s (53/80)
+bc8a6e93: 100 candidates, 13.23s (54/80)
+gpt4_5501fe77: 100 candidates, 7.20s (55/80)
+gpt4_468eb063: 100 candidates, 16.35s (56/80)
+gpt4_e061b84g: 100 candidates, 11.17s (57/80)
+aae3761f: 100 candidates, 15.36s (58/80)
+gpt4_e414231f: 100 candidates, 6.27s (59/80)
+9ee3ecd6: 100 candidates, 20.20s (60/80)
+4dfccbf8: 100 candidates, 14.32s (61/80)
+gpt4_6dc9b45b: 100 candidates, 6.60s (62/80)
+0bc8ad93: 100 candidates, 11.77s (63/80)
+dcfa8644: 100 candidates, 10.22s (64/80)
+89941a94: 100 candidates, 10.35s (65/80)
+157a136e: 100 candidates, 10.98s (66/80)
+gpt4_4929293a: 100 candidates, 8.36s (67/80)
+c5e8278d: 100 candidates, 9.56s (68/80)
+129d1232: 100 candidates, 12.80s (69/80)
+099778bb: 100 candidates, 12.07s (70/80)
+f4f1d8a4: 100 candidates, 15.61s (71/80)
+15745da0: 100 candidates, 9.33s (72/80)
+caf03d32: 100 candidates, 14.22s (73/80)
+fca762bc: 100 candidates, 4.96s (74/80)
+fca70973: 100 candidates, 18.89s (75/80)
+1d4da289: 100 candidates, 11.34s (76/80)
+ceb54acb: 100 candidates, 12.45s (77/80)
+32260d93: 100 candidates, 18.07s (78/80)
+3249768e: 100 candidates, 10.42s (79/80)
+95228167: 100 candidates, 13.17s (80/80)
+Exported main=80
+Namespace(in_file='/home/msai/wang2496/B45/B04/formal80_longmemeval_s.json', out_dir='/home/msai/wang2496/B45/B04/results/official', outfile_prefix='formal80', cache_dir='/home/msai/wang2496/B02/stella', retriever='flat-stella', granularity='turn', index_expansion_method='none', index_expansion_llm=None, index_expansion_result_cache=None, index_expansion_result_join_mode='none')
+Setting num processes = 1 with retriever flat-stella
+Ignored 0 instances due to abstention: set()
+Additionally ignored 8 instances due to no target turns from the user side: {'8464fc84', '3249768e', 'a40e080f', '1d4da289', '70b3e69b', '0e5e2d1a', 'ceb54acb', 'fca762bc'}
+{"session": {"recall_any@1": 0.6527777777777778, "recall_all@1": 0.19444444444444445, "ndcg_any@1": 0.6527777777777778, "recall_any@3": 0.9583333333333334, "recall_all@3": 0.6944444444444444, "ndcg_any@3": 0.7465914554918734, "recall_any@5": 0.9722222222222222, "recall_all@5": 0.8888888888888888, "ndcg_any@5": 0.788731587999576, "recall_any@10": 0.9861111111111112, "recall_all@10": 0.9861111111111112, "ndcg_any@10": 0.8069002953018745, "recall_any@30": 1.0, "recall_all@30": 1.0, "ndcg_any@30": 0.8110129302893924, "recall_any@50": 1.0, "recall_all@50": 1.0, "ndcg_any@50": 0.8110129302893924}, "turn": {"recall_any@1": 0.6527777777777778, "recall_all@1": 0.18055555555555555, "ndcg_any@1": 0.6527777777777778, "recall_any@3": 0.9027777777777778, "recall_all@3": 0.5694444444444444, "ndcg_any@3": 0.7079414669215842, "recall_any@5": 0.9305555555555556, "recall_all@5": 0.75, "ndcg_any@5": 0.7575716392044799, "recall_any@10": 0.9861111111111112, "recall_all@10": 0.9305555555555556, "ndcg_any@10": 0.8022578975570253, "recall_any@30": 1.0, "recall_all@30": 1.0, "ndcg_any@30": 0.8110129302893924, "recall_any@50": 1.0, "recall_all@50": 1.0, "ndcg_any@50": 0.8110129302893924}}
+{
+  "passed": true,
+  "stage": "formal",
+  "index": "K0",
+  "questions": {
+    "main": 80
+  },
+  "candidates_per_question": 100,
+  "total_candidates": 8000,
+  "D01_public_input_validation": "passed for all 80",
+  "official_same_order": 80,
+  "official_same_set": 80,
+  "regression": [],
+  "truncated_index_texts": 126,
+  "indexed_turns": 19606,
+  "candidate_sha256": {
+    "formal_K0.jsonl": "bad5f4f0c3a8fe94105e3a71fb9e7237b0c9b986fa0cadb103530bf7da424c79"
+  },
+  "scope": "rank/order comparison only; official log has no scores; not an answer-accuracy evaluation"
+}
+B04 COMPLETED
