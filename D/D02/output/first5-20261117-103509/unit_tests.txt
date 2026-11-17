@@ -1,0 +1,16 @@
+test_a01_version_and_tokenizer_must_match (D.D02.test_materials.D02PendingTests) ... ok
+test_batch_question_join_and_missing_B02 (D.D02.test_materials.D02PendingTests) ... ok
+test_bundle_does_not_overwrite_previous_batch (D.D02.test_materials.D02PendingTests) ... ok
+test_context_oversize_is_distinct_from_singleton_oversize (D.D02.test_materials.D02PendingTests) ... ok
+test_empty_candidates_exhausted_and_no_input_mutation (D.D02.test_materials.D02PendingTests) ... ok
+test_identical_dates_original_position_tiebreak (D.D02.test_materials.D02PendingTests) ... ok
+test_one_below_exact_boundary (D.D02.test_materials.D02PendingTests) ... ok
+test_overlapping_rounds_deduplicate_messages (D.D02.test_materials.D02PendingTests) ... ok
+test_rank_scan_never_revisits_skipped_candidates (D.D02.test_materials.D02PendingTests) ... ok
+test_skip_oversize_and_continue_whole_round (D.D02.test_materials.D02PendingTests) ... ok
+test_time_sort_not_turn_id (D.D02.test_materials.D02PendingTests) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.004s
+
+OK

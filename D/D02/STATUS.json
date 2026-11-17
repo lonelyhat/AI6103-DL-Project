@@ -1,0 +1,12 @@
+{
+  "task": "D02",
+  "implementation_status": "completed",
+  "input_config_version": "a01-v2",
+  "B02_candidates_status": "real_first_five_K0_candidates_used",
+  "reader_tokenizer": "meta-llama/Llama-3.1-8B-Instruct",
+  "unit_tests_status": "passed",
+  "material_generation_status": "completed_five_questions",
+  "validation_status": "five_question_material_consistency_passed",
+  "output_dir": "D/D02/output/first5-20261117-103509",
+  "note": "Answer generation, answer scoring and evidence evaluation are outside this D02 validation."
+}
