@@ -1,0 +1,7 @@
+# CUDA-enabled torch is installed separately after the GPU/driver probe.
+# Reuse the project's pinned Transformers generation API for this smoke test.
+transformers==4.51.3
+huggingface-hub==0.30.2
+accelerate==1.6.0
+safetensors==0.5.3
+sentencepiece==0.2.0

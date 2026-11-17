@@ -1,0 +1,12 @@
+# Preserve byte-exact E02 fixtures and their recorded SHA-256 values.
+/E/E02/inputs/** -text whitespace=cr-at-eol
+/E/E02/results/job-55386/dev5_budget.jsonl -text whitespace=cr-at-eol
+/E/E02/results/job-55386/slurm_final.txt whitespace=-blank-at-eol
+# Slurm scripts must retain Unix line endings after checkout.
+/jobs/*.sh text eol=lf
+# A unified patch uses a leading space for blank context lines.
+/E/E02/handoff/*.patch text eol=lf -whitespace
+# Keep E03 offline fixtures byte-exact and scripts portable.
+/E/E03/inputs/** -text whitespace=cr-at-eol
+/E/E03/*.py text eol=lf
+/E/E03/*.sh text eol=lf

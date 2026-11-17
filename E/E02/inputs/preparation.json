@@ -1,0 +1,21 @@
+{
+  "status": "prepared_not_generated",
+  "question_ids": [
+    "2318644b",
+    "1cea1afa",
+    "gpt4_7a0daae1",
+    "4c36ccef",
+    "c960da58"
+  ],
+  "records": 10,
+  "topk": 50,
+  "reference_scope": "B02 rank top-k; official flat-turn JSON ordering/serialization; Transformers backend adaptation, no silent truncation",
+  "tokenizer_check": "pending on server",
+  "gpu_generation": "not run",
+  "sha256": {
+    "dev5.jsonl": "c4c5340aa174efbbf4922693e3c5974be803b75fd3c49912495c1a53aae29533",
+    "dev5_budget.jsonl": "4ca5bc34eb43a1008ff06f718fe0e8662f943e2108c579cb9f40e0805b341d92",
+    "dev5_topk.jsonl": "21b9549f705aeb19c94a1408fdc388786e37d394d39de344cf10f5694aaf98d8",
+    "topk_selections.jsonl": "77e648f093b9cbb54c5c95e3e0a07d379fca8d1b0a30b1fcd986843d4e89b02f"
+  }
+}

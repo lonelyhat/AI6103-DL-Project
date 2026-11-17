@@ -1,0 +1,35 @@
+{
+  "task": "E03",
+  "status": "server_preparation_ready_gpu_acceptance_pending",
+  "date": "2026-11-17",
+  "input_records": 25,
+  "input_questions": 5,
+  "indices": [
+    "K0"
+  ],
+  "strategies": [
+    "R",
+    "MMR",
+    "C",
+    "Q",
+    "FL"
+  ],
+  "validation": {
+    "e03_offline_tests": {
+      "passed": 12,
+      "failed": 0
+    },
+    "e02_offline_tests": {
+      "passed": 8,
+      "skipped_F_branch_tests": 3,
+      "failed": 0
+    }
+  },
+  "gpu_inference_performed": false,
+  "F_scoring_performed": false,
+  "blockers": [
+    "CPU rebuild and preflight must run in the cached NTU reader environment",
+    "Real GPU checkpoint and resume not yet verified"
+  ],
+  "next_action": "Run prepare_server_dev5.sh, submit 2 records, then resume the same batch to 25"
+}

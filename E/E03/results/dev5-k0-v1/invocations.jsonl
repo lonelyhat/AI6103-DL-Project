@@ -1,0 +1,2 @@
+{"time_unix": 1794906841.6844897, "resume": false, "host": "TC2N01", "slurm_job_id": "55392", "git_commit": "14933625e462713d0a563aedffef37405b73b342", "git_status": "?? logs/\n?? runs/"}
+{"time_unix": 1794907320.9036386, "resume": true, "host": "TC2N01", "slurm_job_id": "55399", "git_commit": "14933625e462713d0a563aedffef37405b73b342", "git_status": "?? logs/\n?? runs/"}

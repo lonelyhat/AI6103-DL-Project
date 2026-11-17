@@ -1,0 +1,54 @@
+{
+  "recorded_utc": "2026-10-29T10:47:58.235964+00:00",
+  "record_scope": "current notebook kernel environment; GPU facts are only in raw probe logs or generation records",
+  "python": "3.11.18",
+  "executable": "/home/msai/chunjie001/.conda/envs/e01/bin/python",
+  "platform": "Linux-5.14.0-503.14.1.el9_5.x86_64-x86_64-with-glibc2.34",
+  "hostname": "TC2N02",
+  "packages": {
+    "torch": "2.6.0+cu124",
+    "transformers": "4.51.3",
+    "huggingface-hub": "0.30.2",
+    "accelerate": "1.6.0",
+    "safetensors": "0.5.3",
+    "nbformat": "5.11.1",
+    "nbconvert": "7.17.2",
+    "ipykernel": "6.31.0"
+  },
+  "current_compute_probe": {
+    "job_id": "48880",
+    "gpu": "NVIDIA A40",
+    "memory_total_mib": 46068,
+    "driver": "570.148.08",
+    "python": "3.11.18",
+    "packages": {
+      "torch": "2.6.0+cu124",
+      "transformers": "4.51.3",
+      "huggingface-hub": "0.30.2",
+      "sentence-transformers": "not installed"
+    },
+    "cuda_available": true,
+    "torch_cuda": "12.4"
+  },
+  "git_commit": {
+    "returncode": 0,
+    "stdout": "255b2c69eaae9b700b1fb4886a039dbdcdd5eac7",
+    "stderr": ""
+  },
+  "git_branch": {
+    "returncode": 0,
+    "stdout": "e01",
+    "stderr": ""
+  },
+  "git_status": {
+    "returncode": 0,
+    "stdout": "?? logs/\n?? runs/",
+    "stderr": ""
+  },
+  "file_sha256": {
+    "e01/input_dev.json": "f6a91f1b44ad58a34aa37a70937f47d6ad49794565dc1edc1ae99cae2958399c",
+    "e01/run_generation.py": "b617e38ff0cb07cfe0fa7b57821524238d722478df770ca98d98b828c832b1e6",
+    "e01/notebook_utils.py": "31826743bfaf222a197e3c405d409fc92c530ff0184001e99cbad2f1b150802e",
+    "e01/E01_environment_and_generation.ipynb": "64fe24fab85c38381d7b529dc1b80d3eeb199e7461f5623bf6a5cf98a85e7677"
+  }
+}
