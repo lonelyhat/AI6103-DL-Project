@@ -1,0 +1,13 @@
+# Keep the validated final comparison; raw development shards remain local.
+/output/*
+!/output/dev34-parameter-selection-v1/
+/returned/
+/upload/
+__pycache__/
+*.pyc
+
+# Credentials and local model caches must never enter this delivery.
+.env
+.env.*
+!.env.example
+hf_cache/

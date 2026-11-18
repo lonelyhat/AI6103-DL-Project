@@ -1,0 +1,209 @@
+{
+  "task": "D06",
+  "status": "development_parameter_selection_complete",
+  "scope": "34 development questions; not formal/test accuracy",
+  "question_ids": [
+    "1cea1afa",
+    "2318644b",
+    "4c36ccef",
+    "38146c39",
+    "dccbc061",
+    "gpt4_7a0daae1",
+    "6a1eabeb",
+    "8e91e7d9",
+    "71a3fd6b",
+    "afdc33df",
+    "c960da58",
+    "b46e15ee",
+    "b6019101",
+    "60036106",
+    "c4f10528",
+    "07b6f563",
+    "af8d2e46",
+    "01493427",
+    "a3332713",
+    "c7cf7dfd",
+    "d24813b1",
+    "4fd1909e",
+    "9a707b82",
+    "6071bd76",
+    "7024f17c",
+    "4388e9dd",
+    "505af2f5",
+    "gpt4_e072b769",
+    "4b24c848",
+    "4adc0475",
+    "fea54f57",
+    "54026fce",
+    "faba32e5",
+    "gpt4_4cd9eba1"
+  ],
+  "indices": [
+    "K0",
+    "K1"
+  ],
+  "budget_tokens": 2048,
+  "scoring_config_version": "f03-v1",
+  "judge_model": "gpt-4o-2024-08-06",
+  "metric": "maximize equal-weight mean K0/K1 development accuracy per strategy",
+  "tie_rule": "lower redundancy_weight, then lower coverage_weight",
+  "stopping_rule": "evaluate entire frozen grid; no early stopping",
+  "shared_weights_across_indices": true,
+  "source_plan_id": "1c567f65916b031aefa46ce634ba7f47c30ba20344705315e2aee445c3516541",
+  "records": 1156,
+  "methods": [
+    {
+      "strategy": "R",
+      "redundancy_weight": 0.0,
+      "coverage_weight": 0.0,
+      "K0_correct": 21,
+      "K0_accuracy": 0.6176470588235294,
+      "K1_correct": 23,
+      "K1_accuracy": 0.6764705882352942,
+      "paired_correct": 44,
+      "paired_denominator": 68,
+      "mean_index_accuracy": 0.6470588235294118,
+      "accuracy_ties": [
+        {
+          "redundancy_weight": 0.0,
+          "coverage_weight": 0.0
+        }
+      ],
+      "selection_config_ids": {
+        "K0": [
+          "e15610528e21067482b1004529eb3f0cba535d0234ca2a8c9297653704803d1a"
+        ],
+        "K1": [
+          "e15610528e21067482b1004529eb3f0cba535d0234ca2a8c9297653704803d1a"
+        ]
+      }
+    },
+    {
+      "strategy": "MMR",
+      "redundancy_weight": 0.5,
+      "coverage_weight": 0.0,
+      "K0_correct": 22,
+      "K0_accuracy": 0.6470588235294118,
+      "K1_correct": 25,
+      "K1_accuracy": 0.7352941176470589,
+      "paired_correct": 47,
+      "paired_denominator": 68,
+      "mean_index_accuracy": 0.6911764705882353,
+      "accuracy_ties": [
+        {
+          "redundancy_weight": 0.5,
+          "coverage_weight": 0.0
+        },
+        {
+          "redundancy_weight": 1.0,
+          "coverage_weight": 0.0
+        }
+      ],
+      "selection_config_ids": {
+        "K0": [
+          "1c01118d433090624dfcd704e1f78414e1f4f771578051d18b95c4aa771910b5"
+        ],
+        "K1": [
+          "1c01118d433090624dfcd704e1f78414e1f4f771578051d18b95c4aa771910b5"
+        ]
+      }
+    },
+    {
+      "strategy": "C",
+      "redundancy_weight": 1.0,
+      "coverage_weight": 0.0,
+      "K0_correct": 20,
+      "K0_accuracy": 0.5882352941176471,
+      "K1_correct": 22,
+      "K1_accuracy": 0.6470588235294118,
+      "paired_correct": 42,
+      "paired_denominator": 68,
+      "mean_index_accuracy": 0.6176470588235294,
+      "accuracy_ties": [
+        {
+          "redundancy_weight": 1.0,
+          "coverage_weight": 0.0
+        }
+      ],
+      "selection_config_ids": {
+        "K0": [
+          "5444bd8bb1f8239fe8034be2f4bfa517dad1e33f5b6376d696ea85224e1e6127"
+        ],
+        "K1": [
+          "5444bd8bb1f8239fe8034be2f4bfa517dad1e33f5b6376d696ea85224e1e6127"
+        ]
+      }
+    },
+    {
+      "strategy": "Q",
+      "redundancy_weight": 0.5,
+      "coverage_weight": 1.0,
+      "K0_correct": 21,
+      "K0_accuracy": 0.6176470588235294,
+      "K1_correct": 23,
+      "K1_accuracy": 0.6764705882352942,
+      "paired_correct": 44,
+      "paired_denominator": 68,
+      "mean_index_accuracy": 0.6470588235294118,
+      "accuracy_ties": [
+        {
+          "redundancy_weight": 0.5,
+          "coverage_weight": 1.0
+        }
+      ],
+      "selection_config_ids": {
+        "K0": [
+          "d36be0b7a2a016478e786b7e54d2b086f9072d7ea4b5e56d58f5eb2d07e8f99b"
+        ],
+        "K1": [
+          "d36be0b7a2a016478e786b7e54d2b086f9072d7ea4b5e56d58f5eb2d07e8f99b"
+        ]
+      }
+    },
+    {
+      "strategy": "FL",
+      "redundancy_weight": 0.0,
+      "coverage_weight": 0.0,
+      "K0_correct": 16,
+      "K0_accuracy": 0.47058823529411764,
+      "K1_correct": 16,
+      "K1_accuracy": 0.47058823529411764,
+      "paired_correct": 32,
+      "paired_denominator": 68,
+      "mean_index_accuracy": 0.47058823529411764,
+      "accuracy_ties": [
+        {
+          "redundancy_weight": 0.0,
+          "coverage_weight": 0.0
+        }
+      ],
+      "selection_config_ids": {
+        "K0": [
+          "438b0cd95c29f519bb5fa189daa556d4b678f5c927541cb5131c417095317d9d"
+        ],
+        "K1": [
+          "438b0cd95c29f519bb5fa189daa556d4b678f5c927541cb5131c417095317d9d"
+        ]
+      }
+    }
+  ],
+  "provenance_sha256": {
+    "/home/cyr2526/DL_project/AI6103-DL-Project/D/D06/output/dev34-grid-v1/plan.json": "4ee09691c4c6e876fb0ebad0ace11f5a47e708c594ebd9cd709a31b4cddf183c",
+    "/home/cyr2526/DL_project/AI6103-DL-Project/D/D06/output/dev34-grid-v1/reader_inputs.jsonl": "e369a2c4ee1c328c71e1667e57f699cfdaeac127d1becfeaa7deb14920732631",
+    "/home/cyr2526/DL_project/AI6103-DL-Project/D/D06/returned/dev34-grid-v1/runs/dev34-grid-v1/answers_for_f.jsonl": "f9cfb5d4af006b59b695962de25c25f61eaf432e692048e2a0ca1dbab86a2ddd",
+    "/home/cyr2526/DL_project/AI6103-DL-Project/D/D06/returned/dev34-grid-v1/runs/dev34-grid-v1/results.jsonl": "af9eac84c2d00d9dc14981d16ff7ee851cd85c5e1d3e0c499d8c464baf7e0dae",
+    "/home/cyr2526/DL_project/AI6103-DL-Project/D/D06/returned/dev34-grid-v1/runs/dev34-grid-v1/attempts.jsonl": "af9eac84c2d00d9dc14981d16ff7ee851cd85c5e1d3e0c499d8c464baf7e0dae",
+    "/home/cyr2526/DL_project/AI6103-DL-Project/D/D06/returned/dev34-grid-v1/runs/dev34-grid-v1/config.json": "148428b1229e70051b8ebb686843749560e9fdfb7d616fe4c933b73c42e0d808",
+    "/home/cyr2526/DL_project/AI6103-DL-Project/F/scores/d06_dev34_grid_v1.jsonl": "bf4b9c560bd7394abf862614897d2f430309b46c0614633d1c27539f75ae0134",
+    "/home/cyr2526/DL_project/AI6103-DL-Project/F/SCORING_CONFIG.md": "f04a7ab20d9c6dd2efd630741477bbc644672876cf677e138d87d05122159c4d",
+    "/home/cyr2526/DL_project/AI6103-DL-Project/F/src/evaluation/judge.py": "7699ce38b1cc663fbe849cc0488b565f4f0f5c8b371ac92667006393633b1dfb",
+    "/home/cyr2526/DL_project/AI6103-DL-Project/F/src/evaluation/prompts.py": "30d509a59876abf3dc0b90055d7a15abf2fdeb5b0d7e0fc09baf9c2cc7ba323f",
+    "/home/cyr2526/DL_project/AI6103-DL-Project/D/D06/summarize.py": "658326b530b8aa22797a4321633db2cf0a27ffc879d5f83705c8d63dcffb3dc2"
+  },
+  "limitations": [
+    "development selection accuracy is not an unbiased formal result",
+    "34 paired questions, not 68 independent observations",
+    "6 preference questions included; f03-v1 has no project-specific preference calibration",
+    "7 recorded truncations scored as-is; no resampling"
+  ]
+}

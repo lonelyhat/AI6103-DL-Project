@@ -1,0 +1,22 @@
+{
+  "config_version": "d03-d05-v1",
+  "input_config_version": "a01-v2",
+  "stage": "dev",
+  "index": "K0",
+  "budget_tokens": 2048,
+  "question_ids": [
+    "2318644b",
+    "1cea1afa",
+    "gpt4_7a0daae1",
+    "4c36ccef",
+    "c960da58"
+  ],
+  "strategies": [
+    "MMR",
+    "C",
+    "Q",
+    "FL"
+  ],
+  "redundancy_weight": 0.5,
+  "coverage_weight": 0.5
+}

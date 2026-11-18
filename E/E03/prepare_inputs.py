@@ -11,7 +11,10 @@ from D.D01.selection import render_context
 
 
 def read_rows(path):
-    return [json.loads(line) for line in path.read_text(encoding='utf-8-sig').splitlines() if line.strip()]
+    # JSONL is delimited by physical newlines. Unicode separators (e.g. U+2028)
+    # are legal inside JSON strings and must not split a record.
+    with path.open(encoding='utf-8-sig') as handle:
+        return [json.loads(line) for line in handle if line.strip()]
 
 
 def build(selection_paths, turns_dir, output):

@@ -1,0 +1,8 @@
+{
+  "records": 1156,
+  "status": "E_token_prompt_capacity_checks_passed",
+  "tokenizer_fingerprint": "b47fcb7017102fb3594326d69acc6b74872032ed15def90890d49d61ea94d220",
+  "max_prompt_tokens": 2201,
+  "max_new_tokens": 800,
+  "model_inference": false
+}

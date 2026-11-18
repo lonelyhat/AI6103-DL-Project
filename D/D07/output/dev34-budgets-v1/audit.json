@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "task": "D07",
+  "questions": 34,
+  "records": 1224,
+  "budgets": [
+    1024,
+    2048,
+    4096
+  ],
+  "baseline_2048_verified": 408,
+  "coverage_pairs": 204,
+  "evidence_groups": 36,
+  "empty_materials": 0,
+  "all_saved_decision_replay_receipts_verified": true,
+  "full_greedy_replay_repeated": false,
+  "exact_history_token_checks": true,
+  "a02_metrics_recomputed": true,
+  "all_three_csv_tables_recomputed": true,
+  "source_and_input_hashes_verified": true,
+  "original_run_elapsed_s": 1933.0972396770012,
+  "model_inference": false,
+  "scoring_api": false,
+  "audit_source_sha256": "cb1d9c1e60bfc0584ea770df5cd7e332a3de3d1e7395c7e342f21abe9bad0cb4",
+  "plan_id": "d6f1759a426c1596e58ffaaa098b8a0f6dfc09df35bb46d57af9aa8cf5fd06c7"
+}

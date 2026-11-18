@@ -1,0 +1,21 @@
+{
+  "status": "materials_ready_for_E",
+  "records": 1156,
+  "plan_id": "1c567f65916b031aefa46ce634ba7f47c30ba20344705315e2aee445c3516541",
+  "input_sha256": "e369a2c4ee1c328c71e1667e57f699cfdaeac127d1becfeaa7deb14920732631",
+  "corrected_exporter_sources": {
+    "E/E03/prepare_inputs.py": {
+      "original_sha256": "dfe05fb0f984ce10a54d7215ff16f5d00d2f8004076b6403e0924d441f8bbfce",
+      "corrected_sha256": "e38700684261f70a58b29a100570e7376f508e97ec23b1da70a2b928212cbc5f"
+    },
+    "E/E03/batch.py": {
+      "original_sha256": "32ce9984f6874a901a5e9876c1e703ddee962d4869264e8821ca8d676f61c8d0",
+      "corrected_sha256": "fe07e7cf8812197eadc60b3efb6ec39fd4f8a3ef1137239342450f8d104a9d67"
+    }
+  },
+  "recovery_source_sha256": "8d8e05864c654d782b93dea2c47ee59ae7a99f7b3baade2c6a1312eb5fadf3d1",
+  "elapsed_s": 12.996309235999433,
+  "selection_recomputed": false,
+  "frozen_plan_modified": false,
+  "validation": "original input/source hashes; saved decision-replay receipts; all shard hashes; original history reconstruction; exact token counts"
+}

@@ -1,0 +1,15 @@
+{
+  "config_version": "d02-v1",
+  "input_config_version": "a01-v2",
+  "stage": "dev",
+  "index": "K0",
+  "strategy": "R",
+  "budget_tokens": 2048,
+  "question_ids": ["2318644b", "1cea1afa", "gpt4_7a0daae1", "4c36ccef", "c960da58"],
+  "candidate_limit": 100,
+  "selection": "rank-ascending-one-pass-skip-oversize",
+  "sort": ["session_datetime", "session_index", "user_message_position"],
+  "message_deduplication": "message_id",
+  "budget_scope": "serialized_history_only",
+  "tokenizer_source": "must be explicitly supplied and match E reader"
+}

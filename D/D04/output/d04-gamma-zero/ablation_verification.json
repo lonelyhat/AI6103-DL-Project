@@ -1,0 +1,25 @@
+{
+  "coverage_weight": 0,
+  "checks": [
+    {
+      "question_id": "2318644b",
+      "status": "passed"
+    },
+    {
+      "question_id": "1cea1afa",
+      "status": "passed"
+    },
+    {
+      "question_id": "gpt4_7a0daae1",
+      "status": "passed"
+    },
+    {
+      "question_id": "4c36ccef",
+      "status": "passed"
+    },
+    {
+      "question_id": "c960da58",
+      "status": "passed"
+    }
+  ]
+}

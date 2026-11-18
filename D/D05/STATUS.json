@@ -1,0 +1,16 @@
+{
+  "task": "D05",
+  "implementation_status": "completed",
+  "strategies": [
+    "FL"
+  ],
+  "unit_tests_status": "43_passed",
+  "real_candidate_validation": "passed",
+  "input": "B02 first five K0 a01-v2",
+  "budget_tokens": 2048,
+  "tokenizer": "meta-llama/Llama-3.1-8B-Instruct",
+  "results": "D/D05/output/d03-d05-20261117-111733",
+  "verification": "D/D05/output/d03-d05-20261117-111733/verification.json",
+  "weights_status": "development_defaults_not_tuned",
+  "answer_or_evidence_evaluation": "not_performed"
+}
