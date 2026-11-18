@@ -10,3 +10,5 @@
 /E/E03/inputs/** -text whitespace=cr-at-eol
 /E/E03/*.py text eol=lf
 /E/E03/*.sh text eol=lf
+# Preserve the original F02 score and evidence exports.
+/G/G01/f02/** -text whitespace=cr-at-eol

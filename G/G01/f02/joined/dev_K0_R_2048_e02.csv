@@ -1,0 +1,6 @@
+﻿question_id,question_type,is_abstention,index,strategy,budget_tokens,variant,cand_n_turns_given,cand_msg_retention,cand_all_retained,sel_n_turns_given,sel_msg_retention,sel_all_retained,context_tokens,diagnosis,label,outcome,sel_missing_message_ids,issues
+2318644b,multi-session,False,K0,R,2048,budget,100,1.0,True,4,0.5,False,2008,selection_missed,0,沒選到,2318644b-s016-m000,
+1cea1afa,knowledge-update,False,K0,R,2048,budget,100,1.0,True,5,1.0,True,2003,all_retained,1,答對,,
+gpt4_7a0daae1,temporal-reasoning,False,K0,R,2048,budget,100,1.0,True,8,0.5,False,2025,selection_missed,0,沒選到,gpt4_7a0daae1-s009-m006,
+4c36ccef,single-session-assistant,False,K0,R,2048,budget,100,1.0,True,8,1.0,True,2017,all_retained,1,答對,,
+c960da58,single-session-user,False,K0,R,2048,budget,100,1.0,True,4,1.0,True,2037,all_retained,1,答對,,

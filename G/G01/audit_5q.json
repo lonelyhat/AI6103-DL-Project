@@ -1,7 +1,7 @@
 {
   "status": "g01_review_in_progress",
-  "repo_commit": "63645c972222133f935692b49ee4b71bfe3b263e",
-  "f02_budget_score_source": "F/EVAL_NOTES.md_only",
+  "repo_commit": "e900cc1cb9c4158fa4206f6fd26ad225d7f88cb5",
+  "f02_budget_score_source": "raw_f02_verified_against_e02",
   "f02_top50_score_source": "F/EVAL_NOTES.md_only",
   "provenance": {
     "B-检索线\\B02\\candidates\\dev_K0.jsonl": "d5cc3f3d9ad0e9f005d50da4bae322fe46c478ad01c86e7b464684dbf1cc2c6e",
@@ -39,7 +39,7 @@
       "d02_selection_seconds": 0.7285453958902508,
       "f02_reported_budget_label": 0,
       "f02_reported_top50_label": 0,
-      "f02_verified_budget_label": null
+      "f02_verified_budget_label": 0
     },
     {
       "question_id": "1cea1afa",
@@ -63,7 +63,7 @@
       "d02_selection_seconds": 0.7352110531646758,
       "f02_reported_budget_label": 1,
       "f02_reported_top50_label": 1,
-      "f02_verified_budget_label": null
+      "f02_verified_budget_label": 1
     },
     {
       "question_id": "gpt4_7a0daae1",
@@ -89,7 +89,7 @@
       "d02_selection_seconds": 0.7632750940974802,
       "f02_reported_budget_label": 0,
       "f02_reported_top50_label": 1,
-      "f02_verified_budget_label": null
+      "f02_verified_budget_label": 0
     },
     {
       "question_id": "4c36ccef",
@@ -113,7 +113,7 @@
       "d02_selection_seconds": 0.745680188992992,
       "f02_reported_budget_label": 1,
       "f02_reported_top50_label": 1,
-      "f02_verified_budget_label": null
+      "f02_verified_budget_label": 1
     },
     {
       "question_id": "c960da58",
@@ -137,7 +137,7 @@
       "d02_selection_seconds": 0.7273480191361159,
       "f02_reported_budget_label": 1,
       "f02_reported_top50_label": 1,
-      "f02_verified_budget_label": null
+      "f02_verified_budget_label": 1
     }
   ],
   "summary": {
@@ -148,8 +148,8 @@
     "c02_nonempty_turns": 723,
     "f02_budget_reported_correct": 3,
     "f02_top50_reported_correct": 4,
-    "f02_verified_judge_timing_count": 0,
-    "f02_judge_seconds_mean": null
+    "f02_verified_judge_timing_count": 5,
+    "f02_judge_seconds_mean": 1.7542
   },
   "scale_planning": {
     "dev_min_questions": 5,
