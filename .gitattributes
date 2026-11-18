@@ -17,3 +17,9 @@
 /D/D06/delivery/** -text
 /D/D06/output/dev34-parameter-selection-v1/** -text whitespace=cr-at-eol
 /F/scores/d06_dev34_grid_v1.jsonl -text
+# Preserve D07 audited outputs, including CSV CRLF record terminators.
+/D/D07/*.py text eol=lf
+/D/D07/output/dev34-budgets-v1/*.json -text
+/D/D07/output/dev34-budgets-v1/*.jsonl -text
+/D/D07/output/dev34-budgets-v1/*.csv -text whitespace=cr-at-eol
+/D/D07/output/dev34-budgets-v1/*.md -text

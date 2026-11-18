@@ -1,0 +1,20 @@
+{
+  "status": "complete",
+  "scope": "D07 development evidence diagnostics only",
+  "questions": 34,
+  "records": 1224,
+  "budgets": [
+    1024,
+    2048,
+    4096
+  ],
+  "baseline_2048_checks": 408,
+  "empty_materials": 0,
+  "coverage_pairs": 204,
+  "plan_id": "d6f1759a426c1596e58ffaaa098b8a0f6dfc09df35bb46d57af9aa8cf5fd06c7",
+  "elapsed_s": 1933.0972396770012,
+  "reused_shards": 0,
+  "model_inference": false,
+  "scoring_api": false,
+  "parameter_retuning": false
+}
