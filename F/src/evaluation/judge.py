@@ -1,5 +1,5 @@
 """
-LongMemEval 評分程式（F01，v0.2：改用 A01 交接格式）
+LongMemEval 評分程式（F01，v0.2：改用 A01 交接格式；評分設定 f03-v1，見 SCORING_CONFIG.md）
 
 【這支程式做什麼】
 讀入 E 線的回答檔，搭配 A01 的評價檔與問題檔，逐題組成評分 prompt，
@@ -70,18 +70,35 @@ DEFAULT_JUDGE_MODEL = "gpt-4o-2024-08-06"   # 論文 p.6 §3.3；2027-01-14 停�
 COMMON_FIELDS = ["question_id", "stage", "index", "strategy",
                  "budget_tokens", "tokenizer", "config_version"]
 
-# E02 交接新增、用來區分紀錄的欄位（識別鍵用，也會原樣抄進評分檔）
-EXTRA_KEY_FIELDS = ["variant", "topk", "reader_config_version", "history_sha256"]
-# E02 交接新增、只需抄進評分檔的欄位：{回答檔欄位: 評分檔欄位}
+# E02/E03 交接新增、用來區分紀錄的欄位（識別鍵用，也會原樣抄進評分檔）
+#   E03 起：record_id（輸入紀錄雜湊）、reader_config_id（閱讀器設定雜湊）、
+#   selection_config_id（選擇設定雜湊，含權重等參數）。依 E03 README，
+#   同一方法不同權重的題號、策略、config_version 可能相同，必須靠這三個欄位區分。
+#   舊資料（E02 以前）沒有這些欄位，記為 None，不影響續跑。
+EXTRA_KEY_FIELDS = ["variant", "topk", "reader_config_version", "history_sha256",
+                    "record_id", "reader_config_id", "selection_config_id"]
+# 只需抄進評分檔的欄位：{回答檔欄位: 評分檔欄位}
 #   E 的 parse_status（答案標記提取結果）改名 e_parse_status，
 #   避免和評分檔自己的 parse_status（judge 回覆是否清楚）混淆
+#   input_config_version：E03 起提供，串聯證據時用來核對選擇記錄的輸入版本
 EXTRA_COPY_FIELDS = {"generation_status": "generation_status",
                      "needs_review": "needs_review",
-                     "parse_status": "e_parse_status"}
+                     "parse_status": "e_parse_status",
+                     "input_config_version": "input_config_version"}
 
-# E 回答檔中，哪些 status 代表「有正常產生回答」。
-# 注意：E 線尚未公布 status 的正式取值，這裡先接受 "ok" 與 "success"，確認後再調整。
+# 評分設定版本（見 SCORING_CONFIG.md），每筆評分都會記錄
+SCORING_CONFIG_VERSION = "f03-v1"
+
+# E 回答檔的 status（E02/E03 匯出：generated → ok；其餘原樣保留）
+#   依 E 線 2026-11-18 確認（SCORING_CONFIG.md 第五節）：
+#     ok / success   正常產生回答                 → 送評
+#     truncated      輸出截斷，但有已產生的文字   → 照樣送評（選項 1A），另外統計
+#     empty          空回答                       → 不送評，算錯（2A）
+#     technical_failure 生成技術失敗              → 不送評，算錯（3A）；E 應先用 --resume 補跑（4A）
+#     其他未知狀態（例如舊格式的 error）           → 比照技術失敗，摘要中警告
 E_STATUS_OK = {"ok", "success"}
+E_STATUS_SCORED = E_STATUS_OK | {"truncated"}
+E_STATUS_KNOWN_FAILED = {"empty", "technical_failure"}
 
 # 呼叫參數，與官方 evaluate_qa.py 相同
 JUDGE_TEMPERATURE = 0
@@ -97,7 +114,9 @@ FINAL_ANSWER_PATTERN = re.compile(r"final\s*answer\s*:", re.IGNORECASE)
 # F 評分檔的 status 取值（本程式提議，待寫入 A01）：
 #   ok          成功評分，label 為 0 或 1
 #   api_error   呼叫 judge 時發生技術失敗，label 為 null，下次執行會重評
-#   no_answer   E 線沒有正常產生回答（E 的 status 不是 ok），不送去評分，label 為 null
+#   no_answer   E 線沒有產生可評的回答（空回答、技術失敗等），不送去評分，label 為 0（算錯）
+#               ——f03-v1 起；之前的版本 label 為 null、不計入分母，摘要讀取時一律視為 0
+#   每筆另記 e_status（E 的原始 status），截斷的回答 status 為 ok、e_status 為 truncated
 
 
 # ===========================================================================
@@ -292,7 +311,10 @@ def record_key(r):
     用公共欄位組成一筆紀錄的唯一識別。
     同一題在不同索引、策略、預算、設定版本下，是不同的紀錄。
     E02 起另外加入 variant（budget / original_topk）、topk、閱讀器版本、歷史文字雜湊，
-    避免預算版與參照版、或不同次生成的結果互相覆蓋。舊資料沒有這些欄位時記為 None。
+    避免預算版與參照版、或不同次生成的結果互相覆蓋。
+    E03 起再加入 record_id、reader_config_id、selection_config_id，
+    避免同一方法不同參數（例如權重）的回答被當成同一筆而跳過。
+    舊資料沒有這些欄位時記為 None。
     """
     return json.dumps([r.get(k) for k in COMMON_FIELDS + EXTRA_KEY_FIELDS], ensure_ascii=False)
 
@@ -318,6 +340,22 @@ def config_label(r):
     return f"{r['stage']} / {r['index']} / {r['strategy']} / {r['budget_tokens']}"
 
 
+def final_label(r):
+    """計入準確率的分數：ok 用 judge 的 label；no_answer 一律為 0（舊檔的 null 也視為 0）。"""
+    return r["label"] if r["status"] == "ok" else 0
+
+
+def status_breakdown(rows):
+    """一組紀錄的組成，例如「送評 78（其中截斷 2）；未送評 2：empty 1、technical_failure 1」。"""
+    scored = [r for r in rows if r["status"] == "ok"]
+    n_trunc = sum(r.get("e_status") == "truncated" for r in scored)
+    failed = Counter(r.get("e_status") or "未記錄" for r in rows if r["status"] == "no_answer")
+    text = f"送評 {len(scored)}" + (f"（其中截斷 {n_trunc}）" if n_trunc else "")
+    if failed:
+        text += f"；未送評 {sum(failed.values())}：" + "、".join(f"{k} {v}" for k, v in failed.items())
+    return text
+
+
 def summarize(scores_path, expected_path=None):
     """
     讀取評分檔並印出摘要。同一筆紀錄若出現多次（例如先失敗後成功），只取最後一次。
@@ -328,25 +366,29 @@ def summarize(scores_path, expected_path=None):
         latest[record_key(r)] = r
     records = list(latest.values())
     ok = [r for r in records if r["status"] == "ok"]
+    # 計入準確率的紀錄：成功評分（ok）＋沒有可評回答（no_answer，算 0）
+    #   api_error 是 F 端未完成，不計入，並在下方警告
+    counted = [r for r in records if r["status"] in ("ok", "no_answer")]
     status_count = Counter(r["status"] for r in records)
 
     print("\n" + "=" * 64)
     print(f"評分檔：{scores_path}")
     print(f"總筆數 {len(records)}；各狀態：{dict(status_count)}")
-    if not ok:
-        print("沒有成功評分的資料。")
+    if not counted:
+        print("沒有可計算準確率的資料。")
         return
 
     def acc(rows):
-        n_correct = sum(r["label"] for r in rows)
+        n_correct = sum(final_label(r) for r in rows)
         return f"{n_correct / len(rows):.4f} ({n_correct}/{len(rows)})"
 
     # 依設定分組，再依題型分組
     by_config = defaultdict(list)
-    for r in ok:
+    for r in counted:
         by_config[config_label(r)].append(r)
     for label, rows in sorted(by_config.items()):
         print(f"\n[{label}] 整體準確率：{acc(rows)}")
+        print(f"    {status_breakdown(rows)}")
         by_type = defaultdict(list)
         for r in rows:
             by_type["abstention" if r["is_abstention"] else r["question_type"]].append(r)
@@ -361,21 +403,34 @@ def summarize(scores_path, expected_path=None):
         print(f"    {r['question_id']}：E={r['hypothesis']!r}")
         print(f"    {' ' * len(r['question_id'])}  F={r['f_extracted']!r}")
     print(f"judge 回覆格式不明確（建議人工確認）："
-          f"{sum(r['parse_status'] == 'unclear' for r in ok)} 筆")
+          f"{sum(r.get('parse_status') == 'unclear' for r in ok)} 筆")
+
+    # 警告：結果是否完整、是否需要 E 補跑
+    n_api_error = status_count.get("api_error", 0)
+    if n_api_error:
+        print(f"\n[警告] 有 {n_api_error} 筆 judge 呼叫失敗（api_error），結果未完成，"
+              f"上面的準確率不能使用。請重新執行 judge.py（會自動只重評這些紀錄）。")
+    failed = Counter(r.get("e_status") or "未記錄" for r in counted if r["status"] == "no_answer")
+    if failed.get("technical_failure"):
+        print(f"[警告] 有 {failed['technical_failure']} 筆生成技術失敗，已算錯。"
+              f"請確認 E 已用 --resume 補跑，且這是重新匯出的最終版本（SCORING_CONFIG 第五節 4A）。")
+    unknown = {k: v for k, v in failed.items() if k not in E_STATUS_KNOWN_FAILED}
+    if unknown:
+        print(f"[警告] 有不在約定範圍內的 E status，已比照技術失敗算錯：{unknown}")
 
     # 與預期答案比較（測試與 F03 校準用）；預期檔格式：{"question_id": 0 或 1}
     if expected_path:
         with open(expected_path, encoding="utf-8") as f:
             expected = json.load(f)
-        compared = [r for r in ok if r["question_id"] in expected]
+        compared = [r for r in counted if r["question_id"] in expected]
         if compared:
-            agree = [r for r in compared if r["label"] == expected[r["question_id"]]]
+            agree = [r for r in compared if final_label(r) == expected[r["question_id"]]]
             print(f"\n與預期答案一致：{len(agree)}/{len(compared)} = {len(agree) / len(compared):.4f}")
             for r in compared:
-                if r["label"] != expected[r["question_id"]]:
+                if final_label(r) != expected[r["question_id"]]:
                     group = "abstention" if r["is_abstention"] else r["question_type"]
                     print(f"    不一致：{r['question_id']}（{group}）預期 {expected[r['question_id']]}，"
-                          f"judge 給 {r['label']}，judge 原文：{r['judge_output']!r}")
+                          f"評分 {final_label(r)}（{r['status']}），judge 原文：{r.get('judge_output')!r}")
     print("=" * 64)
 
 
@@ -428,9 +483,11 @@ def main():
     # ---- 8-3 dry-run：只組 prompt 給你看 ----
     if args.dry_run:
         for a in answers:
-            if a["status"] not in E_STATUS_OK:
-                print(f"\n[跳過] {a['question_id']}：E 的 status={a['status']!r}，不會送去評分")
+            if a["status"] not in E_STATUS_SCORED:
+                print(f"\n[不送評] {a['question_id']}：E 的 status={a['status']!r}，正式執行時記為 no_answer、算錯")
                 continue
+            if a["status"] == "truncated":
+                print(f"\n[截斷] {a['question_id']}：照樣送評已產生的文字")
             ev, q = eval_data[a["question_id"]], questions[a["question_id"]]
             response, source, agrees = choose_response(a)
             prompt = build_judge_prompt(ev["question_type"], q["question"], ev["answer"],
@@ -470,16 +527,18 @@ def main():
                 "is_abstention": ev["is_abstention"],
                 "judge_model": args.model,
                 "prompt_source": PROMPT_SOURCE,
+                "scoring_config_version": SCORING_CONFIG_VERSION,
+                "e_status": a["status"],
                 "timestamp": datetime.now().isoformat(timespec="seconds"),
             })
 
-            # (2) E 線沒有正常產生回答 → 不評分，記為 no_answer
-            if a["status"] not in E_STATUS_OK:
-                record.update({"status": "no_answer", "label": None, "judge_output": None,
-                               "e_status": a["status"]})
+            # (2) E 線沒有可評的回答（空回答、技術失敗等）→ 不送評，記為 no_answer、算錯
+            #     截斷（truncated）不在此列，照樣送評（SCORING_CONFIG 第五節）
+            if a["status"] not in E_STATUS_SCORED:
+                record.update({"status": "no_answer", "label": 0, "judge_output": None})
                 out_f.write(json.dumps(record, ensure_ascii=False) + "\n")
                 out_f.flush()
-                print(f"  [{i}/{len(todo)}] {qid:22s} 不評分（E status={a['status']!r}）")
+                print(f"  [{i}/{len(todo)}] {qid:22s} 不送評、算錯（E status={a['status']!r}）")
                 continue
 
             # (3) 決定送給 judge 的回答，組 prompt（只含問題、參考答案、回答）

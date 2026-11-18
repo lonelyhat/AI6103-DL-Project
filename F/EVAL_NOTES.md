@@ -14,13 +14,22 @@
 |---|---|---|
 | 執行位置 | `DL Final Project/` | **先 `cd F`**，所有指令都在 `F/` 執行 |
 | 程式 | `src/evaluation/*.py` | `F/src/evaluation/*.py`（相同） |
-| 組內專案（A01、A02、E02…） | `AI6103-DL-Project-main_V2/...` | `../...`，例如 `../E/E02/inputs/...` |
+| 組內專案（A01、A02、E02…） | `AI6103-DL-Project/...` | `../...`，例如 `../E/E02/inputs/...` |
 | 評分與串聯結果 | `scores/`、`f02/` | `F/scores/`、`F/f02/`（自動建立） |
 | `data/`、`third_party/`、`results/` | 本機才有 | **不需要**，評分只用 A01 的評價檔與問題檔 |
 
 - A01、A02 的位置由 `src/evaluation/paths.py` 自動判斷，在 repo 中**不需要修改任何路徑**。執行 `python src/evaluation/paths.py` 可確認抓到的位置。
 - 第一次使用：在 `F/` 底下建立虛擬環境並安裝套件（`python3 -m venv .venv`、`.venv/bin/pip install -r requirements.txt`），再把 `.env.example` 複製成 `.env` 填入自己的 API key（見第二節）。`.env` 與 `.venv` 已被 repo 的 `.gitignore` 排除，**不會也不應上傳**。
-- 例：在 repo 中評分 E02 top-50 參照版（在 `F/` 執行）：
+- 例：在 repo 中評分 E02 預算版（F02 主結果，在 `F/` 執行）：
+
+```bash
+.venv/bin/python src/evaluation/judge.py --answers ../E/E02/results/job-55386/answers_for_f.jsonl --out scores/dev_K0_R_2048_e02.jsonl
+```
+```bash
+.venv/bin/python src/evaluation/join_f02.py --candidates ../E/E02/inputs/sources/b02_candidates.jsonl --selections ../E/E02/results/job-55386/selections.jsonl --scores scores/dev_K0_R_2048_e02.jsonl --out f02/dev_K0_R_2048_e02.jsonl
+```
+
+- 例：評分 E02 top-50 參照版：
 
 ```bash
 .venv/bin/python src/evaluation/judge.py --answers ../E/E02/results/job-55287/answers_for_f.jsonl --out scores/dev_K0_top50_e02.jsonl
@@ -38,6 +47,7 @@
 ```
 DL Final Project/
 ├── EVAL_NOTES.md                     ← 本檔：開發紀錄、使用方法、修改重點
+├── SCORING_CONFIG.md                 ← F03 固定評分設定（f03-v1 草案）
 ├── requirements.txt                  ← 需要安裝的 Python 套件
 ├── .env.example                      ← API key 設定範本（複製成 .env 後填入）
 ├── .env                              ← 你的 API key（自己建立，不上傳）
@@ -46,7 +56,9 @@ DL Final Project/
 │   ├── judge.py                      ← 評分主程式
 │   ├── prompts.py                    ← 評分 prompt（逐字複製自官方，勿改）
 │   ├── paths.py                      ← 路徑設定：組內專案、A01、A02 的位置（換版本只改這裡）
-│   └── join_f02.py                   ← F02 串聯：候選、選中材料、證據、評分
+│   ├── join_f02.py                   ← F02 串聯：候選、選中材料、證據、評分
+│   ├── make_f03_sheet.py             ← F03 盲判表產生器（去重、打亂、隱藏策略）
+│   └── compare_f03.py                ← F03 比對：人工判斷 vs judge
 ├── tests/
 │   ├── f02/                          ← F02 串聯程式的測試資料（見第七節）
 │   ├── answers/dev_K0_R_2048.jsonl   ← 22 筆測試回答（A01 的 E 回答格式）
@@ -57,6 +69,7 @@ DL Final Project/
 │   └── build_test_fixtures.py        ← 從官方資料產生上面兩個 fixtures 檔
 ├── scores/                           ← 評分檔（程式自動建立）
 ├── f02/                              ← F02 串聯結果（程式自動建立）
+├── f03/                              ← F03 盲判表、對照檔、判斷說明、比對結果（不上傳）
 ├── results/                          ← v0.1 的舊結果（僅保留紀錄）
 ├── data/                             ← 官方題目資料
 │   ├── longmemeval_oracle.json       （15 MB，只含證據 session）
@@ -334,7 +347,8 @@ judge 與預期的一致率可以當作「評分程式與規則是否正確」�
 |---|---|---|
 | E 回答檔 `status` 的正式取值 | E 線（E02） | **已確認**：E 的轉檔程式只把 `generated` 轉成 `ok`；`truncated`/`empty`/`technical_failure` 原樣保留，F 記為 `no_answer` |
 | `hypothesis` 的提取規則 | E 線（E02） | **已確認**：E02 v2 起由 E 負責，只認唯一的 `Final answer:`／`最终答案：` 標記，否則為空 |
-| reader 是否輸出 `Final answer:` | E 線（E02） | **否**：E02 用官方 CoN 原始 prompt，沒有要求標記，所以 hypothesis 全為空、整段送評（與官方評分程式相同）。`needs_review` 因此每筆都是 true，**需與 E 線約定這個標記的用途** |
+| reader 是否輸出 `Final answer:` | E 線（E02） | **否**：E02 用官方 CoN 原始 prompt，沒有要求標記，所以 hypothesis 全為空、整段送評（與官方評分程式相同）。`needs_review` 因此每筆都是 true；**已確認**（2026-11-18，5A）維持現狀，F 只抄進評分檔 |
+| 截斷、空回答、技術失敗如何計分 | E 線 | **已確認**（2026-11-18，1A 2A 3A 4A）：截斷照評；空回答、技術失敗算錯並計入分母；E 補跑後重新匯出，F 只評最終版本。見 `SCORING_CONFIG.md` 第五節 |
 | F 評分檔的 `status` 取值（`ok` / `api_error` / `no_answer`）與新增的追蹤欄位，是否寫入 A01 | Nathan（A01） | 待確認 |
 | `judge_output` 是否就是 judge 的原始回覆 | Nathan（A01） | 待確認；目前依此實作 |
 | 用真實開發回答（E01 的 `1cea1afa`、baseline_v1 存檔）核對規則 | E 線 | 待取得 |
@@ -404,8 +418,9 @@ judge 與預期的一致率可以當作「評分程式與規則是否正確」�
 | 用途 | 預算版（K0/R/2048） | top-50 參照版 |
 |---|---|---|
 | 候選 | `inputs/sources/b02_candidates.jsonl` | 同左 |
-| 選中 | `inputs/sources/d02_selections.jsonl` | `inputs/topk_selections.jsonl` |
-| 回答 | 尚未生成 | `results/job-55287/answers_for_f.jsonl` |
+| 選中 | `results/job-55386/selections.jsonl`（E 用固定分詞器重建，選中輪次與 `inputs/sources/d02_selections.jsonl` 相同） | `inputs/topk_selections.jsonl` |
+| 回答 | `results/job-55386/answers_for_f.jsonl` | `results/job-55287/answers_for_f.jsonl` |
+| 結果 | `scores/`、`f02/dev_K0_R_2048_e02.*` | `scores/`、`f02/dev_K0_top50_e02.*` |
 
 會產生三個檔案：
 
@@ -571,11 +586,11 @@ judge 與預期的一致率可以當作「評分程式與規則是否正確」�
 - 模型寫明 "the exact dates are not provided … I will assume …"，沒有從對話找到日期，卻碰巧答對。
 - 論文評分 prompt（p.20 Figure 10）只看「回答是否包含正確答案」，所以 judge 判 Yes 符合規則。
 - 需要在 F03 人工判斷準則中規定這類情況怎麼判。暫定：依論文規則算對（與 judge 一致），另外標記並在報告中討論。
-- 這題在預算版中證據沒有選齊；若預算版也答對，會歸為「答對但證據不齊」。
+- 這題在預算版中證據沒有選齊；預算版結果為答錯（沒選到），見下方「F02 預算版」紀錄。
 
 **用途**：本次是流程驗證，也是之後預算版（K0/R/2048）的參照組。同一題若預算版錯、參照版對，問題多半在預算或選擇方法；兩版都錯則可能在閱讀模型。
 
-### 待辦：同步 F_Evaluation 分支（2026-11-17 整理）
+### 同步 F_Evaluation 分支（2026-11-17 整理；已完成，見下一節）
 
 **分支上目前的版本無法在 repo 裡執行**：舊程式用 `parents[2]` 加上 `AI6103-DL-Project-main_V1` 找 A01、A02，在 repo 中會變成 `F/AI6103-DL-Project-main_V1/...`，這個路徑不存在。
 - `join_f02.py`：import A02 時直接出錯（`ModuleNotFoundError: evidence_metrics`）。
@@ -607,3 +622,165 @@ judge 與預期的一致率可以當作「評分程式與規則是否正確」�
 
 **注意**：本機程式讀的是 `AI6103-DL-Project/` **目前切換到的分支**。切到其他分支時，A01、E02 的內容可能不同。
 
+### 2026-11-17　E02 預算版真實評分，完成 F02 前 5 題（程式未修改）
+
+在 `AI6103-DL-Project/` 合併 main 後取得 E02 預算版（job 55386，K0/R/2048，`d02-v1`，`e02-v2`）。執行前檢查：作業 `COMPLETED 0:0`；5 筆皆 `generated`，無截斷或空輸出；輸入 2003–2037 tokens；E 重建的 D02 選中輪次與舊版完全相同；`needs_review` 皆為 true（無 `Final answer:` 標記），judge 改用 `raw_output`。
+
+```bash
+.venv/bin/python src/evaluation/judge.py --answers AI6103-DL-Project/E/E02/results/job-55386/answers_for_f.jsonl --out scores/dev_K0_R_2048_e02.jsonl
+```
+```bash
+.venv/bin/python src/evaluation/join_f02.py --candidates AI6103-DL-Project/E/E02/inputs/sources/b02_candidates.jsonl --selections AI6103-DL-Project/E/E02/results/job-55386/selections.jsonl --scores scores/dev_K0_R_2048_e02.jsonl --out f02/dev_K0_R_2048_e02.jsonl
+```
+
+**整體結果**
+- 評分：5 筆皆 `ok`，judge 回覆皆清楚；E/F 提取不一致 0 筆。
+- 準確率 0.600（3/5）。候選保留率 1.000、齊全率 1.000；選中保留率 0.800、齊全率 0.600。
+- 結果分類：答對 3、沒選到 2。串聯問題 0 項。
+
+**逐題結果與兩版比較**
+
+| 題目 | 題型 | 參考答案 | 預算版回答（摘要） | 預算版 | 缺少的證據 | top-50 參照版 |
+|---|---|---|---|---|---|---|
+| 2318644b | multi-session | $270 | 找不到夏威夷住宿費，無法計算 | 0，沒選到 | `s016-m000` | 0，選到仍答錯 |
+| 1cea1afa | knowledge-update | 600 | 600 | 1，答對 | — | 1，答對 |
+| gpt4_7a0daae1 | temporal-reasoning | 1 week | 稱缺日期，算出約 4 週 5 天 | 0，沒選到 | `s009-m006` | 1，答對（猜對） |
+| 4c36ccef | single-session-assistant | Roscioli | Roscioli | 1，答對 | — | 1，答對 |
+| c960da58 | single-session-user | 20 | 20 | 1，答對 | — | 1，答對 |
+
+**對照論文 Figure 14（p.28）的分類**：預算版 CR-CG 3、WR-WG 2；top-50 版 CR-CG 4、CR-WG 1。
+
+**初步觀察（只有 5 題，不做統計結論）**
+- B02 候選階段 5 題證據全部保留，**損失都發生在 D02 選擇**：兩題各缺一則證據訊息，兩題都答錯。
+- 兩題缺的證據最小覆蓋都在 2048 以內（例如 2318644b 為 1397 tokens），所以是「沒選到」而不是「放不下」，問題在選擇順序或方法，不在預算大小。
+- `2318644b` 兩版都錯：即使證據齊全（top-50），模型也沒讀出夏威夷的費用。這題同時有選擇和閱讀兩個問題。
+- `gpt4_7a0daae1` 只有 top-50 版答對，而那次是自行假設日期猜對的。所以兩版 0.6 與 0.8 的差距中，這一題不能算作證據帶來的提升，F03 需要一併標記。
+
+**F02 前 5 題已完成。** 後續：
+- F03：把 `gpt4_7a0daae1`（top-50 版猜對）列為第一個校準案例。
+- 與 E 線約定 `needs_review` 的用途（目前每筆都是 true）。
+- 結果檔 `scores/`、`f02/` 是否放進 repo，待全組決定。
+
+
+### 2026-11-17　F03 準備：judge 識別鍵加入 E03 的設定雜湊
+
+依 `E/E03/README.md`「产物与F交接」第 1–2 點：同一方法不同參數（例如權重）的回答，題號、策略、`config_version` 可能都相同，必須用 `record_id`、`reader_config_id` 區分，並保留 `selection_config_id`。
+
+- `judge.py`：`EXTRA_KEY_FIELDS` 加入 `record_id`、`reader_config_id`、`selection_config_id`（識別鍵，也會抄進評分檔）；`EXTRA_COPY_FIELDS` 加入 `input_config_version`（串聯證據時核對用）。
+- 舊資料沒有這些欄位時記為 None，舊評分檔續跑不受影響。
+
+**已驗證**
+- E03 的 25 筆（`results/dev5-k0-v1/`，5 題 × R/MMR/C/Q/FL）dry-run：讀到 25 筆，答案來源都是 `raw_output`，識別鍵 25 個都不同。
+- 把其中一筆的 `selection_config_id` 改掉後，識別鍵不同（同方法不同權重可以區分）。
+- `scores/dev_K0_R_2048_e02.jsonl`、`scores/dev_K0_top50_e02.jsonl` 的識別鍵與對應回答檔一致，續跑不會重評。
+- 22 筆測試案例 dry-run：21 筆送評、1 筆（`status=error`）依規則跳過，與先前相同；F02 測試資料串聯結果不變（Q 1/1、R 1/3、問題 3+1 項）。
+
+**發現**：E03 的 R 策略 5 筆，與 E02 預算版（job 55386）的歷史文字（`history_sha256`）和回答全文**完全相同**。F03 校準樣本中這 5 筆只算一次。
+
+### 2026-11-17　F03 盲判表
+
+新增 `src/evaluation/make_f03_sheet.py`：讀入多個回答檔，依 `history_sha256` 與回答全文去重，依題分組後打亂順序並改用編號，輸出盲判表（無 judge 結果、無策略名稱）與對照檔。
+
+```bash
+.venv/bin/python src/evaluation/make_f03_sheet.py --answers AI6103-DL-Project/E/E03/results/dev5-k0-v1/answers_for_f.jsonl AI6103-DL-Project/E/E02/results/job-55287/answers_for_f.jsonl AI6103-DL-Project/E/E02/results/job-55386/answers_for_f.jsonl --out-dir f03
+```
+
+- 輸出：`f03/dev5_blind_sheet.csv`（給判斷者）、`f03/dev5_key_DO_NOT_OPEN.csv`（判完才打開）、`f03/判斷說明.md`（判斷規則，初版 v0.1，判完後修訂為 v0.2）。
+- 讀入 35 筆，去重後 **26 筆**（5 題）。除了 E03 R＝E02 預算版（5 筆），另外發現：`4c36ccef`、`1cea1afa` 的 MMR 與 R 相同、Q 與 C 相同（選出的材料一樣，回答也一樣）。
+- 題型分布：temporal-reasoning 6、single-session-user 6、multi-session 6、single-session-assistant 4、knowledge-update 4。
+
+### 2026-11-17　F03 首批校準：人工判斷與 judge 比對
+
+**判斷**：使用者依 `f03/判斷說明.md` 判完 26 筆（判 1：11 筆；判 0：15 筆）。核對時發現 S06 的「猜測」誤勾（回答沒有給出答案），已由使用者修正。
+
+**judge**：對 E03 的 25 筆執行真實評分（25 筆皆 `ok`、回覆皆清楚）。
+
+```bash
+.venv/bin/python src/evaluation/judge.py --answers AI6103-DL-Project/E/E03/results/dev5-k0-v1/answers_for_f.jsonl --out scores/dev_K0_e03_5methods.jsonl
+```
+
+| 策略 | R | MMR | C | Q | FL |
+|---|---|---|---|---|---|
+| 準確率（5 題） | 0.6 | 0.6 | 0.4 | 0.4 | 0.2 |
+
+- E03 的 R 與 E02 預算版回答相同，兩次 judge 結果也相同（0、1、0、1、1）：**同樣的輸入，judge 結果可重現**。
+- 權重為暫定開發值（MMR、C：λ=0.5；Q：λ=0.5、γ=0.5；FL：λ=γ=0），尚未經 D06 調參；只有 5 題，不作方法比較的結論。
+
+**比對**：新增 `src/evaluation/compare_f03.py`。依對照檔把每個編號連回所有重複回答的評分，重複回答的 judge 結果必須相同，否則列為問題。
+
+```bash
+.venv/bin/python src/evaluation/compare_f03.py --sheet f03/dev5_blind_sheet.csv --key f03/dev5_key_DO_NOT_OPEN.csv --scores scores/dev_K0_e03_5methods.jsonl scores/dev_K0_top50_e02.jsonl scores/dev_K0_R_2048_e02.jsonl --out f03/dev5_compare.csv
+```
+
+| 項目 | 結果 |
+|---|---|
+| 不重複回答 | 26 筆（展開為 30 種設定），**一致 26 筆，一致率 1.000** |
+| 人工 1／judge 1 | 11 |
+| 人工 0／judge 0 | 15 |
+| 分歧 | 0；各題型皆 100% |
+| 勾猜測 | S02、S03、S05；其中 S02 判 1（猜對），judge 也判 1 |
+| 勾不確定 | 無 |
+| 比對問題 | 無 |
+
+**解讀**
+- 與論文 p.21 Table 6 一致（GPT-4o 在這些題型與人工一致率 97–98%）。
+- 26/26 的 95% 信賴區間下限約 0.87（Clopper-Pearson）：只能說明「沒有發現問題」，不能證明一致率為 100%。
+- 猜對的情況 judge 依論文規則判對，無法由 judge 找出，需靠人工的「猜測」標記另外報告。
+
+**本批校準未涵蓋（報告須註明）**
+1. 偏好題、拒答題沒有樣本，而這兩類是 Table 6 中 judge 最容易判錯的（約 90%）。
+2. 只有 5 題，同一題的回答相似，樣本獨立性有限。
+3. 只有一位判斷者；`gpt4_7a0daae1` 與 E02 的部分回答判斷者事先看過結果。
+4. 沒有出現 R7 的模糊情況（"at least 20" 這類）。
+
+**判斷說明 v0.2**：收窄「猜測」定義（必須給出具體答案；原說明把常識推論也列為猜測，造成 S22 等標準不一致）、新增 R7（帶保留語的數字答案）、R4 補上「範圍」、說明勾選欄填法並附本批實例。
+
+**待決定**
+- 是否請一位組員獨立判同一份盲判表（可計算人工之間的一致率）。
+- 偏好題、拒答題樣本：請 A 線或 E 線補，或在報告中列為限制。
+- 起草 F03 的固定評分設定（judge 模型版本、參數、prompt 來源、判分與分歧處理規則）。
+
+### 2026-11-17　F03 固定評分設定草案（`SCORING_CONFIG.md`）
+
+新增 `SCORING_CONFIG.md`，版本 `f03-v1`（草案）。內容：judge 模型與參數、prompt 來源、送評內容、判分規則、技術失敗與缺漏回答的處理、人工判斷與分歧處理流程、重新校準條件、首批校準結果與保存位置、待確認事項。
+
+**起草時發現：準確率的分母與 E03 交接要求不一致（須改程式，待確認）**
+- 目前 `judge.py` 把 E 的 `status` 不是 `ok` 的回答記為 `no_answer`、不送評，摘要的準確率**只用 `ok` 的筆數當分母**；截斷的回答也被當成沒有回答。
+- E03 README 要求技術失敗、截斷、空回答「不能删掉后计算分母」。
+- 建議：截斷照樣送評；空回答與補跑後仍失敗的技術失敗算 0；摘要分母改為全部筆數；有 `api_error` 時警告結果未完成。
+- 目前所有開發回答都是 `ok`，已記錄的準確率不受影響。等全組確認第五節後再修改程式。
+
+### 2026-11-18　依 E 線確認修改缺漏回答的計分（`scoring_config_version = f03-v1`）
+
+E 線回覆 SCORING_CONFIG 第五節的選項：**1A 2A 3A 4A 5A**。
+
+**`judge.py`**
+- 送評條件：`ok` → `ok` 加上 `truncated`（截斷照樣評已產生的文字）。
+- `empty`、`technical_failure` 與不在約定內的狀態：記為 `status=no_answer`、**`label=0`**（原本是 null）。
+- 摘要：準確率分母改為 `ok` + `no_answer`（全部筆數）；每個設定加印一行組成（送評、截斷、各類未送評）；有 `api_error` 時警告結果未完成；有技術失敗時提醒確認 E 已補跑；有不在約定內的狀態時警告。
+- 每筆評分新增 `scoring_config_version`、`e_status`。
+- 舊評分檔的 `no_answer`（`label` 為 null）讀取時一律視為 0。
+- dry-run 會標示「不送評」與「截斷」的回答。
+
+**`join_f02.py`**
+- `no_answer` 的列：`label` 補為 0，結果分類為新的「**生成失敗**」，不依證據歸因。
+- 截斷的列：照一般方式分類，問題欄註記「回答截斷」。
+- 有列沒有分數（缺評分或 `api_error`）時警告結果未完成。
+- CSV 新增 `e_status` 欄。
+
+**已驗證**（judge 以假函式替代，未呼叫 API、未讀取 `.env`）
+- 假資料 5 筆（ok、truncated、empty、technical_failure、error 各一）：只有 ok 與 truncated 送評（假 judge 被呼叫 2 次）；準確率 0.400（2/5），分母為 5；摘要組成與兩個警告正確；續跑時 5 筆都跳過。
+- 串聯同一批假分數：生成失敗 3、答對 2，截斷註記正確。
+- 舊格式（`no_answer` 的 label 為 null）加上一筆 `api_error`：分母 4、api_error 警告正確；串聯顯示「未評分」並警告。
+- **舊結果完全不變**：E02 預算版 0.600、top-50 版 0.800、E03 五種方法（0.4／0.2／0.6／0.4／0.6）；兩個串聯結果與分類不變；F03 比對 26/26。
+- 22 筆測試案例 dry-run：21 筆送評，1 筆（`1e043500`，`status=error`）標示為不送評、算錯。**這是預期中的變化**：原本這筆被排除在分母外，現在算 0。預期分數檔沒有這一題，所以預期比對不受影響。
+- F02 測試資料：Q 1/1、R 1/3、問題 3+1 項，不變。
+
+`SCORING_CONFIG.md`：第五節改為已定並寫入實作細節與補跑流程；第三節 `needs_review` 定為維持現狀；第八節移除已確認項目。其餘項目尚待全組確認，整份仍為草案。
+
+
+### 2026-11-18　評分標準整理成可分享給組員的版本
+
+- `判斷說明.md` 升為 v0.3 並放進 repo（`F/判斷說明.md`）：例子改為只描述情況、**不列盲判表編號**（原 v0.2 的例子寫了編號與判法，會讓之後的第二位判斷者事先知道答案）；判斷依據加入偏好題的論文規則（與 `prompts.py` 的官方模板一致）；註明拒答題由 H06 負責。規則內容未改變。
+- `SCORING_CONFIG.md`：開頭加入相關文件表與快速查閱指引；適用範圍註明只含可回答題、拒答題由 H06 負責；判斷說明改指 repo 中的檔案；本機檔案（盲判表、對照檔、比對表、評分檔）註明未上傳；偏好題的待確認事項改為向 D、E 線索取 6 題回答。
+- 盲判表與對照檔仍只放本機，不分享。

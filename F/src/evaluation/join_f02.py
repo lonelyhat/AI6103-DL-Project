@@ -227,11 +227,19 @@ def build_row(selection, candidate, score, evidence, turn_tokens):
     else:
         issues += check_config_match(selection, score, "scores")
         row["score_status"] = score.get("status")
+        row["e_status"] = score.get("e_status")
         row["label"] = score.get("label")
         row["response_sent"] = score.get("response_sent")
         row["judge_output"] = score.get("judge_output")
-        if score.get("status") != "ok":
-            issues.append(f"評分狀態不是 ok：{score.get('status')}")
+        if score.get("status") == "no_answer":
+            # E 沒有可評的回答（空回答、技術失敗）：依 SCORING_CONFIG 第五節算錯
+            #   舊評分檔的 label 為 null，這裡一律補為 0
+            row["label"] = 0
+            issues.append(f"沒有可評的回答（E status={score.get('e_status')}），算錯")
+        elif score.get("status") != "ok":
+            issues.append(f"評分狀態不是 ok：{score.get('status')}（結果未完成，請重跑 judge.py）")
+        if score.get("e_status") == "truncated":
+            issues.append("回答截斷（已照樣送評）")
         if score.get("extract_agrees") is False:
             issues.append("E 的 hypothesis 與 F 的提取不一致")
         if score.get("parse_status") == "unclear":
@@ -240,7 +248,9 @@ def build_row(selection, candidate, score, evidence, turn_tokens):
     # ---- (5) 結果分類 ----
     #   答對：correct；若證據不齊卻答對，另外標記（可能是猜對、或證據標註不完整，值得看一下）
     #   答錯：依歸因對應到 A05 的四類
-    if row["label"] == 1:
+    if row.get("score_status") == "no_answer":
+        row["outcome"] = "生成失敗"          # 沒有回答，不歸因到證據
+    elif row["label"] == 1:
         row["outcome"] = "答對"
         if row.get("sel_all_retained") is False:
             row["outcome"] = "答對但證據不齊"
@@ -269,10 +279,14 @@ def summarize(rows, global_issues):
     print("\n" + "=" * 64)
     for (stage, index, strategy, budget), g in sorted(groups.items(), key=str):
         print(f"[{stage} / {index} / {strategy} / {budget}]  共 {len(g)} 題")
+        # 分母：有分數的列（含「生成失敗」算 0）；缺評分或 api_error 的列不計入並警告
         scored = [r for r in g if r["label"] is not None]
         if scored:
             print(f"    準確率：{sum(r['label'] for r in scored) / len(scored):.3f}"
                   f"（{sum(r['label'] for r in scored)}/{len(scored)}）")
+        if len(scored) < len(g):
+            print(f"    [警告] {len(g) - len(scored)} 題沒有分數（缺評分或 api_error），"
+                  f"未計入準確率，結果未完成")
         # A02 規則：拒答題不參與證據平均
         ev_rows = [r for r in g if not r["is_abstention"]]
         print(f"    候選：平均保留率 {mean(r.get('cand_msg_retention') for r in ev_rows)}，"
@@ -298,7 +312,7 @@ CSV_COLUMNS = [
     "question_id", "question_type", "is_abstention", "index", "strategy", "budget_tokens", "variant",
     "cand_n_turns_given", "cand_msg_retention", "cand_all_retained",
     "sel_n_turns_given", "sel_msg_retention", "sel_all_retained", "context_tokens",
-    "diagnosis", "label", "outcome", "sel_missing_message_ids", "issues",
+    "diagnosis", "e_status", "label", "outcome", "sel_missing_message_ids", "issues",
 ]
 
 
