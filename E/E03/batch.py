@@ -72,7 +72,10 @@ def normalize(source):
 
 
 def load_inputs(path):
-    rows = [normalize(json.loads(line)) for line in path.read_text(encoding='utf-8-sig').splitlines() if line.strip()]
+    # Do not use str.splitlines(): it also splits legal Unicode characters
+    # inside JSON strings, including U+0085/U+2028/U+2029.
+    with path.open(encoding='utf-8-sig') as handle:
+        rows = [normalize(json.loads(line)) for line in handle if line.strip()]
     if not rows or len({r['record_id'] for r in rows}) != len(rows):
         raise ValueError('Empty batch or duplicate question/index/strategy/config input')
     return rows

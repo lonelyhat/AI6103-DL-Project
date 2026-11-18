@@ -16,3 +16,16 @@ D线研究检索之后的材料选择：在统一Token预算内，以完整原�
 - [D03 MMR](D03/README.md)
 - [D04 C/Q](D04/README.md)
 - [D05 FL](D05/README.md)
+
+## D06 开发参数扫描
+
+- [本机运行、耗时估计与 E 交接要求](D06/README.md)
+- [真实数据测时与验证记录](D06/VALIDATION.md)
+
+D06已完成34题、1156份材料/回答/评分的开发比较与选参。最终参数：MMR lambda=0.5；C lambda=1；Q lambda=0.5、gamma=1。
+
+- [结果报告](D06/output/dev34-parameter-selection-v1/REPORT.md)
+- [选定参数](D06/output/dev34-parameter-selection-v1/selected_parameters.json)
+- [提交产物与复核方法](D06/delivery/README.md)
+
+上述为开发集结果；后续执行D07，再经G02固定正式配置后开展D08。

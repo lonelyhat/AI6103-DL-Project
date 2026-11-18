@@ -40,12 +40,20 @@ class BatchTests(unittest.TestCase):
         manifest = json.loads((HERE/'inputs/preparation.json').read_text(encoding='utf-8'))
         from batch import sha
         for path, expected in manifest['source_sha256'].items():
-            self.assertEqual(sha(Path(path).read_bytes()), expected)
+            self.assertEqual(sha(Path(path.replace('\\', '/')).read_bytes()), expected)
         report = build([Path('E/E02/inputs/sources/d02_selections.jsonl')] +
             sorted(Path('E/E03/inputs/sources').glob('*_selections.jsonl')),
             Path('E/E02/inputs/sources/turns'), self.root/'rebuilt.jsonl')
         self.assertEqual(report['records'], 25)
-        self.assertEqual((self.root/'rebuilt.jsonl').read_bytes(), (HERE/'inputs/dev5_k0_all_methods.jsonl').read_bytes())
+        # Windows fixtures contain backslash source paths; compare complete
+        # normalized records with portable paths (including recomputed hashes).
+        def portable(row):
+            row = copy.deepcopy(row)
+            for key in ('selection_file', 'turn_file'):
+                row['source'][key] = row['source'][key].replace('\\', '/')
+            return normalize(row)
+        self.assertEqual([portable(r) for r in load_inputs(self.root/'rebuilt.jsonl')],
+                         [portable(r) for r in rows])
 
     def test_resume_skips_completed_and_no_model_on_finished_batch(self):
         report = self.run_batch(stop_after=1)

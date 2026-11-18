@@ -10,3 +10,10 @@
 /E/E03/inputs/** -text whitespace=cr-at-eol
 /E/E03/*.py text eol=lf
 /E/E03/*.sh text eol=lf
+# D06 runtime scripts are portable; audited evidence stays byte-exact.
+/D/D06/*.py text eol=lf
+/D/D06/server/*.py text eol=lf
+/D/D06/server/*.sh text eol=lf
+/D/D06/delivery/** -text
+/D/D06/output/dev34-parameter-selection-v1/** -text whitespace=cr-at-eol
+/F/scores/d06_dev34_grid_v1.jsonl -text

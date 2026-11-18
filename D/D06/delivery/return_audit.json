@@ -1,0 +1,95 @@
+{
+  "status": "reader_complete_waiting_for_scores",
+  "expected": 1156,
+  "recorded": 1156,
+  "statuses": {
+    "generated": 1149,
+    "truncated": 7,
+    "empty": 0,
+    "technical_failure": 0
+  },
+  "missing_record_ids": [],
+  "reader_configs": [
+    {
+      "path": "D/D06/returned/dev34-grid-v1/runs/dev34-grid-v1",
+      "reader_config_id": "44df584adbd74bd5e5ea780a526138cf9b87685430af6153348e3ff0f9ab0d0f"
+    }
+  ],
+  "needs_review": 1156,
+  "truncated_retained_for_scoring": 7,
+  "parameters_selected": false,
+  "archive_sha256": "1b34ddea7bfcba8f4348028c70e8b23bb91b11b51964aac77efdf1e46ab3b284",
+  "archive_files_verified": 39,
+  "archive_and_upload_checksums": "passed",
+  "original_handoff_match": true,
+  "upload_manifest_documents_omitted_from_return": [
+    "SERVER_RUN.md"
+  ],
+  "final_results_match_attempts": true,
+  "f_export_verified_records": 1156,
+  "index_strategy_counts": {
+    "K0/C": 102,
+    "K0/FL": 34,
+    "K0/MMR": 102,
+    "K0/Q": 306,
+    "K0/R": 34,
+    "K1/C": 102,
+    "K1/FL": 34,
+    "K1/MMR": 102,
+    "K1/Q": 306,
+    "K1/R": 34
+  },
+  "truncated_records": [
+    {
+      "question_id": "gpt4_7a0daae1",
+      "index": "K0",
+      "strategy": "Q",
+      "record_id": "2b0636ca3c1d3bc251fdee13269495b90fe7f81d4b6d03b8cd3522229d7e44fd",
+      "selection_config_id": "d36be0b7a2a016478e786b7e54d2b086f9072d7ea4b5e56d58f5eb2d07e8f99b"
+    },
+    {
+      "question_id": "a3332713",
+      "index": "K0",
+      "strategy": "MMR",
+      "record_id": "419da73d5a5b81406812e3e154f419f0ab62e4f84d42644ad246adf4ca9da3ca",
+      "selection_config_id": "0c75cd7b400b20014186239a86cd02db9c136a682fbfafd62a8ae8c93a22be27"
+    },
+    {
+      "question_id": "54026fce",
+      "index": "K0",
+      "strategy": "C",
+      "record_id": "a3d09d9ddf9fdca7b69e41d6874965d79184f8045e486e602fe9c38256853484",
+      "selection_config_id": "da1fa90825807c51bd2c2676976d23d987adc5ff03ade6f04fa8d71161f7b1f8"
+    },
+    {
+      "question_id": "54026fce",
+      "index": "K0",
+      "strategy": "Q",
+      "record_id": "d80560a490f467df38b69d814903a5dd76abca0db0c7bb77834e6c4daac6baa7",
+      "selection_config_id": "86a6d596a22f87ffe46dd16cfe75c8751cf74bc3b082daea7a1efa2db31a5cc4"
+    },
+    {
+      "question_id": "54026fce",
+      "index": "K0",
+      "strategy": "Q",
+      "record_id": "dc5985e4622c5cac31788ddf63ce1a7de0d6b09c4adbcb0a0b8161e6ab11e8bd",
+      "selection_config_id": "a1302dfb73efc359b79477e3c4be9d5cc20250ebba9351e6441fbc53ffc76255"
+    },
+    {
+      "question_id": "54026fce",
+      "index": "K0",
+      "strategy": "Q",
+      "record_id": "5fd48209a8f995316634da6109ebf5c9b139f3e6a18d4876caa6ecf6629f0183",
+      "selection_config_id": "135e392c1fa21eb1245735e572499ac1292815006e19f295db2602b66270a0c7"
+    },
+    {
+      "question_id": "9a707b82",
+      "index": "K1",
+      "strategy": "Q",
+      "record_id": "cc62e34b94b2c1a1343377e6b9454b70f99518eaaf4c57a946ff2b98c8cb7242",
+      "selection_config_id": "aa1e4372b3d6864c2f25c3800320127f072b295410baca96ba484018c8b8262d"
+    }
+  ],
+  "scoring_performed": false,
+  "parameter_selection_performed": false
+}

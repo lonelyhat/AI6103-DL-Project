@@ -1,0 +1,185 @@
+{
+  "version": "d06-v1",
+  "question_ids": [
+    "1cea1afa",
+    "2318644b",
+    "4c36ccef",
+    "38146c39",
+    "dccbc061",
+    "gpt4_7a0daae1",
+    "6a1eabeb",
+    "8e91e7d9",
+    "71a3fd6b",
+    "afdc33df",
+    "c960da58",
+    "b46e15ee",
+    "b6019101",
+    "60036106",
+    "c4f10528",
+    "07b6f563",
+    "af8d2e46",
+    "01493427",
+    "a3332713",
+    "c7cf7dfd",
+    "d24813b1",
+    "4fd1909e",
+    "9a707b82",
+    "6071bd76",
+    "7024f17c",
+    "4388e9dd",
+    "505af2f5",
+    "gpt4_e072b769",
+    "4b24c848",
+    "4adc0475",
+    "fea54f57",
+    "54026fce",
+    "faba32e5",
+    "gpt4_4cd9eba1"
+  ],
+  "indices": [
+    "K0",
+    "K1"
+  ],
+  "budget_tokens": 2048,
+  "configs": [
+    {
+      "strategy": "R",
+      "redundancy_weight": 0.0,
+      "coverage_weight": 0.0
+    },
+    {
+      "strategy": "MMR",
+      "redundancy_weight": 0.0,
+      "coverage_weight": 0.0
+    },
+    {
+      "strategy": "MMR",
+      "redundancy_weight": 0.5,
+      "coverage_weight": 0.0
+    },
+    {
+      "strategy": "MMR",
+      "redundancy_weight": 1.0,
+      "coverage_weight": 0.0
+    },
+    {
+      "strategy": "C",
+      "redundancy_weight": 0.0,
+      "coverage_weight": 0.0
+    },
+    {
+      "strategy": "C",
+      "redundancy_weight": 0.5,
+      "coverage_weight": 0.0
+    },
+    {
+      "strategy": "C",
+      "redundancy_weight": 1.0,
+      "coverage_weight": 0.0
+    },
+    {
+      "strategy": "Q",
+      "redundancy_weight": 0.0,
+      "coverage_weight": 0.0
+    },
+    {
+      "strategy": "Q",
+      "redundancy_weight": 0.0,
+      "coverage_weight": 0.5
+    },
+    {
+      "strategy": "Q",
+      "redundancy_weight": 0.0,
+      "coverage_weight": 1.0
+    },
+    {
+      "strategy": "Q",
+      "redundancy_weight": 0.5,
+      "coverage_weight": 0.0
+    },
+    {
+      "strategy": "Q",
+      "redundancy_weight": 0.5,
+      "coverage_weight": 0.5
+    },
+    {
+      "strategy": "Q",
+      "redundancy_weight": 0.5,
+      "coverage_weight": 1.0
+    },
+    {
+      "strategy": "Q",
+      "redundancy_weight": 1.0,
+      "coverage_weight": 0.0
+    },
+    {
+      "strategy": "Q",
+      "redundancy_weight": 1.0,
+      "coverage_weight": 0.5
+    },
+    {
+      "strategy": "Q",
+      "redundancy_weight": 1.0,
+      "coverage_weight": 1.0
+    },
+    {
+      "strategy": "FL",
+      "redundancy_weight": 0.0,
+      "coverage_weight": 0.0
+    }
+  ],
+  "tokenizer": "meta-llama/Llama-3.1-8B-Instruct",
+  "tokenizer_fingerprint": "b47fcb7017102fb3594326d69acc6b74872032ed15def90890d49d61ea94d220",
+  "files_sha256": {
+    "B-检索线/B03/candidates/dev_K0.jsonl": "016129fa1143e7f5c40ccf2269a7331d1d7803f22f243ce384f1f85e76be0345",
+    "B-检索线/B05/candidates/dev_K1.jsonl": "d83d0f96ddae6c718273d7411f5d224747d63b44967175a3cd59b5a157f49dda",
+    "A-数据线/A01/output/public/dev_questions.jsonl": "70c2b33432d7453d8ff48bb2fc64e36a5657f0af9c4acb12b749765fb07f4157",
+    "A-数据线/A01/output/public/turns/1cea1afa.jsonl": "45a00497da40b8ac9431fdbde02fa532b6406eadc847c55eeedf8f07c55477fc",
+    "A-数据线/A01/output/public/turns/2318644b.jsonl": "600c9b785b7c9a375673fbe188133e170e1ec13f2ba82ba1afeea260d1664015",
+    "A-数据线/A01/output/public/turns/4c36ccef.jsonl": "938294e7a9a3d7e094010d6fffbb9c3a3bfd2b1c3aa1c111a4c6922e7b1c03e1",
+    "A-数据线/A01/output/public/turns/38146c39.jsonl": "19c241f458c1c3ce9d3aaf347a615cbef10dc565b33c56ff9c51265a167a53cf",
+    "A-数据线/A01/output/public/turns/dccbc061.jsonl": "da0471efa0f2240b3e7782ac82fb0bc20fca5bf64ef096bab5a8524e0467d6f3",
+    "A-数据线/A01/output/public/turns/gpt4_7a0daae1.jsonl": "231e6eb9c9734f21c16736d981e1aa2a9aabd555938a9a1e266e8f5f56b3bbc2",
+    "A-数据线/A01/output/public/turns/6a1eabeb.jsonl": "aff931107cf4da751142fad92da96bb00260cb35d8cabf94a705b348e2736711",
+    "A-数据线/A01/output/public/turns/8e91e7d9.jsonl": "db4c7495ee384a883fe091df84ac7da79fcf8bc73283a59bc1c42044f6393ab5",
+    "A-数据线/A01/output/public/turns/71a3fd6b.jsonl": "7acd348dce9420f7c3c1a4f809db53a63cfe8558043a293efae3e77b7aa9914e",
+    "A-数据线/A01/output/public/turns/afdc33df.jsonl": "08be72245151a6b70e28d05c88bdbb839e39657ebba7bb360e65fb6f14f1c338",
+    "A-数据线/A01/output/public/turns/c960da58.jsonl": "61e1583b47fac5cf0b5121ccbfcad3eaf6fcaf65efa560f2368d5b6bb08afbf2",
+    "A-数据线/A01/output/public/turns/b46e15ee.jsonl": "6856a466be5ed51d261751be3aa3b2ecd27c2000ad4921dd2b664355257fde8c",
+    "A-数据线/A01/output/public/turns/b6019101.jsonl": "f9145af793421683e44813309f3a8870b0152380410a8816e4fb2448bafaba80",
+    "A-数据线/A01/output/public/turns/60036106.jsonl": "f32bab8553d8395946e726b6c82ec57726d76bf29b111c25e76888a09aa1b01d",
+    "A-数据线/A01/output/public/turns/c4f10528.jsonl": "f5789088512ef037838eec670da2e68b394bdf3b166d9f8c9bdb9374b276a10d",
+    "A-数据线/A01/output/public/turns/07b6f563.jsonl": "eb1874895b0fb3a1c375bc42b39981160a69238d72bc7e558929cc3c1d4cc448",
+    "A-数据线/A01/output/public/turns/af8d2e46.jsonl": "0ff3edaa3ba36916e206de4e9faab679efa78342e4807ad2ad556d5cdbc715b5",
+    "A-数据线/A01/output/public/turns/01493427.jsonl": "01ee350e1ae7dfae6259120e94416b675caea8aac40c707a78c8af80a0f9ac1a",
+    "A-数据线/A01/output/public/turns/a3332713.jsonl": "1df6b640c25208baed45c0f3863d3bb3d18cf9b91e64c0e1a51e434ab5b0a894",
+    "A-数据线/A01/output/public/turns/c7cf7dfd.jsonl": "8390be9a76eb367fa288b6d414dbc7fd9ce5e139f42cae24f7179ba74d2e96ac",
+    "A-数据线/A01/output/public/turns/d24813b1.jsonl": "fddee950a804e442f4be13026435cdc3f1f4e1c52405f827a57efc80bfe1c8c6",
+    "A-数据线/A01/output/public/turns/4fd1909e.jsonl": "952aeca869009b9da029812347178f1dff4cdf74f56835a6d9a2447234991e9a",
+    "A-数据线/A01/output/public/turns/9a707b82.jsonl": "4f30c0303d354afbb70154f24991eae200c92c0c8da59255cc006531d80213d0",
+    "A-数据线/A01/output/public/turns/6071bd76.jsonl": "30edd7578d1f0a394cd85b9509dc21df48286a0ba70dbb06e020ec1ac11ca5f7",
+    "A-数据线/A01/output/public/turns/7024f17c.jsonl": "8f1358182d7f2a008a65fc79a57e1f96ee69ba4d1a4bb9fb97bdccb955cfdc54",
+    "A-数据线/A01/output/public/turns/4388e9dd.jsonl": "a5bedd242396513d90d1fac15e1d9fb4c49973ea92495342850992ec7d6ef270",
+    "A-数据线/A01/output/public/turns/505af2f5.jsonl": "1922583a40900993e73a78f8cf812253cf8bea5068da7a721cccbea2b7ce12e9",
+    "A-数据线/A01/output/public/turns/gpt4_e072b769.jsonl": "b298304c9facdd505deaa78334e5de0e010346f2a8fc967261f5e315b9b3843c",
+    "A-数据线/A01/output/public/turns/4b24c848.jsonl": "832bc7cb0175d47c2ae66eade4461ffbc34b15bb4f475ffe426485bf400432bd",
+    "A-数据线/A01/output/public/turns/4adc0475.jsonl": "bdea735dd635b65f7ae4bb29efdfc965b5ba005eb70858735573cdca21e9d5da",
+    "A-数据线/A01/output/public/turns/fea54f57.jsonl": "d7a7f56e36bae5d395ae44eb1b0c92c28ffd71c64a0dae0a4a86db46a8c50529",
+    "A-数据线/A01/output/public/turns/54026fce.jsonl": "09be8d4e5519e24d6f23b769fd1023c8c2c0cbf57143d3d6d200033e8d32cd35",
+    "A-数据线/A01/output/public/turns/faba32e5.jsonl": "765bec31274c05270d6007a2c6075164510d3c717ef194766cd5f3f8c676d8be",
+    "A-数据线/A01/output/public/turns/gpt4_4cd9eba1.jsonl": "967bdfc024aa86f2f2213d80db5a4f6fd4ceaa8337c59d517d2842ad32cc42c6",
+    "D/D06/prepare.py": "7a38b219d2ae5bb806792d1747779a853ff4b870a1dd1a512b5373d43f369b50",
+    "D/D01/selection.py": "0121e12529e29402fb3a8e0e9b0aeab75b6e8a3a638466a9c9078fe591ea19b0",
+    "D/D02/materials.py": "d576eebbf640f6a8c153f29320e184e2bdd262b24204867a13060fbd9fe50061",
+    "D/D02/prepare_materials.py": "c374b29e4dd9c2f4e0012ba638d314b37f01b2b863e07ec45e9feff2e732b0dd",
+    "D/selection_batch.py": "595b882a61e88256e38a34cc069f983e73f29fc64f4d56fee41f91b2c9f35972",
+    "D/verify_selection.py": "1e7ba0946356b1915f0cb173262d1581327dd841af92328bd849f15ea4b109ba",
+    "E/E03/prepare_inputs.py": "dfe05fb0f984ce10a54d7215ff16f5d00d2f8004076b6403e0924d441f8bbfce",
+    "E/E03/batch.py": "32ce9984f6874a901a5e9876c1e703ddee962d4869264e8821ca8d676f61c8d0",
+    "E/E02/run_generation.py": "f4d0b0d1ded7a1ba1046bacfeebb45687126ca6bc248855adcfdad3be7c7a831"
+  },
+  "expected_records": 1156,
+  "selection_rule": "pending F03 calibration; no parameters selected",
+  "proposed_tie_rule": "mean paired K0/K1 accuracy; then lower lambda, then lower gamma",
+  "stopping_rule": "evaluate entire frozen grid; no early stopping"
+}
