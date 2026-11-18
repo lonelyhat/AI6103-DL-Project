@@ -218,3 +218,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local G02 verification, tokenizer files and batch output.
+/runs/g02/

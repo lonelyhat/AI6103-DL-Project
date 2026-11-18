@@ -1,0 +1,75 @@
+{
+  "status": "local_validation_passed_pending_freeze",
+  "plan_sha256": "c925d990696e9d166256afcc16ec2df8f394d5e5a81de3e5c08c7b2863cbdb90",
+  "development": {
+    "d06_delivery_files_verified": 12,
+    "d06_scored_records_recomputed": 1156,
+    "d06_parameter_winners_match": true,
+    "d07_metric_records": 1224,
+    "d07_2048_joined_to_d06_and_recalculated_with_a02": 408,
+    "d07_tables_recalculated": 3,
+    "d07_coverage_pairs": 204
+  },
+  "formal_candidates_verified": {
+    "git_commit": "c97d0b83e799a0d1aafb1bd126899c00fc2f4205",
+    "questions": 80,
+    "candidates_per_index": 8000,
+    "history_turns": 19606
+  },
+  "formal_evaluation": {
+    "questions": 80,
+    "eval_sha256": "f7388b512d6e89ba6bbe284c884f487f444fb157ffdb18afc9d5773a7870099b",
+    "dataset_sha256": "d6f21ea9d60a0d56f34a05b609c79c88a451d2ae03597821ea3d5a9678c3a442"
+  },
+  "cpu_preflight": [
+    {
+      "status": "cpu_reader_preflight_passed",
+      "question_ids": [
+        "10d9b85a",
+        "69fee5aa"
+      ],
+      "records": 20,
+      "budget_tokens": 2048,
+      "max_context_tokens": 2043,
+      "max_prompt_tokens": 2173,
+      "max_new_tokens": 800,
+      "generation_performed": false
+    },
+    {
+      "status": "cpu_reader_preflight_passed",
+      "question_ids": [
+        "10d9b85a"
+      ],
+      "records": 10,
+      "budget_tokens": 1024,
+      "max_context_tokens": 1013,
+      "max_prompt_tokens": 1144,
+      "max_new_tokens": 800,
+      "generation_performed": false
+    }
+  ],
+  "offline_reader_resume_and_f_export": {
+    "mode": "offline_fixture_no_model",
+    "records": 20,
+    "attempts": 21,
+    "statuses": {
+      "generated": 18,
+      "truncated": 1,
+      "empty": 1,
+      "technical_failure": 0
+    },
+    "incomplete_export_rejected": true,
+    "exact_keys_and_history_verified": true
+  },
+  "judge_dry_run": {
+    "input_records": 20,
+    "prompts_built": 19,
+    "api_calls": 0
+  },
+  "relevant_test_cases_passed": 67,
+  "outstanding": {
+    "a03_final_signoff": true,
+    "g01_lead_acceptance": true,
+    "gpu_first_batch_and_live_judge_receipt": "not_run"
+  }
+}

@@ -8,8 +8,11 @@
 /E/E02/handoff/*.patch text eol=lf -whitespace
 # Keep E03 offline fixtures byte-exact and scripts portable.
 /E/E03/inputs/** -text whitespace=cr-at-eol
+/E/E03/results/**/inputs.jsonl text eol=lf
 /E/E03/*.py text eol=lf
 /E/E03/*.sh text eol=lf
+# D02's existing archive uses CRLF.
+/D/D02/materials.py -text whitespace=cr-at-eol
 # Preserve the original F02 score and evidence exports.
 /G/G01/f02/** -text whitespace=cr-at-eol
 # D06 runtime scripts are portable; audited evidence stays byte-exact.

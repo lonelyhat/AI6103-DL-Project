@@ -58,8 +58,9 @@ def prepare_results(candidate_rows, questions, load_turns, counter, settings):
             if key in request and request[key] != value:
                 raise ValueError(f"{qid}: conflicting public metadata: {key}")
             request[key] = value
-        if request.get("config_version") != "a01-v2":
-            raise ValueError("require a01-v2 candidates")
+        versions = {"dev": "a01-v2", "formal": "a03-v1"}
+        if request.get("config_version") != versions.get(settings["stage"]):
+            raise ValueError("require the candidate version for the requested dev/formal stage")
         if request.get("stage") != settings["stage"] or request.get("index") != settings["index"]:
             raise ValueError("candidate stage/index differs from experiment")
         if request.get("strategy") is not None:

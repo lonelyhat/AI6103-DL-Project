@@ -34,8 +34,9 @@ def select_ranked(request, turns, counter):
     records = validate(request, turns)
     if request.get('strategy') not in (None, 'R'):
         raise ValueError('D02 only prepares strategy R')
-    if request.get('config_version') != 'a01-v2':
-        raise ValueError('D02 requires A01-v2 public/candidate records')
+    versions = {'dev': 'a01-v2', 'formal': 'a03-v1'}
+    if request.get('config_version') != versions[request['stage']]:
+        raise ValueError('Candidate version must match the dev/formal stage')
     if request.get('tokenizer') not in (None, counter.name):
         raise ValueError('candidate tokenizer label differs from actual reader counter')
     if count_history(counter, '') != 0:
@@ -76,7 +77,7 @@ def select_ranked(request, turns, counter):
         raise RuntimeError('final exact history budget check failed')
     selected_message_ids = list(dict.fromkeys(m['message_id'] for t in ordered for m in t['messages']))
     full_message_count = sum(len(t['messages']) for t in ordered)
-    config = {'implementation': VERSION, 'input_config_version': 'a01-v2', 'strategy': 'R',
+    config = {'implementation': VERSION, 'input_config_version': request['config_version'], 'strategy': 'R',
               'selection': 'rank-ascending-one-pass-skip-oversize',
               'serialization': 'a01-dedup-json-v1', 'sort': 'session_datetime-session_index-user_position',
               'budget_tokens': budget, 'counter': 'reader-tokenizer-no-special-tokens',
