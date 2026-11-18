@@ -2,10 +2,13 @@
 F03 盲判表產生器：把開發回答整理成人工判斷用的表格
 
 【做什麼】
-  讀入一或多個 E 回答檔，去除重複回答，打亂順序並改用編號，輸出兩個檔案：
+  讀入一或多個 E 回答檔，去除重複回答，打亂順序並改用編號，輸出三個檔案：
     1. 盲判表（給判斷者）：只有題型、問題、參考答案、模型回答與空白的判斷欄
        —— 刻意不放 judge 結果與策略名稱，避免判斷受到影響
-    2. 對照檔（判完才打開）：編號 → 來源檔、策略、設定雜湊等識別欄位
+    2. 對照檔（判完才打開）：編號 → 來源檔、策略、設定雜湊等識別欄位（每個編號一列，方便人看）
+    3. 成員檔（判完才打開）：每一筆「來源紀錄」一列，含被去重的成員，
+       記錄來源檔、行號、完整識別鍵（與 judge.py 相同）和回答指紋。
+       compare_f03.py 用它逐一確認每個成員都有自己的評分（審閱回覆第 1 點）。
 
 【去重規則】
   history_sha256 與 raw_output 都相同的回答只保留第一筆（依 --answers 的順序），
@@ -27,6 +30,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from paths import A01_OUTPUT  # noqa: E402
+from judge import answer_fingerprint, record_key  # noqa: E402
 
 EVAL_FILE = A01_OUTPUT / "eval" / "dev_eval.jsonl"
 QUESTIONS_FILE = A01_OUTPUT / "public" / "dev_questions.jsonl"
@@ -37,6 +41,9 @@ KEY_COLUMNS = ["編號", "question_id", "source_file", "stage", "index", "strate
                "budget_tokens", "variant", "topk", "config_version", "reader_config_version",
                "record_id", "reader_config_id", "selection_config_id", "history_sha256",
                "duplicate_of"]
+MEMBER_COLUMNS = ["編號", "角色", "source_file", "line_no", "question_id", "strategy",
+                  "variant", "config_version", "record_id", "e_status",
+                  "record_key", "answer_sha256"]
 
 
 def read_jsonl(path):
@@ -58,12 +65,14 @@ def main():
     # 讀入並去重
     samples, seen = [], {}
     for path in args.answers:
-        for a in read_jsonl(path):
+        for line_no, a in enumerate(read_jsonl(path), 1):
             sig = (a["question_id"], a.get("history_sha256"), a.get("raw_output"))
+            member = {"answer": a, "source_file": path, "line_no": line_no}
             if sig in seen:
                 seen[sig]["duplicate_of"].append(f"{path}#{a.get('strategy')}/{a.get('variant')}")
+                seen[sig]["members"].append(member)
                 continue
-            item = {"answer": a, "source_file": path, "duplicate_of": []}
+            item = {"answer": a, "source_file": path, "duplicate_of": [], "members": [member]}
             seen[sig] = item
             samples.append(item)
 
@@ -81,16 +90,19 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
     sheet_path = out_dir / f"{args.prefix}_blind_sheet.csv"
     key_path = out_dir / f"{args.prefix}_key_DO_NOT_OPEN.csv"
-    for path in (sheet_path, key_path):
+    members_path = out_dir / f"{args.prefix}_members_DO_NOT_OPEN.csv"
+    for path in (sheet_path, key_path, members_path):
         if path.exists():
             sys.exit(f"已存在 {path}，為避免覆蓋已填寫的判斷，請先改名或刪除")
 
     # utf-8-sig：讓 Excel 正確顯示中文
     with open(sheet_path, "w", newline="", encoding="utf-8-sig") as fs, \
-         open(key_path, "w", newline="", encoding="utf-8-sig") as fk:
-        ws, wk = csv.writer(fs), csv.writer(fk)
+         open(key_path, "w", newline="", encoding="utf-8-sig") as fk, \
+         open(members_path, "w", newline="", encoding="utf-8-sig") as fm:
+        ws, wk, wm = csv.writer(fs), csv.writer(fk), csv.writer(fm)
         ws.writerow(SHEET_COLUMNS)
         wk.writerow(KEY_COLUMNS)
+        wm.writerow(MEMBER_COLUMNS)
         for i, s in enumerate(ordered, 1):
             a, qid = s["answer"], s["answer"]["question_id"]
             sid = f"S{i:02d}"
@@ -100,11 +112,18 @@ def main():
             wk.writerow([sid, qid, s["source_file"]]
                         + [a.get(k) for k in KEY_COLUMNS[3:-1]]
                         + ["; ".join(s["duplicate_of"])])
+            for j, m in enumerate(s["members"]):
+                ma = m["answer"]
+                wm.writerow([sid, "代表" if j == 0 else "重複", m["source_file"], m["line_no"],
+                             ma["question_id"], ma.get("strategy"), ma.get("variant"),
+                             ma.get("config_version"), ma.get("record_id") or "", ma.get("status"),
+                             record_key(ma), answer_fingerprint(ma)])
 
-    print(f"讀入 {sum(len(read_jsonl(x)) for x in args.answers)} 筆，去重後 {len(ordered)} 筆，"
-          f"{len(qids)} 題")
+    n_members = sum(len(s["members"]) for s in ordered)
+    print(f"讀入 {n_members} 筆來源紀錄，去重後 {len(ordered)} 筆回答，{len(qids)} 題")
     print(f"盲判表：{sheet_path}")
     print(f"對照檔：{key_path}（判完再打開）")
+    print(f"成員檔：{members_path}（判完再打開；compare_f03.py 使用）")
 
 
 if __name__ == "__main__":
