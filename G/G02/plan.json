@@ -1,10 +1,14 @@
 {
   "config_version": "g02-v1-candidate",
   "date": "2026-11-19",
-  "status": "local_review_pending_freeze",
+  "status": "candidate_pending_a03_final",
   "approvals": {
     "a03_final": null,
-    "g01_acceptance": null
+    "g01_acceptance": {
+      "decision": "accepted",
+      "date": "2026-11-19",
+      "record": "G/G01/ACCEPTANCE.md"
+    }
   },
   "refs": {
     "integration": "696761d33c6f0c20d18585b10930a2abba3fe86e",
@@ -256,6 +260,7 @@
     "E/E03/prepare_inputs.py": "e38700684261f70a58b29a100570e7376f508e97ec23b1da70a2b928212cbc5f",
     "E/E03/batch.py": "fe07e7cf8812197eadc60b3efb6ec39fd4f8a3ef1137239342450f8d104a9d67",
     "E/E03/run_generation.py": "a18d5f2d2e822a4ca5de48555117c90e66f28b3e4b2e37a6fdddc95f466cb2f1",
-    "E/E02/run_generation.py": "f4d0b0d1ded7a1ba1046bacfeebb45687126ca6bc248855adcfdad3be7c7a831"
+    "E/E02/run_generation.py": "f4d0b0d1ded7a1ba1046bacfeebb45687126ca6bc248855adcfdad3be7c7a831",
+    "G/G01/ACCEPTANCE.md": "a9b60a8c43f67aa5374908f20515c9608a8b35ee36cc684a433815f0337e1d68"
   }
 }

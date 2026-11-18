@@ -1,6 +1,6 @@
 {
-  "status": "local_validation_passed_pending_freeze",
-  "plan_sha256": "c925d990696e9d166256afcc16ec2df8f394d5e5a81de3e5c08c7b2863cbdb90",
+  "status": "local_validation_passed_pending_a03_final",
+  "plan_sha256": "d38ea712f20df3b62b81fbd4fd31714fdfd19a162f22353b97a48f9587bc5f34",
   "development": {
     "d06_delivery_files_verified": 12,
     "d06_scored_records_recomputed": 1156,
@@ -67,9 +67,15 @@
     "api_calls": 0
   },
   "relevant_test_cases_passed": 67,
-  "outstanding": {
-    "a03_final_signoff": true,
-    "g01_lead_acceptance": true,
-    "gpu_first_batch_and_live_judge_receipt": "not_run"
+  "g01_acceptance": {
+    "decision": "accepted",
+    "date": "2026-11-19",
+    "record": "G/G01/ACCEPTANCE.md"
+  },
+  "freeze_blockers": [
+    "a03_final_signoff"
+  ],
+  "post_freeze_first_batch": {
+    "gpu_generation_and_live_judge_receipt": "not_run"
   }
 }

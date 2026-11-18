@@ -323,7 +323,7 @@ def run(repo, score_file):
     e03_time = mean(r['generation_seconds'] for r in e03_rows)
     formal_rows = len(formal_ids)*methods
     return {
-        'status': 'technical_checks_passed_pending_lead_signoff' if f_scores is not None else 'f02_raw_scores_pending',
+        'status': 'technical_checks_passed' if f_scores is not None else 'f02_raw_scores_pending',
         'repo_commit': subprocess.check_output(['git', '-C', str(repo), 'rev-parse', 'HEAD'], text=True).strip(),
         'f02_budget_score_source': 'raw_f02_verified_against_e02' if f_scores is not None else 'F/EVAL_NOTES.md_only',
         'f02_top50_score_source': 'F/EVAL_NOTES.md_only',
@@ -376,8 +376,9 @@ def main():
     print('PASS: A01/B02/B03/C02/B05/D02/E02 and both E→F exports, five questions')
     print('F02 budget scoring:', report['f02_budget_score_source'])
     print('C02 ledger:', report['c02_ledger']['status'])
-    print('G01 acceptance pending: lead auditor sign-off'
-          + ('' if args.f02_scores else ' and real F02 score export'))
+    print('G01 sign-off is recorded separately in G/G01/ACCEPTANCE.md.')
+    if not args.f02_scores:
+        print('This rerun did not verify raw F02 scores.')
 
 
 if __name__ == '__main__':
