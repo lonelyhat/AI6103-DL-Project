@@ -275,8 +275,9 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     report = run(args.repo.resolve(), args.f02_scores)
-    args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False)+'\n',
-                           encoding='utf-8', newline='\n')
+    with args.output.open('w', encoding='utf-8', newline='\n') as output:
+        json.dump(report, output, ensure_ascii=False, indent=2, allow_nan=False)
+        output.write('\n')
     print('PASS: A01/B02/B03/C02/B05/D02/E02 and both E→F exports, five questions')
     print('F02 budget scoring:', report['f02_budget_score_source'])
     print('G01 acceptance pending: C02 runtime/reuse/failure ledger and B review'
