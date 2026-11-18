@@ -1,0 +1,39 @@
+{
+  "formal_data_commit": "3523260b018c536c657a9a2997dd8be561c555bc",
+  "a03_config_version": "a03-v1",
+  "a03_manifest_sha256": "14c4e3490a59f12e4c0a8231e0ec825d15adcf22f3b9bce8c6ee0fcd1a38aaf7",
+  "a03_public_inputs_sha256": "4ca94555e479085ab1a8d976c100feaaa1ced54b0b4034c2c99f6c0f86147bef",
+  "formal_questions": 80,
+  "candidates_per_index": 8000,
+  "history_turns": 19606,
+  "k0_k1_candidate_overlap": {
+    "mean": 82.575,
+    "min": 71,
+    "max": 93
+  },
+  "c04": {
+    "cache_keys": 18892,
+    "cache_keys_shared_between_questions": 687,
+    "turns_with_nonempty_facts": 11608,
+    "reused_from_cache": 18730,
+    "newly_extracted": 162,
+    "legacy_string_counts_in_c04_manifest": [
+      "sharegpt_6EDKmvB_0_1",
+      "sharegpt_8fC32jy_7_2",
+      "sharegpt_Us25gXO_18_1",
+      "sharegpt_n3MgsgL_0_1",
+      "sharegpt_n3MgsgL_0_21"
+    ],
+    "measured_extraction_seconds_sum": 892.16,
+    "new_extraction_input_tokens": 225494,
+    "new_extraction_output_tokens": 16479
+  },
+  "index_build_seconds": {
+    "K0": 979.3977275781799,
+    "K1": 1167.465247303713
+  },
+  "query_retrieval_seconds": {
+    "K0": 2.4877933429088444,
+    "K1": 2.8612551481928676
+  }
+}

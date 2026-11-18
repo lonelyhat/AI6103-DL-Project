@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+from math import isfinite
 from pathlib import Path
 import re
 from statistics import mean
@@ -59,6 +60,91 @@ def elapsed_slurm(path, job):
     raise ValueError(f'{path}: no successful Slurm terminal record for {job}')
 
 
+def audit_c02(archive, expected_sources, facts):
+    files = {
+        'facts': archive/'c02_facts_5q.json',
+        'manifest': archive/'c02_turn_manifest.json',
+        'pending': archive/'c02_pending.jsonl',
+        'extracted': archive/'c02_extracted.jsonl',
+        'retry': archive/'c02_extracted_retry.jsonl',
+    }
+    require(read_json(files['facts']) == facts, 'C02 final cache differs from the C03 snapshot used by B05')
+    manifest = read_json(files['manifest'])
+    require(set(manifest) == set(expected_sources) == set(facts), 'C02 manifest does not cover the five histories')
+    pending, extracted, retries = [
+        keyed(read_rows(files[name]), 'cache_key', f'C02 {name}') for name in ('pending', 'extracted', 'retry')
+    ]
+    new_keys = {key for key, row in manifest.items() if row['status'] == 'extracted'}
+    reused_keys = {key for key, row in manifest.items() if row['status'] == 'reused'}
+    require(new_keys | reused_keys == set(facts), 'C02 manifest has an unknown extraction status')
+    require(set(pending) == set(extracted) == new_keys and set(retries) <= new_keys,
+            'C02 pending, extracted, retry and manifest keys disagree')
+    token_fields = ('n_input_tokens', 'n_output_tokens')
+
+    def cost(row):
+        return (row['elapsed_s'], *(row['usage'][field] for field in token_fields))
+
+    def totals(rows):
+        measures = [cost(row) for row in rows]
+        return {
+            'elapsed_seconds_sum': round(sum(values[0] for values in measures), 2),
+            'input_tokens': sum(values[1] for values in measures),
+            'output_tokens': sum(values[2] for values in measures),
+        }
+
+    for key, row in manifest.items():
+        source = expected_sources[key]
+        require(all(row[field] == value for field, value in source.items()) and row['n_facts'] == len(facts[key]),
+                f'{key}: C02 source metadata or fact count differs from A01 and the cache')
+        if key in reused_keys:
+            require(cost(row) == (None, None, None), f'{key}: reused C02 row reports an unexpected current-run cost')
+            continue
+        request = {field: source[field] for field in ('question_id', 'turn_id', 'official_session_id', 'official_corpus_id')}
+        request.update(cache_key=key, user_message=source['source_text'])
+        final_row = extracted[key]
+        require(pending[key] == request and all(final_row[field] == value for field, value in request.items()),
+                f'{key}: C02 extraction input differs from the A01 user message')
+        elapsed, in_tokens, out_tokens = cost(final_row)
+        require(final_row['status'] == 'extracted' and final_row['facts'] == facts[key] and cost(row) == cost(final_row)
+                and type(elapsed) in (int, float) and isfinite(elapsed) and elapsed >= 0
+                and type(in_tokens) is int and in_tokens > 0 and type(out_tokens) is int and out_tokens >= 0,
+                f'{key}: C02 final ledger, cache or measured cost disagree')
+
+    failures = []
+    for key, retry in retries.items():
+        final_row = extracted[key]
+        # The final ledger includes the metrics from these retry rows.
+        require(all(retry[field] == value for field, value in pending[key].items()) and cost(retry) == cost(final_row),
+                f'{key}: C02 retry input or usage does not line up with the final ledger')
+        require(isinstance(retry['raw'], str) and bool(retry['raw'].strip()),
+                f'{key}: C02 retry has no raw output to review')
+        if retry['status'] == 'failed':
+            require(retry['parse'] == 'none' and retry['facts'] is None and facts[key] == [],
+                    f'{key}: failed C02 retry does not map to an empty fallback')
+            failures.append({
+                'cache_key': key, 'question_id': retry['question_id'], 'turn_id': retry['turn_id'],
+                'retry_parse': retry['parse'], 'manifest_status': manifest[key]['status'],
+            })
+        else:
+            require(retry['status'] == 'extracted' and retry['parse'] in ('direct', 'regex')
+                    and retry['facts'] == facts[key], f'{key}: successful retry disagrees with final C02 facts')
+
+    return {
+        'status': 'archived_ledger_verified',
+        'source_sha256': {p.name: sha(p.read_bytes().replace(b'\r\n', b'\n')) for p in files.values()},
+        'history_turns': len(facts), 'reused_from_author_cache': len(reused_keys), 'new_extraction_keys': len(new_keys),
+        'reused_empty_fact_lists': sum(not facts[key] for key in reused_keys),
+        'new_empty_fact_lists': sum(not facts[key] for key in new_keys),
+        'recorded_new_extraction_cost': totals(extracted.values()),
+        'retry_rows_included_in_recorded_cost': len(retries),
+        'included_retry_cost': totals(retries.values()),
+        'retry_parse_successes': len(retries) - len(failures),
+        'retry_parse_failures_with_empty_fallback': failures,
+        'unrecorded': ['exact_extractor_config', 'superseded_attempt_costs_and_statuses',
+                       'original_author_cache_cost', 'batch_wall_clock_seconds'],
+    }
+
+
 def run(repo, score_file):
     a = repo/'A-数据线/A01/output'
     b = repo/'B-检索线'
@@ -111,7 +197,7 @@ def run(repo, score_file):
     require(d_manifest['runtime_budget_checks_passed'] is True, 'D02 did not pass budget checks')
 
     evidence = Evidence(a)
-    used_facts, by_qid = set(), []
+    expected_c02_sources, by_qid = {}, []
     f_scores = load_latest_scores(score_file) if score_file else None
     judge_seconds = []
     for qid in ids:
@@ -177,7 +263,14 @@ def run(repo, score_file):
                     f'{qid}: missing or malformed C02 facts for {tid}')
             require(mapped_facts.get(tid) == {'question_id': qid, 'turn_id': tid, 'facts': c02[key]},
                     f'{qid}: C02 and B05 mapped facts differ for {tid}')
-            used_facts.add(key)
+            user = indexed[tid]['messages'][0]
+            require(user['role'] == 'user' and user['message_id'] == entry['message_ids'][0]
+                    and key not in expected_c02_sources, f'{tid}: invalid or duplicate C02 source link')
+            expected_c02_sources[key] = {
+                'question_id': qid, 'turn_id': tid, 'session_index': entry['session_index'],
+                'official_session_id': entry['official_session_id'], 'official_corpus_id': entry['official_corpus_id'],
+                'source_message_id': user['message_id'], 'source_role': user['role'], 'source_text': user['content'],
+            }
             facts_nonempty += bool(c02[key])
 
         candidates_evidence, selected_evidence, top_evidence = [evidence.retention(qid, turns_) for turns_ in (tids, chosen, top_ids)]
@@ -215,8 +308,9 @@ def run(repo, score_file):
             'f02_reported_budget_label': F02_NOTES[qid][0], 'f02_reported_top50_label': F02_NOTES[qid][1],
             'f02_verified_budget_label': f_actual,
         })
-    require(set(c02) == used_facts and len(mapped_facts) == sum(r['history_turns'] for r in by_qid),
+    require(set(c02) == set(expected_c02_sources) and len(mapped_facts) == sum(r['history_turns'] for r in by_qid),
             'C02/B05 extra unmapped first-five records')
+    c02_ledger = audit_c02(repo/'c02_output', expected_c02_sources, c02)
 
     formal = repo/'A-数据线/A03/output'
     formal_ids = read_json(formal/'eval/formal_manifest.json')['formal_ids']
@@ -229,17 +323,18 @@ def run(repo, score_file):
     e03_time = mean(r['generation_seconds'] for r in e03_rows)
     formal_rows = len(formal_ids)*methods
     return {
-        'status': 'g01_review_in_progress',
+        'status': 'technical_checks_passed_pending_lead_signoff' if f_scores is not None else 'f02_raw_scores_pending',
         'repo_commit': subprocess.check_output(['git', '-C', str(repo), 'rev-parse', 'HEAD'], text=True).strip(),
         'f02_budget_score_source': 'raw_f02_verified_against_e02' if f_scores is not None else 'F/EVAL_NOTES.md_only',
         'f02_top50_score_source': 'F/EVAL_NOTES.md_only',
-        'provenance': {str(p.relative_to(repo)): sha(p.read_bytes().replace(b'\r\n', b'\n')) for p in files.values()},
+        'provenance': {p.relative_to(repo).as_posix(): sha(p.read_bytes().replace(b'\r\n', b'\n')) for p in files.values()},
         'questions': by_qid,
+        'c02_ledger': c02_ledger,
         'summary': {
             'candidate_mean_msg_retention': mean(r['candidate_msg_retention'] for r in by_qid),
             'selected_mean_msg_retention': mean(r['selected_msg_retention'] for r in by_qid),
             'selected_all_retained_count': sum(r['selected_all_retained'] for r in by_qid),
-            'c02_keys_mapped_to_b05': len(used_facts),
+            'c02_keys_mapped_to_b05': len(expected_c02_sources),
             'c02_nonempty_turns': sum(r['fact_turns_with_facts'] for r in by_qid),
             'f02_budget_reported_correct': sum(r['f02_reported_budget_label'] for r in by_qid),
             'f02_top50_reported_correct': sum(r['f02_reported_top50_label'] for r in by_qid),
@@ -263,7 +358,7 @@ def run(repo, score_file):
             'e03_dev_min_generation_seconds': len(ids)*methods*e03_time,
             'e03_extrapolated_formal_generation_seconds': formal_rows*e03_time,
             'e03_extrapolated_formal_output_tokens_including_stop': round(formal_rows*mean(r['output_tokens_including_stop'] for r in e03_rows)),
-            'c02_fact_extraction_elapsed_seconds': None,
+            'c02_fact_extraction_elapsed_seconds': c02_ledger['recorded_new_extraction_cost']['elapsed_seconds_sum'],
         },
     }
 
@@ -280,8 +375,9 @@ def main():
         output.write('\n')
     print('PASS: A01/B02/B03/C02/B05/D02/E02 and both E→F exports, five questions')
     print('F02 budget scoring:', report['f02_budget_score_source'])
-    print('G01 acceptance pending: C02 runtime/reuse/failure ledger and B review'
-          + ('' if args.f02_scores else ', plus real F02 score export'))
+    print('C02 ledger:', report['c02_ledger']['status'])
+    print('G01 acceptance pending: lead auditor sign-off'
+          + ('' if args.f02_scores else ' and real F02 score export'))
 
 
 if __name__ == '__main__':
