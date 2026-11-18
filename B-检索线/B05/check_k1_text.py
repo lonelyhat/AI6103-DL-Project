@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """CPU check: our K1 index text equals the patched official corpus text for every turn.
 
-Builds each development question's corpus with the patched official functions
+Builds each question's corpus (--stage dev: B05/C03, --stage formal: B06/C04) with the patched official functions
 (process_item_flat_index, fetch_expansion_from_cache, resolve_expansion) from the raw
 data and C03 cache, maps official corpus ids to public turn ids, and compares strings.
 Also checks that every turn without facts has K1 text identical to K0 text.
@@ -31,14 +31,15 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--patched-official', type=Path, required=True)
     p.add_argument('--raw', type=Path, required=True, help='longmemeval_s_cleaned.json')
-    p.add_argument('--c03', type=Path, required=True)
-    p.add_argument('--facts', type=Path, required=True, help='B05 dev_facts_by_turn.jsonl')
+    p.add_argument('--c03', '--facts-cache', dest='c03', type=Path, required=True, help='C03 or C04 fact file')
+    p.add_argument('--stage', choices=['dev', 'formal'], default='dev')
+    p.add_argument('--facts', type=Path, required=True, help='turn_id -> facts file from prepare_facts.py')
     p.add_argument('--report', type=Path, required=True)
     a = p.parse_args()
     flat, corpus_id, ieu = official_functions(a.patched_official)
     cache = json.loads(a.c03.read_text())
     data = {q['question_id']: q for q in json.loads(a.raw.read_text())}
-    spec = K.question_set('dev')
+    spec = K.question_set(a.stage)
     facts = K.load_facts(a.facts)
     total = mismatch = no_fact = no_fact_diff = 0
     for q, turns in K.load_items(spec):
@@ -48,9 +49,13 @@ def main():
         for sid, sess, date in sessions:
             c, i, t = flat(sess, 'turn', sid, date)
             corpus, ids, ts = corpus + c, ids + i, ts + t
+        seen = set()  # mirrors fix 3: each corpus id is expanded once
         for sid, sess, date in sessions:
             for ti, turn in enumerate(sess):
                 if turn['role'] == 'user':
+                    if corpus_id(sid, ti, turn) in seen:
+                        continue
+                    seen.add(corpus_id(sid, ti, turn))
                     ex = ieu.fetch_expansion_from_cache(cache, sid + f'_{ti + 1}')
                     corpus, ids, ts = ieu.resolve_expansion('turn-userfact', 'merge', corpus, ids, ts, ex,
                                                             corpus_id(sid, ti, turn), date)

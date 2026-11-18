@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Copy the official LongMemEval code and apply two minimal K1 fixes for the comparison run.
+"""Copy the official LongMemEval code and apply three minimal K1 fixes for the comparison run.
 
 Fix 1 (index_expansion_utils.py, resolve_expansion): a turn whose fact list is empty or
   missing keeps its original user text.  Unpatched, an empty list [] removes the turn from
@@ -7,6 +7,9 @@ Fix 1 (index_expansion_utils.py, resolve_expansion): a turn whose fact list is e
 Fix 2 (run_retrieval.py, turn-level expansion): the merge target is the turn's real corpus id.
   Unpatched, non-evidence turns inside evidence sessions are stored as 'noans_..._N' but the
   merge looks for 'answer_..._N', so those turns silently get no facts (label-dependent index).
+Fix 3 (run_retrieval.py, turn-level expansion): each corpus id is expanded once.  Unpatched, a
+  history that repeats an identical session (same session id) merges the facts into every copy
+  once per occurrence, so each copy ends up as 'facts facts text'.  No effect when ids are unique.
 
 Everything else (encoder, truncation, pooling, merge text = ' '.join(facts) + ' ' + text,
 str() of non-string facts, ranking) is untouched.  Each replacement must match exactly once.
@@ -26,6 +29,13 @@ FIX1_NEW = """        if not cur_item_expansions:
 FIX2_OLD = "cur_item_expansions, cur_sess_id + f'_{cur_turn_id+1}', ts)"
 FIX2_NEW = "cur_item_expansions, _b05_corpus_id(cur_sess_id, cur_turn_id, cur_turn_content), ts)"
 FIX2_HELPER_ANCHOR = "def batch_get_retrieved_context_and_eval("
+FIX3_INIT_OLD = "                elif 'turn' in args.index_expansion_method:\n"
+FIX3_INIT_NEW = FIX3_INIT_OLD + "                    _b05_seen = set()  # B05 fix 3: expand each corpus id once\n"
+FIX3_SKIP_OLD = "                                cur_item_expansions = fetch_expansion_from_cache(index_expansion_result_cache, cur_sess_id + f'_{cur_turn_id+1}')\n"
+FIX3_SKIP_NEW = ("                                if _b05_corpus_id(cur_sess_id, cur_turn_id, cur_turn_content) in _b05_seen:\n"
+                 "                                    continue\n"
+                 "                                _b05_seen.add(_b05_corpus_id(cur_sess_id, cur_turn_id, cur_turn_content))\n"
+                 + FIX3_SKIP_OLD)
 FIX2_HELPER = '''def _b05_corpus_id(sess_id, i_turn, turn):
     # B05 fix 2: same id rule as process_item_flat_index (noans_ for non-evidence turns)
     cid = sess_id + '_' + str(i_turn + 1)
@@ -56,6 +66,8 @@ def main():
     replace_once(r / 'index_expansion_utils.py', FIX1_OLD, FIX1_NEW)
     replace_once(r / 'run_retrieval.py', FIX2_OLD, FIX2_NEW)
     replace_once(r / 'run_retrieval.py', FIX2_HELPER_ANCHOR, FIX2_HELPER + FIX2_HELPER_ANCHOR)
+    replace_once(r / 'run_retrieval.py', FIX3_INIT_OLD, FIX3_INIT_NEW)
+    replace_once(r / 'run_retrieval.py', FIX3_SKIP_OLD, FIX3_SKIP_NEW)
     print(f'Patched copy written to {a.dest}')
 
 

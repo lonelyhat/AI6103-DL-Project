@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Convert C03 facts (official cache keys) to public turn_id -> facts for the 40 dev questions.
+"""Convert C-line facts (official cache keys) to public turn_id -> facts.
+
+--stage dev uses C03 for the 40 development questions (B05); --stage formal uses C04 for the
+80 formal questions (B06).
 
 C03 key = <official session id without answer_/noans_>_<user message position + 1>
 (official `turn-userfact` cache format).  The A01 map is used only for this join; the output
@@ -29,10 +32,10 @@ def normalise(value):
     return [str(x) for x in value]
 
 
-def prepare(facts_path, out, report):
-    spec = question_set('dev')
+def prepare(facts_path, out, report, stage='dev', sources=None):
+    spec = question_set(stage)
     cache = json.loads(facts_path.read_text())
-    rows, used, kinds = [], set(), collections.Counter()
+    rows, used, kinds, source_rows = [], set(), collections.Counter(), []
     missing, per_q = [], {}
     for q, turns in load_items(spec):
         qid = q['question_id']
@@ -52,12 +55,16 @@ def prepare(facts_path, out, report):
             facts = normalise(raw)
             with_facts += bool(facts)
             rows.append({'question_id': qid, 'turn_id': t['turn_id'], 'facts': facts})
+            source_rows.append({'question_id': qid, 'turn_id': t['turn_id'], 'fact_key': key,
+                                'source_message_id': t['messages'][0]['message_id'], 'n_facts': len(facts)})
         per_q[qid] = {'turns': len(turns), 'turns_with_facts': with_facts}
     if missing:
         raise SystemExit(f'{len(missing)} turns have no C03 record, e.g. {missing[:5]}')
     write_jsonl_atomic(out, rows)
-    result = {'c03_file': facts_path.name, 'c03_sha256': sha(facts_path), 'c03_keys': len(cache),
-              'c03_keys_used': len(used), 'c03_keys_unused': sorted(set(cache) - used),
+    if sources is not None:  # fact provenance: which C-line record each turn's facts came from
+        write_jsonl_atomic(sources, source_rows)
+    result = {'stage': stage, 'facts_file': facts_path.name, 'facts_sha256': sha(facts_path), 'fact_keys': len(cache),
+              'fact_keys_used': len(used), 'fact_keys_unused': sorted(set(cache) - used),
               'turn_records': len(rows), 'turns_with_facts': sum(bool(r['facts']) for r in rows),
               'turns_without_facts': sum(not r['facts'] for r in rows),
               'value_kinds': dict(kinds), 'per_question': per_q,
@@ -68,8 +75,10 @@ def prepare(facts_path, out, report):
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('facts', type=Path, help='C03/dev_facts_all40q.json')
+    p.add_argument('facts', type=Path, help='C03/dev_facts_all40q.json or C04/c04_facts_80q.json')
+    p.add_argument('--stage', choices=['dev', 'formal'], default='dev')
+    p.add_argument('--sources', type=Path, help='optional turn_id -> fact key provenance file')
     p.add_argument('--out', type=Path, required=True)
     p.add_argument('--report', type=Path, required=True)
     a = p.parse_args()
-    prepare(a.facts, a.out, a.report)
+    prepare(a.facts, a.out, a.report, a.stage, a.sources)

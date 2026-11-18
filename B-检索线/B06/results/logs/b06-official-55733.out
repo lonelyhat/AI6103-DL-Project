@@ -1,0 +1,30 @@
+Patched copy written to /home/msai/wang2496/B45/B06/official_prepared
+Namespace(in_file='/home/msai/wang2496/B45/B04/formal80_longmemeval_s.json', out_dir='/home/msai/wang2496/B45/B06/results/official', outfile_prefix='formal80_K1', cache_dir='/home/msai/wang2496/B02/stella', retriever='flat-stella', granularity='turn', index_expansion_method='turn-userfact', index_expansion_llm=None, index_expansion_result_cache='/home/msai/wang2496/B45/B06/turn-userfact_c04_formal80.json', index_expansion_result_join_mode='merge')
+Note: index expansion method turn-userfact specified
+Using cached index expansion results at /home/msai/wang2496/B45/B06/turn-userfact_c04_formal80.json
+Loaded pre-computed expansions from /home/msai/wang2496/B45/B06/turn-userfact_c04_formal80.json
+Setting num processes = 1 with retriever flat-stella
+Ignored 0 instances due to abstention: set()
+Additionally ignored 8 instances due to no target turns from the user side: {'a40e080f', '70b3e69b', '3249768e', 'fca762bc', '0e5e2d1a', '8464fc84', 'ceb54acb', '1d4da289'}
+{"session": {"recall_any@1": 0.5833333333333334, "recall_all@1": 0.1527777777777778, "ndcg_any@1": 0.5833333333333334, "recall_any@3": 0.9444444444444444, "recall_all@3": 0.6666666666666666, "ndcg_any@3": 0.7133366363796547, "recall_any@5": 0.9861111111111112, "recall_all@5": 0.8888888888888888, "ndcg_any@5": 0.7724831312054357, "recall_any@10": 0.9861111111111112, "recall_all@10": 0.9861111111111112, "ndcg_any@10": 0.7877732935033593, "recall_any@30": 1.0, "recall_all@30": 1.0, "ndcg_any@30": 0.7933971000416161, "recall_any@50": 1.0, "recall_all@50": 1.0, "ndcg_any@50": 0.7933971000416161}, "turn": {"recall_any@1": 0.5833333333333334, "recall_all@1": 0.1388888888888889, "ndcg_any@1": 0.5833333333333334, "recall_any@3": 0.8472222222222222, "recall_all@3": 0.5694444444444444, "ndcg_any@3": 0.6742699726190509, "recall_any@5": 0.9583333333333334, "recall_all@5": 0.7222222222222222, "ndcg_any@5": 0.735752550311753, "recall_any@10": 0.9861111111111112, "recall_all@10": 0.9305555555555556, "ndcg_any@10": 0.7850821767068887, "recall_any@30": 1.0, "recall_all@30": 1.0, "ndcg_any@30": 0.7933971000416161, "recall_any@50": 1.0, "recall_all@50": 1.0, "ndcg_any@50": 0.7933971000416161}}
+{
+  "passed": true,
+  "stage": "formal",
+  "index": "K1",
+  "questions": {
+    "main": 80
+  },
+  "candidates_per_question": 100,
+  "total_candidates": 8000,
+  "D01_public_input_validation": "passed for all 80",
+  "official_same_order": 80,
+  "official_same_set": 80,
+  "regression": [],
+  "truncated_index_texts": 133,
+  "indexed_turns": 19606,
+  "candidate_sha256": {
+    "formal_K1.jsonl": "3e37ea42298861bd61f9516b31a0e9ef943cd4c516a24d0efcfca7bca7a7d9b3"
+  },
+  "scope": "rank/order comparison only; official log has no scores; not an answer-accuracy evaluation"
+}
+B06 OFFICIAL COMPARISON COMPLETED
