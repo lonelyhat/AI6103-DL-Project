@@ -1,0 +1,134 @@
+{
+  "a03_version": "a03-v2",
+  "g02_version": "g02-v1",
+  "questions": 80,
+  "records": 800,
+  "dataset_sha256": "d6f21ea9d60a0d56f34a05b609c79c88a451d2ae03597821ea3d5a9678c3a442",
+  "formal_eval_sha256": "bbfe0c77c847a5bd94665ec2cdc2a62cd9ded7bb9738e14db7ef1ea386561ffd",
+  "plan_sha256": "6bc62c2c934fbcb9526d846cdeb9fc8c65a54849f2d2a1ac305801f53dfdc29e",
+  "tokenizer_fingerprint": "b47fcb7017102fb3594326d69acc6b74872032ed15def90890d49d61ea94d220",
+  "candidates": {
+    "K0": {
+      "questions": 80,
+      "all_retained": 78,
+      "mean_message_retention": 0.9947916666666666
+    },
+    "K1": {
+      "questions": 80,
+      "all_retained": 79,
+      "mean_message_retention": 0.996875
+    }
+  },
+  "selections": {
+    "K0/R": {
+      "questions": 80,
+      "all_retained": 41,
+      "mean_message_retention": 0.685625,
+      "diagnosis_counts": {
+        "all_retained": 41,
+        "candidates_missing": 2,
+        "minimal_cover_over_budget": 8,
+        "selection_missed": 29
+      }
+    },
+    "K0/MMR": {
+      "questions": 80,
+      "all_retained": 42,
+      "mean_message_retention": 0.6991666666666666,
+      "diagnosis_counts": {
+        "all_retained": 42,
+        "candidates_missing": 2,
+        "minimal_cover_over_budget": 8,
+        "selection_missed": 28
+      }
+    },
+    "K0/C": {
+      "questions": 80,
+      "all_retained": 28,
+      "mean_message_retention": 0.5435416666666667,
+      "diagnosis_counts": {
+        "all_retained": 28,
+        "candidates_missing": 2,
+        "minimal_cover_over_budget": 8,
+        "selection_missed": 42
+      }
+    },
+    "K0/Q": {
+      "questions": 80,
+      "all_retained": 29,
+      "mean_message_retention": 0.54875,
+      "diagnosis_counts": {
+        "all_retained": 29,
+        "candidates_missing": 2,
+        "minimal_cover_over_budget": 8,
+        "selection_missed": 41
+      }
+    },
+    "K0/FL": {
+      "questions": 80,
+      "all_retained": 16,
+      "mean_message_retention": 0.3804166666666667,
+      "diagnosis_counts": {
+        "all_retained": 16,
+        "candidates_missing": 2,
+        "minimal_cover_over_budget": 8,
+        "selection_missed": 54
+      }
+    },
+    "K1/R": {
+      "questions": 80,
+      "all_retained": 44,
+      "mean_message_retention": 0.7172916666666667,
+      "diagnosis_counts": {
+        "all_retained": 44,
+        "candidates_missing": 1,
+        "minimal_cover_over_budget": 9,
+        "selection_missed": 26
+      }
+    },
+    "K1/MMR": {
+      "questions": 80,
+      "all_retained": 42,
+      "mean_message_retention": 0.694375,
+      "diagnosis_counts": {
+        "all_retained": 42,
+        "candidates_missing": 1,
+        "minimal_cover_over_budget": 9,
+        "selection_missed": 28
+      }
+    },
+    "K1/C": {
+      "questions": 80,
+      "all_retained": 27,
+      "mean_message_retention": 0.4925,
+      "diagnosis_counts": {
+        "all_retained": 27,
+        "candidates_missing": 1,
+        "minimal_cover_over_budget": 9,
+        "selection_missed": 43
+      }
+    },
+    "K1/Q": {
+      "questions": 80,
+      "all_retained": 31,
+      "mean_message_retention": 0.51125,
+      "diagnosis_counts": {
+        "all_retained": 31,
+        "candidates_missing": 1,
+        "minimal_cover_over_budget": 9,
+        "selection_missed": 39
+      }
+    },
+    "K1/FL": {
+      "questions": 80,
+      "all_retained": 17,
+      "mean_message_retention": 0.36583333333333334,
+      "diagnosis_counts": {
+        "all_retained": 17,
+        "candidates_missing": 1,
+        "minimal_cover_over_budget": 9,
+        "selection_missed": 53
+      }
+    }
+  }
+}
