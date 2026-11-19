@@ -20,4 +20,6 @@ E04 对每批使用解包后的 `reader_inputs.jsonl`，每批使用单独的运
 python -m D.D08.verify_delivery
 ```
 
+如需用冻结的 Llama 分词器逐条复算历史正文和完整 CoN prompt，请加 `--tokenizer /path/to/reader-snapshot`。本次交付已对全部 800 条做过这项复核。证据保留情况单列为选材诊断，实际答题正确率以 E04/F04 为准。
+
 模型回答与评分分别由 E04 和 F04 生成和归档。

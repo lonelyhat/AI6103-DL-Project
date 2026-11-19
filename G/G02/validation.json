@@ -212,6 +212,23 @@
       "batches": 8
     },
     "max_context_tokens": 2048,
-    "generation_performed": false
+    "generation_performed": false,
+    "release_quality_check": {
+      "validated_records": 800,
+      "a03_question_text_and_dates_match": true,
+      "selection_weights_and_frozen_fingerprints_match": true,
+      "history_and_full_con_prompt_independently_recounted": true,
+      "old_experiment_and_shared_evidence_group_overlap": 0,
+      "max_con_prompt_tokens": 2209,
+      "evidence_screen_only": {
+        "candidate_questions_with_full_evidence": {
+          "K0": 78,
+          "K1": 79
+        },
+        "materials_with_all_annotated_evidence": 317,
+        "materials_without_annotated_evidence": 187
+      },
+      "answer_correctness": "pending E04/F04"
+    }
   }
 }
