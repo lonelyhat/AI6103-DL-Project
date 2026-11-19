@@ -18,7 +18,7 @@ CACHE="$HOME/B45/B06/turn-userfact_c04_formal80.json"   # official asserts the p
 mkdir -p "$OUT/official"
 cd "$REPO"
 [ -d "$OFFICIAL" ] || python B-检索线/B05/prepare_official.py "$HOME/B02/official" "$OFFICIAL"
-cp C04/c04_facts_80q.json "$CACHE"
+cp C04_new/c04_facts_80q.json "$CACHE"
 cd "$OFFICIAL"
 export PYTHONPATH="$PWD:${PYTHONPATH:-}"
 python -u src/retrieval/run_retrieval.py \
