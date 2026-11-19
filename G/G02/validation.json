@@ -199,6 +199,7 @@
     "max_context_tokens": 2047,
     "max_prompt_tokens": 2188,
     "generation_performed": false,
+    "archive_path": "D/D08/delivery/D08_g02-v1_batch-01.zip",
     "archive_sha256": "9388b99aead498a9a57385af289e769f0ac49f893af24f2536a23c4fbf6c4a1b"
   }
 }

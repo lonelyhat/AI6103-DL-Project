@@ -27,7 +27,7 @@ C05 另查预检识别的 3 个非事实缓存键，它们均未进入当前两�
 
 从工作树根目录执行。D08 可在 CPU 上运行；分词器目录需包含匹配 E03 的 tokenizer、聊天模板和模型配置。计划中的 `batch-01` 至 `batch-08` 各含 10 题、100 个设置，两套候选和预算须与冻结配置一致。
 
-首批已在本地生成并验证 100 个设置，文件与交接包指纹见 [核验回执](validation.json)。E04 可使用该批原始 `reader_inputs.jsonl`。
+首批已生成并验证 100 个设置，交接包位于 [D08 交付目录](../../D/D08/delivery/README.md)，文件指纹见 [核验回执](validation.json)。E04 可使用解包后的原始 `reader_inputs.jsonl`，D 线可从 `batch-02` 继续生成。
 
 ```bash
 python -m G.G02.prepare \
