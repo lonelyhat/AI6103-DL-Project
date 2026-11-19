@@ -1,7 +1,7 @@
 {
-  "config_version": "g02-v1-candidate",
+  "config_version": "g02-v1",
   "date": "2026-11-19",
-  "status": "candidate_pending_a03_v2_c04_b06",
+  "status": "frozen",
   "approvals": {
     "a03_final": {
       "decision": "accepted",
@@ -16,8 +16,8 @@
     }
   },
   "refs": {
-    "integration": "225a78e0e860532e0538ce871c6871fa37bf160a",
-    "main": "923af6806d1b06c3711b1d86ffdc7c4d7df04a7f",
+    "integration": "0635f610e9633ab8a2d463c8d23c0371c4623a69",
+    "main": "68b246253d12fb84a4254a5560d9e2dc62abeab4",
     "g01": "37ea9281c5d30758382eb2309f3f3eeda4fe08e4",
     "d06": "e870a0824034d3d61b8202b475f651e176dde1e8",
     "d07": "c2574c1cc9b090299b765f6d704397389334c79f"
@@ -30,7 +30,7 @@
     "public_root": "A-数据线/A03/output/public",
     "candidates": {
       "K0": "B-检索线/B04/candidates/formal_K0.jsonl",
-      "K1": null
+      "K1": "B-检索线/B06/candidates/formal_K1.jsonl"
     },
     "turn_sha256": {
       "10d9b85a": "11195c92d250e7d41320b6609a773d3b53b9da70710f25ab61f980123bef9217",
@@ -124,6 +124,132 @@
       "single-session-assistant": 7,
       "single-session-user": 9,
       "temporal-reasoning": 27
+    },
+    "batches": {
+      "batch-01": {
+        "question_ids": [
+          "10d9b85a",
+          "69fee5aa",
+          "a4996e51",
+          "gpt4_731e37d7",
+          "f0853d11",
+          "gpt4_15e38248",
+          "a40e080f",
+          "gpt4_8e165409",
+          "7a87bd0c",
+          "6e984301"
+        ],
+        "expected_records": 100
+      },
+      "batch-02": {
+        "question_ids": [
+          "gpt4_7ca326fa",
+          "gpt4_65aabe59",
+          "311778f1",
+          "gpt4_8c8961ae",
+          "a08a253f",
+          "f523d9fe",
+          "c14c00dd",
+          "ef9cf60a",
+          "0db4c65d",
+          "dd2973ad"
+        ],
+        "expected_records": 100
+      },
+      "batch-03": {
+        "question_ids": [
+          "gpt4_88806d6e",
+          "a3045048",
+          "89941a93",
+          "gpt4_85da3956",
+          "gpt4_213fd887",
+          "gpt4_61e13b3c",
+          "00ca467f",
+          "d905b33f",
+          "2e6d26dc",
+          "ccb36322"
+        ],
+        "expected_records": 100
+      },
+      "batch-04": {
+        "question_ids": [
+          "852ce960",
+          "gpt4_5501fe77",
+          "gpt4_468eb063",
+          "aae3761f",
+          "9ee3ecd6",
+          "dcfa8644",
+          "89941a94",
+          "157a136e",
+          "c5e8278d",
+          "129d1232"
+        ],
+        "expected_records": 100
+      },
+      "batch-05": {
+        "question_ids": [
+          "ed4ddc30",
+          "gpt4_1916e0ea",
+          "gpt4_2f91af09",
+          "gpt4_7abb270c",
+          "gpt4_385a5000",
+          "58ef2f1c",
+          "gpt4_78cf46a3",
+          "720133ac",
+          "gpt4_1a1dc16d",
+          "46a3abf7"
+        ],
+        "expected_records": 100
+      },
+      "batch-06": {
+        "question_ids": [
+          "gpt4_68e94287",
+          "gpt4_7bc6cf22",
+          "3f1e9474",
+          "gpt4_18c2b244",
+          "6d550036",
+          "e4e14d04",
+          "a3838d2b",
+          "2788b940",
+          "77eafa52",
+          "f9e8c073"
+        ],
+        "expected_records": 100
+      },
+      "batch-07": {
+        "question_ids": [
+          "gpt4_d6585ce9",
+          "27016adc",
+          "gpt4_21adecb5",
+          "8cf4d046",
+          "1d4da289",
+          "ceb54acb",
+          "gpt4_194be4b3",
+          "e493bb7c",
+          "f8c5f88b",
+          "3249768e"
+        ],
+        "expected_records": 100
+      },
+      "batch-08": {
+        "question_ids": [
+          "gpt4_468eb064",
+          "gpt4_2ba83207",
+          "d682f1a2",
+          "8a137a7f",
+          "1568498a",
+          "18dcd5a5",
+          "7401057b",
+          "37d43f65",
+          "db467c8c",
+          "184da446"
+        ],
+        "expected_records": 100
+      }
+    },
+    "fact_snapshot": {
+      "path": "C04_new/c04_facts_80q.json",
+      "git_blob_sha256": "d0f096f7f38a1ab8715b74469ce364999fd82ba9226baf8c6e4844398cab0473"
     }
   },
   "prior_use_audit": {
@@ -236,7 +362,8 @@
     "judge_missing_or_error": "incomplete_until_scored",
     "formal_preference_questions": 0,
     "preference_calibrated": false,
-    "preference_policy": "excluded_by_a03_v2_prior_use_policy"
+    "preference_policy": "excluded_by_a03_v2_prior_use_policy",
+    "evaluation_sha256": "bbfe0c77c847a5bd94665ec2cdc2a62cd9ded7bb9738e14db7ef1ea386561ffd"
   },
   "analysis": {
     "question_unit": "question_id",
@@ -268,7 +395,7 @@
     "D/selection_batch.py": "d3a42b709e5afde57b4af7d8b94de37691a2fd859346ac92e6dabd5d140e0206",
     "D/verify_selection.py": "1e7ba0946356b1915f0cb173262d1581327dd841af92328bd849f15ea4b109ba",
     "D/D07/run.py": "ad44a5562d30e9f7b5899c4d0ed00a15545ef809dd3ccbce86c1e3693a89eeae",
-    "G/G02/prepare.py": "aa81f0f40b985d2afe306d9187ed17e62a1b27cd04205371a73f1a63f5ba6f68",
+    "G/G02/prepare.py": "95b5008907116ba9b2269d23e81c28b734ff163f3094f8b8d4a86f642fe90986",
     "G/G02/prepare_eval.py": "7efd29f486443b0d00cd2bc64c3f9daa7d2ba5e54c7f88eeaae000984b36688d",
     "E/E03/prepare_inputs.py": "e38700684261f70a58b29a100570e7376f508e97ec23b1da70a2b928212cbc5f",
     "E/E03/batch.py": "fe07e7cf8812197eadc60b3efb6ec39fd4f8a3ef1137239342450f8d104a9d67",
@@ -279,11 +406,28 @@
     "A-数据线/A03/extra_used_ids_baseline_v1.txt": "412aab416ea07a7f57e434b98a2ef7949cd3434dc62c7ccfd0ff1ba6ed1d66b3",
     "A-数据线/A03/output/eval/a03_v2_changes.json": "ba07881ca90a1b96fa892a24b89c4a9a68511b5da68ac29074fabfb0763df2f4",
     "B-检索线/B04/results/provenance.json": "fa187401c45dcdf908ce93119dd1e7d838a3b1d0e87fcec46befad955ec7ae06",
-    "B-检索线/B04/results/validation.json": "594ed83815a90563e80a1e95209e655fdf74dce37081db10c81a47729d26ccb2"
+    "B-检索线/B04/results/validation.json": "594ed83815a90563e80a1e95209e655fdf74dce37081db10c81a47729d26ccb2",
+    "B-检索线/B06/candidates/formal_K1.jsonl": "333732586385fd490450f52b21a98c91130e72066c614d3c2e75c266909c4570",
+    "C04_new/c04_facts_80q.json": "c839e727fc17b7b30c7b605dff25c45b54a9112b21a15c263f511d2e16a1e408",
+    "B-检索线/B06/inputs/formal_facts_by_turn.jsonl": "fe39c195942275b52709ba0178abb2e272d9544ca05208922b8d5ab98008950b",
+    "B-检索线/B06/inputs/formal_fact_sources.jsonl": "09376ada05ceedf46d64309f0e340e7040a88a09a49cd8ca7339cd7bc2459318",
+    "B-检索线/B06/results/provenance.json": "c0bc348eceb26ccf515a100989461032e14690f8fbebba5c265c1c9a99dcd906",
+    "B-检索线/B06/results/validation.json": "61124822ce9c641ff1d046235e99b23f20eba93f0dfcc2f802ae08e9bbf08383",
+    "B-检索线/B06/results/facts_preparation.json": "d915490fb72fdd18eee913a1ce8e4bb8d7faf71f89e0fd2ace577dce796eebae"
   },
-  "pending_input_handoffs": {
-    "C04": "facts and per-turn provenance for a03-v2",
-    "B06": "K1 candidates for the full a03-v2 manifest",
-    "archived_v1_k1_path": "B-检索线/B06/candidates/formal_K1.jsonl"
+  "post_freeze_followups": {
+    "C04_v2_ledger": {
+      "status": "awaiting_original_records",
+      "scope": "C05/F07/G03 extraction and cache accounting, not a D08 input",
+      "unknown_fields": [
+        "extraction_configuration",
+        "reuse_breakdown",
+        "attempts",
+        "parse_failures",
+        "token_usage",
+        "wall_clock_time"
+      ]
+    },
+    "first_real_e04_and_f04_receipt": "pending"
   }
 }

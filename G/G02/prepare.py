@@ -5,6 +5,7 @@ import json
 from itertools import product
 from pathlib import Path
 import re
+from time import perf_counter
 
 from D.D01.selection import HFTokenizer
 from D.D02.materials import select_ranked
@@ -89,7 +90,9 @@ def prepare_rows(config, qids, counter, budget, indices=INDICES):
             for strategy in METHODS:
                 case = {'strategy': strategy, **weights[strategy]}
                 if strategy == 'R':
+                    started = perf_counter()
                     row = select_ranked(request, turns, exact_counter)
+                    row['selection_elapsed_s'] = perf_counter() - started
                 else:
                     settings = dict(case, stage='formal', index=index, budget_tokens=budget,
                                     question_ids=[qid], strategies=[strategy])
@@ -103,7 +106,9 @@ def prepare_rows(config, qids, counter, budget, indices=INDICES):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--tokenizer', required=True, help='Local reader snapshot or matching tokenizer directory')
-    parser.add_argument('--question-ids', nargs='+', required=True)
+    scope = parser.add_mutually_exclusive_group(required=True)
+    scope.add_argument('--question-ids', nargs='+')
+    scope.add_argument('--batch-id', help='Batch ID from the frozen D08 schedule')
     parser.add_argument('--output-dir', type=Path, required=True)
     parser.add_argument('--preview-budget', type=int, help='Explicit budget override for local diagnostics')
     parser.add_argument('--preview-index', choices=INDICES, help='Check one index for handoff diagnosis only')
@@ -117,7 +122,17 @@ def main():
     unavailable = [i for i in indices if not config['formal']['candidates'].get(i)]
     if unavailable:
         parser.error(f"Awaiting {'/'.join(unavailable)} candidates for {config['formal']['config_version']}")
-    qids = args.question_ids
+    if args.batch_id:
+        batch_plan = config.get('formal', {}).get('batches', {}).get(args.batch_id)
+        if not frozen or not batch_plan:
+            parser.error('A known batch ID and frozen plan are required for D08')
+        if args.preview_index is not None or args.preview_budget is not None:
+            parser.error('A D08 batch must use both indices and the frozen budget')
+        qids = batch_plan['question_ids']
+        if batch_plan['expected_records'] != len(qids) * len(INDICES) * len(METHODS):
+            parser.error('D08 batch size differs from the frozen schedule')
+    else:
+        qids = args.question_ids
     if not frozen and len(qids) > 2:
         parser.error('Pending freeze permits only a one- or two-question interface check')
     if args.preview_budget is not None and not 0 < args.preview_budget:
@@ -155,7 +170,7 @@ def main():
                 for row in reader_inputs]
     if source_hash(args.config) != plan_hash:
         raise ValueError('G02 plan changed during material preparation')
-    receipt.update(status='cpu_reader_preflight_passed',
+    receipt.update(status='cpu_reader_preflight_passed', batch_id=args.batch_id,
                    intended_use='interface_check_only' if candidate_only else 'formal_generation',
                    plan_sha256=plan_hash, question_ids=qids, indices=list(indices),
                    budget_tokens=budget, tokenizer_check='passed', tokenizer_fingerprint=counter.fingerprint,
