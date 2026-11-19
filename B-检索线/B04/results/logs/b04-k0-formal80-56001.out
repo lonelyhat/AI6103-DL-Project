@@ -1,0 +1,114 @@
+Thu Nov 19 05:03:02 AM UTC 2026
+TC2N02
+name, memory.total [MiB], driver_version
+NVIDIA A40, 46068 MiB, 570.148.08
+Validated 80 formal histories, 19539 turns
+All 12 model file hashes verified
+Model loaded in 14.35s
+10d9b85a: 100 candidates, 22.32s (1/80)
+69fee5aa: 100 candidates, 15.30s (2/80)
+a4996e51: 100 candidates, 15.69s (3/80)
+gpt4_731e37d7: 100 candidates, 15.02s (4/80)
+f0853d11: 100 candidates, 8.64s (5/80)
+gpt4_15e38248: 100 candidates, 10.49s (6/80)
+a40e080f: 100 candidates, 11.16s (7/80)
+gpt4_8e165409: 100 candidates, 16.13s (8/80)
+7a87bd0c: 100 candidates, 13.90s (9/80)
+6e984301: 100 candidates, 9.60s (10/80)
+gpt4_7ca326fa: 100 candidates, 8.67s (11/80)
+gpt4_65aabe59: 100 candidates, 8.82s (12/80)
+311778f1: 100 candidates, 14.82s (13/80)
+gpt4_8c8961ae: 100 candidates, 17.63s (14/80)
+a08a253f: 100 candidates, 10.65s (15/80)
+f523d9fe: 100 candidates, 13.18s (16/80)
+c14c00dd: 100 candidates, 10.85s (17/80)
+ef9cf60a: 100 candidates, 19.05s (18/80)
+0db4c65d: 100 candidates, 11.37s (19/80)
+dd2973ad: 100 candidates, 8.63s (20/80)
+gpt4_88806d6e: 100 candidates, 13.96s (21/80)
+a3045048: 100 candidates, 5.63s (22/80)
+89941a93: 100 candidates, 13.90s (23/80)
+gpt4_85da3956: 100 candidates, 19.34s (24/80)
+gpt4_213fd887: 100 candidates, 8.08s (25/80)
+gpt4_61e13b3c: 100 candidates, 12.11s (26/80)
+00ca467f: 100 candidates, 9.83s (27/80)
+d905b33f: 100 candidates, 11.35s (28/80)
+2e6d26dc: 100 candidates, 15.46s (29/80)
+ccb36322: 100 candidates, 11.38s (30/80)
+852ce960: 100 candidates, 11.58s (31/80)
+gpt4_5501fe77: 100 candidates, 7.33s (32/80)
+gpt4_468eb063: 100 candidates, 16.63s (33/80)
+aae3761f: 100 candidates, 15.60s (34/80)
+9ee3ecd6: 100 candidates, 20.55s (35/80)
+dcfa8644: 100 candidates, 10.40s (36/80)
+89941a94: 100 candidates, 10.53s (37/80)
+157a136e: 100 candidates, 11.18s (38/80)
+c5e8278d: 100 candidates, 9.74s (39/80)
+129d1232: 100 candidates, 13.02s (40/80)
+ed4ddc30: 100 candidates, 10.76s (41/80)
+gpt4_1916e0ea: 100 candidates, 17.95s (42/80)
+gpt4_2f91af09: 100 candidates, 8.71s (43/80)
+gpt4_7abb270c: 100 candidates, 7.46s (44/80)
+gpt4_385a5000: 100 candidates, 15.12s (45/80)
+58ef2f1c: 100 candidates, 9.83s (46/80)
+gpt4_78cf46a3: 100 candidates, 9.95s (47/80)
+720133ac: 100 candidates, 8.92s (48/80)
+gpt4_1a1dc16d: 100 candidates, 17.30s (49/80)
+46a3abf7: 100 candidates, 8.43s (50/80)
+gpt4_68e94287: 100 candidates, 8.56s (51/80)
+gpt4_7bc6cf22: 100 candidates, 10.73s (52/80)
+3f1e9474: 100 candidates, 10.28s (53/80)
+gpt4_18c2b244: 100 candidates, 8.10s (54/80)
+6d550036: 100 candidates, 11.26s (55/80)
+e4e14d04: 100 candidates, 15.24s (56/80)
+a3838d2b: 100 candidates, 15.50s (57/80)
+2788b940: 100 candidates, 11.63s (58/80)
+77eafa52: 100 candidates, 14.49s (59/80)
+f9e8c073: 100 candidates, 18.29s (60/80)
+gpt4_d6585ce9: 100 candidates, 7.12s (61/80)
+27016adc: 100 candidates, 8.52s (62/80)
+gpt4_21adecb5: 100 candidates, 11.68s (63/80)
+8cf4d046: 100 candidates, 14.59s (64/80)
+1d4da289: 100 candidates, 11.51s (65/80)
+ceb54acb: 100 candidates, 12.66s (66/80)
+gpt4_194be4b3: 100 candidates, 12.38s (67/80)
+e493bb7c: 100 candidates, 11.08s (68/80)
+f8c5f88b: 100 candidates, 4.55s (69/80)
+3249768e: 100 candidates, 10.56s (70/80)
+gpt4_468eb064: 100 candidates, 8.98s (71/80)
+gpt4_2ba83207: 100 candidates, 12.83s (72/80)
+d682f1a2: 100 candidates, 13.48s (73/80)
+8a137a7f: 100 candidates, 9.32s (74/80)
+1568498a: 100 candidates, 12.58s (75/80)
+18dcd5a5: 100 candidates, 4.71s (76/80)
+7401057b: 100 candidates, 17.29s (77/80)
+37d43f65: 100 candidates, 7.41s (78/80)
+db467c8c: 100 candidates, 11.02s (79/80)
+184da446: 100 candidates, 5.80s (80/80)
+Exported main=80
+Namespace(in_file='/home/msai/wang2496/B45/B04/formal80_longmemeval_s.json', out_dir='/home/msai/wang2496/B45/B04/results/official', outfile_prefix='formal80', cache_dir='/home/msai/wang2496/B02/stella', retriever='flat-stella', granularity='turn', index_expansion_method='none', index_expansion_llm=None, index_expansion_result_cache=None, index_expansion_result_join_mode='none')
+Setting num processes = 1 with retriever flat-stella
+Ignored 0 instances due to abstention: set()
+Additionally ignored 6 instances due to no target turns from the user side: {'3249768e', 'a40e080f', '1d4da289', 'ceb54acb', '1568498a', '18dcd5a5'}
+{"session": {"recall_any@1": 0.6081081081081081, "recall_all@1": 0.10810810810810811, "ndcg_any@1": 0.6081081081081081, "recall_any@3": 0.918918918918919, "recall_all@3": 0.527027027027027, "ndcg_any@3": 0.6797563406874919, "recall_any@5": 0.9594594594594594, "recall_all@5": 0.7837837837837838, "ndcg_any@5": 0.7364334742730017, "recall_any@10": 0.9594594594594594, "recall_all@10": 0.9054054054054054, "ndcg_any@10": 0.7602072606020233, "recall_any@30": 1.0, "recall_all@30": 0.972972972972973, "ndcg_any@30": 0.7736621026873631, "recall_any@50": 1.0, "recall_all@50": 1.0, "ndcg_any@50": 0.7753979657717727}, "turn": {"recall_any@1": 0.6081081081081081, "recall_all@1": 0.10810810810810811, "ndcg_any@1": 0.6081081081081081, "recall_any@3": 0.8783783783783784, "recall_all@3": 0.47297297297297297, "ndcg_any@3": 0.6595399133553037, "recall_any@5": 0.9324324324324325, "recall_all@5": 0.6216216216216216, "ndcg_any@5": 0.697766131405478, "recall_any@10": 0.9594594594594594, "recall_all@10": 0.8243243243243243, "ndcg_any@10": 0.7480004640811672, "recall_any@30": 0.972972972972973, "recall_all@30": 0.9459459459459459, "ndcg_any@30": 0.7674803100025173, "recall_any@50": 1.0, "recall_all@50": 0.972972972972973, "ndcg_any@50": 0.7729343458971967}}
+{
+  "passed": true,
+  "stage": "formal",
+  "index": "K0",
+  "questions": {
+    "main": 80
+  },
+  "candidates_per_question": 100,
+  "total_candidates": 8000,
+  "D01_public_input_validation": "passed for all 80",
+  "official_same_order": 80,
+  "official_same_set": 80,
+  "regression": [],
+  "truncated_index_texts": 119,
+  "indexed_turns": 19539,
+  "candidate_sha256": {
+    "formal_K0.jsonl": "45e708894c449445b8b0f51e4b4669fe5afdd24ed28cd3f999dfd6ca5676e1a8"
+  },
+  "scope": "rank/order comparison only; official log has no scores; not an answer-accuracy evaluation"
+}
+B04 COMPLETED

@@ -12,7 +12,8 @@ sys.path.insert(0, str(HERE.parent / "A01"))
 from build_a01 import CONFIG_VERSION, build_question, dump_jsonl
 
 TARGET = 80
-SEED = "a03-v1"
+VERSION = "a03-v2"  # v2：补登 baseline_v1 旧实验用题
+SEED = "a03-v1"  # 抽样顺序沿用 v1，只因排除范围变化而换题
 
 
 def sha256(data):
@@ -70,6 +71,8 @@ def main():
     parser.add_argument("data", type=Path)
     parser.add_argument("--out", type=Path, default=HERE / "output")
     parser.add_argument("--extra-used-id", action="append", default=[])
+    parser.add_argument("--extra-used-file", type=Path, action="append", default=[],
+                        help="每行一个已用题号的文件")
     args = parser.parse_args()
 
     raw = args.data.read_bytes()
@@ -81,7 +84,10 @@ def main():
     data = json.loads(raw)
     all_ids = {q["question_id"] for q in data}
     dev_ids = set(dev["dev_ids"])
-    extra_ids = set(args.extra_used_id) - dev_ids
+    extra_raw = list(args.extra_used_id)
+    for path in args.extra_used_file:
+        extra_raw += [line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    extra_ids = set(extra_raw) - dev_ids
     used_ids = dev_ids | extra_ids
     if len(all_ids) != len(data) or used_ids - all_ids:
         raise ValueError(f"题号重复或用题记录含未知题号：{sorted(used_ids - all_ids)}")
@@ -141,7 +147,8 @@ def main():
     for qid, row in audits.items():
         row["selected"] = qid in selected_set
     result = {
-        "config_version": SEED,
+        "config_version": VERSION,
+        "sampling_seed": SEED,
         "data_file": args.data.name,
         "data_sha256": data_sha,
         "a01_manifest_sha256": sha256(manifest_raw),
