@@ -15,6 +15,7 @@ else:
     from D.D01.selection import digest, render_context, validate
 
 VERSION = 'd02-v1'
+INPUT_VERSIONS = {'dev': ('a01-v2',), 'formal': ('a03-v1', 'a03-v2')}
 
 
 def count_history(counter, history):
@@ -34,8 +35,7 @@ def select_ranked(request, turns, counter):
     records = validate(request, turns)
     if request.get('strategy') not in (None, 'R'):
         raise ValueError('D02 only prepares strategy R')
-    versions = {'dev': 'a01-v2', 'formal': 'a03-v1'}
-    if request.get('config_version') != versions[request['stage']]:
+    if request.get('config_version') not in INPUT_VERSIONS[request['stage']]:
         raise ValueError('Candidate version must match the dev/formal stage')
     if request.get('tokenizer') not in (None, counter.name):
         raise ValueError('candidate tokenizer label differs from actual reader counter')

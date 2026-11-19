@@ -38,15 +38,15 @@ def table(rows, expected_ids, name):
     return dict(zip(ids, rows))
 
 
-def require_matrix(rows, qids, version, budget):
+def require_matrix(rows, qids, version, budget, indices=INDICES):
     keys = [(r['question_id'], r['index'], r['strategy']) for r in rows]
-    if len(keys) != len(set(keys)) or set(keys) != set(product(qids, INDICES, METHODS)):
-        raise ValueError('Batch requires exactly ten distinct settings per question')
+    if len(keys) != len(set(keys)) or set(keys) != set(product(qids, indices, METHODS)):
+        raise ValueError(f'Batch requires exactly {len(indices)*len(METHODS)} distinct settings per question')
     if any((r['stage'], r['input_config_version'], r['budget_tokens']) != ('formal', version, budget) for r in rows):
         raise ValueError('Reader input stage/version/budget differs from G02 plan')
 
 
-def prepare_rows(config, qids, counter, budget):
+def prepare_rows(config, qids, counter, budget, indices=INDICES):
     for path, expected in config['source_sha256'].items():
         if source_hash(ROOT / path) != expected:
             raise ValueError(f'Pinned input or runner changed: {path}')
@@ -59,7 +59,7 @@ def prepare_rows(config, qids, counter, budget):
             or not qids or len(qids) != len(set(qids)) or not set(qids) <= set(ids)):
         raise ValueError('Unknown/duplicate questions or unexpected formal manifest')
     questions = table(read_rows(public_root / 'formal_questions.jsonl'), ids, 'A03 public questions')
-    candidates = {i: table(read_rows(ROOT / formal['candidates'][i]), ids, f'{i} candidates') for i in INDICES}
+    candidates = {i: table(read_rows(ROOT / formal['candidates'][i]), ids, f'{i} candidates') for i in indices}
     weights = config['methods']
     if set(weights) != set(METHODS):
         raise ValueError('G02 plan must specify all five methods')
@@ -75,7 +75,7 @@ def prepare_rows(config, qids, counter, budget):
         question = questions[qid]
         if set(question) != {'question_id', 'stage', 'question', 'question_date'}:
             raise ValueError('Only A03 public question fields may reach the selector')
-        for index in INDICES:
+        for index in indices:
             candidate = candidates[index][qid]
             if (candidate['stage'], candidate['index'], candidate['config_version'], candidate.get('strategy')) != (
                     'formal', index, version, None):
@@ -106,19 +106,24 @@ def main():
     parser.add_argument('--question-ids', nargs='+', required=True)
     parser.add_argument('--output-dir', type=Path, required=True)
     parser.add_argument('--preview-budget', type=int, help='Explicit budget override for local diagnostics')
+    parser.add_argument('--preview-index', choices=INDICES, help='Check one index for handoff diagnosis only')
     parser.add_argument('--config', type=Path, default=PLAN)
     args = parser.parse_args()
     plan_hash = source_hash(args.config)
     config = read_json(args.config)
     approvals = config['approvals']
     frozen = config['status'] == 'frozen' and all(approvals[key] for key in ('a03_final', 'g01_acceptance'))
+    indices = (args.preview_index,) if args.preview_index else INDICES
+    unavailable = [i for i in indices if not config['formal']['candidates'].get(i)]
+    if unavailable:
+        parser.error(f"Awaiting {'/'.join(unavailable)} candidates for {config['formal']['config_version']}")
     qids = args.question_ids
     if not frozen and len(qids) > 2:
         parser.error('Pending freeze permits only a one- or two-question interface check')
     if args.preview_budget is not None and not 0 < args.preview_budget:
         parser.error('Preview budget must be positive')
     budget = config['history_budget_tokens'] if args.preview_budget is None else args.preview_budget
-    candidate_only = not frozen or args.preview_budget is not None
+    candidate_only = not frozen or args.preview_budget is not None or args.preview_index is not None
     out = args.output_dir.resolve()
     if out.exists():
         parser.error('Choose a new output directory')
@@ -135,7 +140,7 @@ def main():
     if (batch.reader.MODEL, batch.reader.REVISION, hashlib.sha256(batch.reader.PROMPT.encode()).hexdigest()) != (
             reader['model'], reader['revision'], reader['prompt_sha256']):
         raise ValueError('E02 model revision or CoN prompt differs from the G02 plan')
-    rows = list(prepare_rows(config, qids, counter, budget))
+    rows = list(prepare_rows(config, qids, counter, budget, indices))
     out.mkdir(parents=True)
     selection_file = out / 'selections.jsonl'
     with selection_file.open('x', encoding='utf-8', newline='\n') as stream:
@@ -145,14 +150,14 @@ def main():
     public_root = ROOT / config['formal']['public_root']
     receipt = e_module('prepare_inputs').build([selection_file], public_root / 'turns', input_file)
     reader_inputs = batch.load_inputs(input_file)
-    require_matrix(reader_inputs, qids, config['formal']['config_version'], budget)
+    require_matrix(reader_inputs, qids, config['formal']['config_version'], budget, indices)
     prepared = [batch.reader.prepare(row, counter.tokenizer, capacity, reader['max_new_tokens'])
                 for row in reader_inputs]
     if source_hash(args.config) != plan_hash:
         raise ValueError('G02 plan changed during material preparation')
     receipt.update(status='cpu_reader_preflight_passed',
                    intended_use='interface_check_only' if candidate_only else 'formal_generation',
-                   plan_sha256=plan_hash, question_ids=qids,
+                   plan_sha256=plan_hash, question_ids=qids, indices=list(indices),
                    budget_tokens=budget, tokenizer_check='passed', tokenizer_fingerprint=counter.fingerprint,
                    chat_template_sha256=template_hash, selections_sha256=source_hash(selection_file),
                    max_context_tokens=max(r['context_tokens'] for r in prepared),

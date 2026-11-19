@@ -7,6 +7,7 @@ from pathlib import Path
 import time
 
 from D.D01.selection import Config, HFTokenizer, digest, select
+from D.D02.materials import INPUT_VERSIONS
 from D.D02.prepare_materials import read_jsonl, sha, write_bundle
 
 REPO = Path(__file__).resolve().parents[1]
@@ -58,8 +59,7 @@ def prepare_results(candidate_rows, questions, load_turns, counter, settings):
             if key in request and request[key] != value:
                 raise ValueError(f"{qid}: conflicting public metadata: {key}")
             request[key] = value
-        versions = {"dev": "a01-v2", "formal": "a03-v1"}
-        if request.get("config_version") != versions.get(settings["stage"]):
+        if request.get("config_version") not in INPUT_VERSIONS.get(settings["stage"], ()):
             raise ValueError("require the candidate version for the requested dev/formal stage")
         if request.get("stage") != settings["stage"] or request.get("index") != settings["index"]:
             raise ValueError("candidate stage/index differs from experiment")

@@ -1,6 +1,17 @@
 {
-  "status": "local_validation_passed_pending_a03_final",
-  "plan_sha256": "d38ea712f20df3b62b81fbd4fd31714fdfd19a162f22353b97a48f9587bc5f34",
+  "status": "a03_v2_and_k0_verified_pending_c04_b06",
+  "plan_sha256": "14de64ae3ce401ebac02e00ff71cfd210c126f03d556c8cdf9b09375fb8bd01f",
+  "a03_final": {
+    "decision": "accepted",
+    "config_version": "a03-v2",
+    "commit": "923af6806d1b06c3711b1d86ffdc7c4d7df04a7f",
+    "record": "A-数据线/A03-正式题清单.md"
+  },
+  "g01_acceptance": {
+    "decision": "accepted",
+    "date": "2026-11-19",
+    "record": "G/G01/ACCEPTANCE.md"
+  },
   "development": {
     "d06_delivery_files_verified": 12,
     "d06_scored_records_recomputed": 1156,
@@ -10,71 +21,89 @@
     "d07_tables_recalculated": 3,
     "d07_coverage_pairs": 204
   },
-  "formal_candidates_verified": {
-    "git_commit": "c97d0b83e799a0d1aafb1bd126899c00fc2f4205",
-    "questions": 80,
-    "candidates_per_index": 8000,
-    "history_turns": 19606
+  "a03_v2_input_audit": {
+    "a03": {
+      "config_version": "a03-v2",
+      "questions": 80,
+      "evidence_groups": 78,
+      "candidate_pool": 232,
+      "kept": 43,
+      "replaced": 37,
+      "excluded_old_ids": 200,
+      "old_split_ids_match": true,
+      "prior_use_and_shared_evidence_overlap": 0,
+      "formal_type_counts": {
+        "knowledge-update": 11,
+        "multi-session": 26,
+        "single-session-assistant": 7,
+        "single-session-user": 9,
+        "temporal-reasoning": 27
+      },
+      "manifest_sha256": "7359cefdf495c38f3e71f5e1ac02be79b6057e6bc0e07f12ca7e0dff85278048",
+      "public_inputs_sha256": "bc54ed1752e2a5f6d5c753340e2585f620e9c6c4999eceea95d1a0d728e9b8dc"
+    },
+    "b04_k0": {
+      "verified_questions": 80,
+      "candidate_rows": 8000,
+      "official_same_order_as_recorded": 80,
+      "history_turns": 19539,
+      "index_build_s": 953.1020013412926,
+      "retrieval_s": 2.970423131948337,
+      "candidate_sha256": "45e708894c449445b8b0f51e4b4669fe5afdd24ed28cd3f999dfd6ca5676e1a8"
+    },
+    "c04_readiness": {
+      "needed_v2_unique_keys": 18841,
+      "needed_v2_turn_occurrences": 19539,
+      "keys_in_new_37_questions": 8867,
+      "source_matching_keys_in_v1_c04": 10629,
+      "v1_key_with_different_source": 0,
+      "additional_source_matching_c03_keys": 248,
+      "uncovered_by_checked_local_caches": 7964,
+      "known_c02_parse_failures_overlapping_v2": [],
+      "key_check_sha256": "f36f75ed116307dbcc175601bc272572f5d3a7e6695db00136be1a0316807749",
+      "v2_fact_manifest_delivered": false
+    },
+    "b06_k1": {
+      "available_config_version": "a03-v1",
+      "required_config_version": "a03-v2",
+      "matching_question_ids": 43,
+      "missing_v2_questions": 37,
+      "old_only_questions": 37,
+      "v2_handoff_verified": false
+    }
   },
   "formal_evaluation": {
     "questions": 80,
-    "eval_sha256": "f7388b512d6e89ba6bbe284c884f487f444fb157ffdb18afc9d5773a7870099b",
+    "a03_config_version": "a03-v2",
+    "eval_sha256": "bbfe0c77c847a5bd94665ec2cdc2a62cd9ded7bb9738e14db7ef1ea386561ffd",
     "dataset_sha256": "d6f21ea9d60a0d56f34a05b609c79c88a451d2ae03597821ea3d5a9678c3a442"
   },
   "cpu_preflight": [
     {
       "status": "cpu_reader_preflight_passed",
+      "intended_use": "interface_check_only",
       "question_ids": [
         "10d9b85a",
-        "69fee5aa"
+        "ed4ddc30"
       ],
-      "records": 20,
-      "budget_tokens": 2048,
-      "max_context_tokens": 2043,
-      "max_prompt_tokens": 2173,
-      "max_new_tokens": 800,
-      "generation_performed": false
-    },
-    {
-      "status": "cpu_reader_preflight_passed",
-      "question_ids": [
-        "10d9b85a"
+      "indices": [
+        "K0"
       ],
       "records": 10,
-      "budget_tokens": 1024,
-      "max_context_tokens": 1013,
-      "max_prompt_tokens": 1144,
+      "budget_tokens": 2048,
+      "max_context_tokens": 2048,
+      "max_prompt_tokens": 2177,
       "max_new_tokens": 800,
       "generation_performed": false
     }
   ],
-  "offline_reader_resume_and_f_export": {
-    "mode": "offline_fixture_no_model",
-    "records": 20,
-    "attempts": 21,
-    "statuses": {
-      "generated": 18,
-      "truncated": 1,
-      "empty": 1,
-      "technical_failure": 0
-    },
-    "incomplete_export_rejected": true,
-    "exact_keys_and_history_verified": true
-  },
-  "judge_dry_run": {
-    "input_records": 20,
-    "prompts_built": 19,
-    "api_calls": 0
-  },
+  "historical_a03_v1_validation_commit": "0442b1e07e146fde1a5947bff4a5e4c20172be89",
   "relevant_test_cases_passed": 67,
-  "g01_acceptance": {
-    "decision": "accepted",
-    "date": "2026-11-19",
-    "record": "G/G01/ACCEPTANCE.md"
-  },
   "freeze_blockers": [
-    "a03_final_signoff"
+    "c04_facts_and_sources_for_a03_v2",
+    "b06_k1_candidates_for_a03_v2"
   ],
+  "paired_preflight": "pending_v2_k1_candidates",
   "post_freeze_first_batch": {
     "gpu_generation_and_live_judge_receipt": "not_run"
   }

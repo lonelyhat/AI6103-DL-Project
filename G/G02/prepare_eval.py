@@ -48,7 +48,8 @@ def build(config, dataset, output):
     with output.open('x', encoding='utf-8', newline='\n') as stream:
         for row in evaluation:
             stream.write(json.dumps(row, ensure_ascii=False, allow_nan=False) + '\n')
-    return {'questions': len(evaluation), 'eval_sha256': source_hash(output), 'dataset_sha256': actual}
+    return {'questions': len(evaluation), 'a03_config_version': manifest['config_version'],
+            'eval_sha256': source_hash(output), 'dataset_sha256': actual}
 
 
 if __name__ == '__main__':
