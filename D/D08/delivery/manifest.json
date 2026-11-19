@@ -1,0 +1,180 @@
+{
+  "status": "d08_materials_complete",
+  "config_version": "g02-v1",
+  "a03_config_version": "a03-v2",
+  "plan_sha256": "6bc62c2c934fbcb9526d846cdeb9fc8c65a54849f2d2a1ac305801f53dfdc29e",
+  "questions": 80,
+  "records": 800,
+  "history_budget_tokens": 2048,
+  "max_context_tokens": 2048,
+  "batches": {
+    "batch-01": {
+      "archive": "D08_g02-v1_batch-01.zip",
+      "archive_sha256": "9388b99aead498a9a57385af289e769f0ac49f893af24f2536a23c4fbf6c4a1b",
+      "question_ids": [
+        "10d9b85a",
+        "69fee5aa",
+        "a4996e51",
+        "gpt4_731e37d7",
+        "f0853d11",
+        "gpt4_15e38248",
+        "a40e080f",
+        "gpt4_8e165409",
+        "7a87bd0c",
+        "6e984301"
+      ],
+      "records": 100,
+      "max_context_tokens": 2047,
+      "max_prompt_tokens": 2188,
+      "input_sha256": "75cfabcfa921a7b90ae2850a42e3524e221f453d103154b872e3d363d6ac3ae7",
+      "selections_sha256": "f927f3d236b267d77fb92c13fa9cc0f5a827b4f62507cb50082cc3ec2c91a794"
+    },
+    "batch-02": {
+      "archive": "D08_g02-v1_batch-02.zip",
+      "archive_sha256": "0ae158947360532e5e060dc28fe8c0cc567f360bdc06c0c4b3cd3b1b3a0a824f",
+      "question_ids": [
+        "gpt4_7ca326fa",
+        "gpt4_65aabe59",
+        "311778f1",
+        "gpt4_8c8961ae",
+        "a08a253f",
+        "f523d9fe",
+        "c14c00dd",
+        "ef9cf60a",
+        "0db4c65d",
+        "dd2973ad"
+      ],
+      "records": 100,
+      "max_context_tokens": 2047,
+      "max_prompt_tokens": 2209,
+      "input_sha256": "a86fd23dc4125cad337a5f91cdfab22c1c41911f345efe28b4bd70fda0996160",
+      "selections_sha256": "776122270b87d7d1cc6c035fb67dc63c563e0e6b06ef3a823581821dac54cd24"
+    },
+    "batch-03": {
+      "archive": "D08_g02-v1_batch-03.zip",
+      "archive_sha256": "e5ace94b8cd596f77c541e37acc9746217ec73f706b51242a62647a14ad78995",
+      "question_ids": [
+        "gpt4_88806d6e",
+        "a3045048",
+        "89941a93",
+        "gpt4_85da3956",
+        "gpt4_213fd887",
+        "gpt4_61e13b3c",
+        "00ca467f",
+        "d905b33f",
+        "2e6d26dc",
+        "ccb36322"
+      ],
+      "records": 100,
+      "max_context_tokens": 2048,
+      "max_prompt_tokens": 2193,
+      "input_sha256": "17fe205698302a5e004ab04a08ef9cc76c27e6c4a49a5fc61b15beb9d18dd450",
+      "selections_sha256": "b6cf66f75f819dee2785bcc06f629534f47318fbd06eea227b8636170451979f"
+    },
+    "batch-04": {
+      "archive": "D08_g02-v1_batch-04.zip",
+      "archive_sha256": "fb542f64b327036c77f18b500b8e5c738b2c35e8f80efaaa19980cd81a004f99",
+      "question_ids": [
+        "852ce960",
+        "gpt4_5501fe77",
+        "gpt4_468eb063",
+        "aae3761f",
+        "9ee3ecd6",
+        "dcfa8644",
+        "89941a94",
+        "157a136e",
+        "c5e8278d",
+        "129d1232"
+      ],
+      "records": 100,
+      "max_context_tokens": 2048,
+      "max_prompt_tokens": 2191,
+      "input_sha256": "cea837918cbb3c65b2dee2de57623ebef40dd7a67e48b226577ce3acefd2557c",
+      "selections_sha256": "34f517c01fd4a023c2bafd7a70eb668fb3744b04004e7f535dade418b5cfb819"
+    },
+    "batch-05": {
+      "archive": "D08_g02-v1_batch-05.zip",
+      "archive_sha256": "cf2c9443d01190889f574519576b61c3ec5410faf6fd8d46e4e2949de0f260a1",
+      "question_ids": [
+        "ed4ddc30",
+        "gpt4_1916e0ea",
+        "gpt4_2f91af09",
+        "gpt4_7abb270c",
+        "gpt4_385a5000",
+        "58ef2f1c",
+        "gpt4_78cf46a3",
+        "720133ac",
+        "gpt4_1a1dc16d",
+        "46a3abf7"
+      ],
+      "records": 100,
+      "max_context_tokens": 2048,
+      "max_prompt_tokens": 2191,
+      "input_sha256": "bbeb3b5e350f2644b62e0ba01f0932b693871795d72e5d76806e5360802a0b2e",
+      "selections_sha256": "dbd620cc8c8626dd7465bc947386579393355457e94d972f03045c17ee3b4033"
+    },
+    "batch-06": {
+      "archive": "D08_g02-v1_batch-06.zip",
+      "archive_sha256": "2e980b914ba3dd2a7fbd6aeacbe21f092daada1228a026223ee65bc2086ea34f",
+      "question_ids": [
+        "gpt4_68e94287",
+        "gpt4_7bc6cf22",
+        "3f1e9474",
+        "gpt4_18c2b244",
+        "6d550036",
+        "e4e14d04",
+        "a3838d2b",
+        "2788b940",
+        "77eafa52",
+        "f9e8c073"
+      ],
+      "records": 100,
+      "max_context_tokens": 2048,
+      "max_prompt_tokens": 2186,
+      "input_sha256": "68d72938db8066639345e615a181106b8e38d8c57178a280c433faa92ba46106",
+      "selections_sha256": "029797d8e1cfc6428035167608434bb712d9c3c84ccda435139532733a14e86d"
+    },
+    "batch-07": {
+      "archive": "D08_g02-v1_batch-07.zip",
+      "archive_sha256": "dc1a9c74567f99ca5a91b1906ce8e9c6cdd3bf673fb2a17e7a6242b85c2f0cec",
+      "question_ids": [
+        "gpt4_d6585ce9",
+        "27016adc",
+        "gpt4_21adecb5",
+        "8cf4d046",
+        "1d4da289",
+        "ceb54acb",
+        "gpt4_194be4b3",
+        "e493bb7c",
+        "f8c5f88b",
+        "3249768e"
+      ],
+      "records": 100,
+      "max_context_tokens": 2048,
+      "max_prompt_tokens": 2201,
+      "input_sha256": "dda7013a75c48c0be7d419b14cfb284051addcde1879d4811487796e32a0b747",
+      "selections_sha256": "930f70b257b19e32dd2b116acfc44228fd8cc11e60521868f0b9e96eb31d6334"
+    },
+    "batch-08": {
+      "archive": "D08_g02-v1_batch-08.zip",
+      "archive_sha256": "f801a428450bdd2d3cd59bf6d42c81c8a8c31a480c1903fad745026e562c04b3",
+      "question_ids": [
+        "gpt4_468eb064",
+        "gpt4_2ba83207",
+        "d682f1a2",
+        "8a137a7f",
+        "1568498a",
+        "18dcd5a5",
+        "7401057b",
+        "37d43f65",
+        "db467c8c",
+        "184da446"
+      ],
+      "records": 100,
+      "max_context_tokens": 2048,
+      "max_prompt_tokens": 2193,
+      "input_sha256": "a167e0db0044125c4f762c974e538fd0a1f3f8a2b057ae44ae33dea135f59a65",
+      "selections_sha256": "d1904ccef5a07bac8eb2307614c8890e2444e6eab6eb3fb9641bc91949a5bfd3"
+    }
+  }
+}

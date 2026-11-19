@@ -1,6 +1,6 @@
-# D08 正式首批交接
+# D08 正式材料交接
 
-[D08_g02-v1_batch-01.zip](D08_g02-v1_batch-01.zip) 是按 [G02 冻结配置](../../../G/G02/plan.json)生成的首批正式阅读材料。题单版本为 `a03-v2`。10 题各有 K0/K1 × R/MMR/C/Q/FL，共 100 个设置，历史正文最长龙度为 2047 Token。
+交付按 [G02 冻结配置](../../../G/G02/plan.json)生成，题单版本为 `a03-v2`。8 批各 10 题、100 个设置，总共 80 题和 800 条正式阅读输入。每道题都有 K0/K1 × R/MMR/C/Q/FL。逐批题号和压缩包、输入、选材记录的 SHA-256 见 [交付清单](manifest.json)。
 
 | 解包文件 | 用途 |
 | --- | --- |
@@ -8,15 +8,16 @@
 | `reader_inputs.jsonl` | E04 直接读取的输入文件。传输时保留原始字节。 |
 | `receipt.json` | 批次、计划指纹、输入指纹、预算与 CPU 预检结果。 |
 
-压缩包和输入文件的 SHA-256 见 [G02 核验回执](../../../G/G02/validation.json) 的 `d08_first_batch`。从仓库根目录解包：
+从仓库根目录解包，例如首批：
 
 ```bash
 python -m zipfile -e D/D08/delivery/D08_g02-v1_batch-01.zip runs/g02/d08-g02-v1-batch-01
 ```
 
-首批材料已经生成并核验。D 线可直接从 `batch-02` 继续分批生成，沿用冻结计划和同一 E03 分词器：
+E04 对每批使用解包后的 `reader_inputs.jsonl`，每批使用单独的运行目录。A04 读取同批次的 `selections.jsonl`。逐批换用 `batch-01` 至 `batch-08` 的文件，不需要重新选材。可以在 CPU 上复核八批压缩包、输入身份、候选来源和原文：
 
 ```bash
-python -m G.G02.prepare --tokenizer /path/to/reader-snapshot \
-  --batch-id batch-02 --output-dir runs/g02/d08-g02-v1-batch-02
+python -m D.D08.verify_delivery
 ```
+
+模型回答与评分分别由 E04 和 F04 生成和归档。
