@@ -1,0 +1,4 @@
+JobID           JobName      State ExitCode    Elapsed 
+------------ ---------- ---------- -------- ---------- 
+56264           e04-b01     FAILED      1:0   00:26:31 
+56264.batch       batch     FAILED      1:0   00:26:31 

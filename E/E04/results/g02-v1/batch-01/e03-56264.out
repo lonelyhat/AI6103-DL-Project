@@ -1,0 +1,215 @@
+10d9b85a K0/R: context=2007 prompt=2138
+10d9b85a K0/MMR: context=2007 prompt=2138
+10d9b85a K0/C: context=2008 prompt=2139
+10d9b85a K0/Q: context=2008 prompt=2139
+10d9b85a K0/FL: context=2003 prompt=2134
+10d9b85a K1/R: context=2030 prompt=2161
+10d9b85a K1/MMR: context=2030 prompt=2161
+10d9b85a K1/C: context=1913 prompt=2044
+10d9b85a K1/Q: context=2035 prompt=2166
+10d9b85a K1/FL: context=2024 prompt=2155
+69fee5aa K0/R: context=2043 prompt=2173
+69fee5aa K0/MMR: context=2043 prompt=2173
+69fee5aa K0/C: context=2034 prompt=2164
+69fee5aa K0/Q: context=2034 prompt=2164
+69fee5aa K0/FL: context=1951 prompt=2081
+69fee5aa K1/R: context=2043 prompt=2173
+69fee5aa K1/MMR: context=2043 prompt=2173
+69fee5aa K1/C: context=2034 prompt=2164
+69fee5aa K1/Q: context=2034 prompt=2164
+69fee5aa K1/FL: context=2023 prompt=2153
+a4996e51 K0/R: context=2000 prompt=2130
+a4996e51 K0/MMR: context=2000 prompt=2130
+a4996e51 K0/C: context=2024 prompt=2154
+a4996e51 K0/Q: context=2000 prompt=2130
+a4996e51 K0/FL: context=1995 prompt=2125
+a4996e51 K1/R: context=2046 prompt=2176
+a4996e51 K1/MMR: context=2046 prompt=2176
+a4996e51 K1/C: context=1986 prompt=2116
+a4996e51 K1/Q: context=2032 prompt=2162
+a4996e51 K1/FL: context=2033 prompt=2163
+gpt4_731e37d7 K0/R: context=2046 prompt=2177
+gpt4_731e37d7 K0/MMR: context=1960 prompt=2091
+gpt4_731e37d7 K0/C: context=1966 prompt=2097
+gpt4_731e37d7 K0/Q: context=1970 prompt=2101
+gpt4_731e37d7 K0/FL: context=2047 prompt=2178
+gpt4_731e37d7 K1/R: context=2046 prompt=2177
+gpt4_731e37d7 K1/MMR: context=2026 prompt=2157
+gpt4_731e37d7 K1/C: context=2026 prompt=2157
+gpt4_731e37d7 K1/Q: context=2005 prompt=2136
+gpt4_731e37d7 K1/FL: context=1988 prompt=2119
+f0853d11 K0/R: context=2003 prompt=2141
+f0853d11 K0/MMR: context=2002 prompt=2140
+f0853d11 K0/C: context=2009 prompt=2147
+f0853d11 K0/Q: context=2008 prompt=2146
+f0853d11 K0/FL: context=1999 prompt=2137
+f0853d11 K1/R: context=2003 prompt=2141
+f0853d11 K1/MMR: context=2000 prompt=2138
+f0853d11 K1/C: context=2009 prompt=2147
+f0853d11 K1/Q: context=2009 prompt=2147
+f0853d11 K1/FL: context=1996 prompt=2134
+gpt4_15e38248 K0/R: context=2042 prompt=2178
+gpt4_15e38248 K0/MMR: context=2026 prompt=2162
+gpt4_15e38248 K0/C: context=1985 prompt=2121
+gpt4_15e38248 K0/Q: context=1994 prompt=2130
+gpt4_15e38248 K0/FL: context=1982 prompt=2118
+gpt4_15e38248 K1/R: context=2029 prompt=2165
+gpt4_15e38248 K1/MMR: context=2029 prompt=2165
+gpt4_15e38248 K1/C: context=2011 prompt=2147
+gpt4_15e38248 K1/Q: context=2013 prompt=2149
+gpt4_15e38248 K1/FL: context=1985 prompt=2121
+a40e080f K0/R: context=2027 prompt=2177
+a40e080f K0/MMR: context=2027 prompt=2177
+a40e080f K0/C: context=1922 prompt=2072
+a40e080f K0/Q: context=2027 prompt=2177
+a40e080f K0/FL: context=1998 prompt=2148
+a40e080f K1/R: context=2024 prompt=2174
+a40e080f K1/MMR: context=2023 prompt=2173
+a40e080f K1/C: context=1922 prompt=2072
+a40e080f K1/Q: context=2015 prompt=2165
+a40e080f K1/FL: context=2012 prompt=2162
+gpt4_8e165409 K0/R: context=2021 prompt=2171
+gpt4_8e165409 K0/MMR: context=2021 prompt=2171
+gpt4_8e165409 K0/C: context=1912 prompt=2062
+gpt4_8e165409 K0/Q: context=1961 prompt=2111
+gpt4_8e165409 K0/FL: context=2018 prompt=2168
+gpt4_8e165409 K1/R: context=2021 prompt=2171
+gpt4_8e165409 K1/MMR: context=2021 prompt=2171
+gpt4_8e165409 K1/C: context=1963 prompt=2113
+gpt4_8e165409 K1/Q: context=2038 prompt=2188
+gpt4_8e165409 K1/FL: context=2018 prompt=2168
+7a87bd0c K0/R: context=2002 prompt=2130
+7a87bd0c K0/MMR: context=2002 prompt=2130
+7a87bd0c K0/C: context=2022 prompt=2150
+7a87bd0c K0/Q: context=2016 prompt=2144
+7a87bd0c K0/FL: context=2035 prompt=2163
+7a87bd0c K1/R: context=2002 prompt=2130
+7a87bd0c K1/MMR: context=2002 prompt=2130
+7a87bd0c K1/C: context=1834 prompt=1962
+7a87bd0c K1/Q: context=1978 prompt=2106
+7a87bd0c K1/FL: context=2035 prompt=2163
+6e984301 K0/R: context=2035 prompt=2172
+6e984301 K0/MMR: context=2035 prompt=2172
+6e984301 K0/C: context=2006 prompt=2143
+6e984301 K0/Q: context=1991 prompt=2128
+6e984301 K0/FL: context=1995 prompt=2132
+6e984301 K1/R: context=2035 prompt=2172
+6e984301 K1/MMR: context=2035 prompt=2172
+6e984301 K1/C: context=2047 prompt=2184
+6e984301 K1/Q: context=2047 prompt=2184
+6e984301 K1/FL: context=2028 prompt=2165
+10d9b85a K0/R: generated
+10d9b85a K0/MMR: generated
+10d9b85a K0/C: generated
+10d9b85a K0/Q: generated
+10d9b85a K0/FL: generated
+10d9b85a K1/R: generated
+10d9b85a K1/MMR: generated
+10d9b85a K1/C: generated
+10d9b85a K1/Q: generated
+10d9b85a K1/FL: generated
+69fee5aa K0/R: generated
+69fee5aa K0/MMR: generated
+69fee5aa K0/C: generated
+69fee5aa K0/Q: generated
+69fee5aa K0/FL: generated
+69fee5aa K1/R: generated
+69fee5aa K1/MMR: generated
+69fee5aa K1/C: generated
+69fee5aa K1/Q: generated
+69fee5aa K1/FL: generated
+a4996e51 K0/R: generated
+a4996e51 K0/MMR: generated
+a4996e51 K0/C: generated
+a4996e51 K0/Q: generated
+a4996e51 K0/FL: generated
+a4996e51 K1/R: generated
+a4996e51 K1/MMR: generated
+a4996e51 K1/C: generated
+a4996e51 K1/Q: generated
+a4996e51 K1/FL: generated
+gpt4_731e37d7 K0/R: generated
+gpt4_731e37d7 K0/MMR: generated
+gpt4_731e37d7 K0/C: generated
+gpt4_731e37d7 K0/Q: generated
+gpt4_731e37d7 K0/FL: generated
+gpt4_731e37d7 K1/R: generated
+gpt4_731e37d7 K1/MMR: generated
+gpt4_731e37d7 K1/C: generated
+gpt4_731e37d7 K1/Q: generated
+gpt4_731e37d7 K1/FL: generated
+f0853d11 K0/R: generated
+f0853d11 K0/MMR: generated
+f0853d11 K0/C: generated
+f0853d11 K0/Q: generated
+f0853d11 K0/FL: generated
+f0853d11 K1/R: generated
+f0853d11 K1/MMR: generated
+f0853d11 K1/C: generated
+f0853d11 K1/Q: generated
+f0853d11 K1/FL: generated
+gpt4_15e38248 K0/R: generated
+gpt4_15e38248 K0/MMR: generated
+gpt4_15e38248 K0/C: generated
+gpt4_15e38248 K0/Q: generated
+gpt4_15e38248 K0/FL: generated
+gpt4_15e38248 K1/R: generated
+gpt4_15e38248 K1/MMR: generated
+gpt4_15e38248 K1/C: generated
+gpt4_15e38248 K1/Q: generated
+gpt4_15e38248 K1/FL: generated
+a40e080f K0/R: generated
+a40e080f K0/MMR: generated
+a40e080f K0/C: generated
+a40e080f K0/Q: generated
+a40e080f K0/FL: generated
+a40e080f K1/R: generated
+a40e080f K1/MMR: generated
+a40e080f K1/C: generated
+a40e080f K1/Q: generated
+a40e080f K1/FL: generated
+gpt4_8e165409 K0/R: truncated
+gpt4_8e165409 K0/MMR: truncated
+gpt4_8e165409 K0/C: generated
+gpt4_8e165409 K0/Q: generated
+gpt4_8e165409 K0/FL: generated
+gpt4_8e165409 K1/R: truncated
+gpt4_8e165409 K1/MMR: truncated
+gpt4_8e165409 K1/C: generated
+gpt4_8e165409 K1/Q: generated
+gpt4_8e165409 K1/FL: generated
+7a87bd0c K0/R: generated
+7a87bd0c K0/MMR: generated
+7a87bd0c K0/C: truncated
+7a87bd0c K0/Q: generated
+7a87bd0c K0/FL: generated
+7a87bd0c K1/R: generated
+7a87bd0c K1/MMR: generated
+7a87bd0c K1/C: generated
+7a87bd0c K1/Q: generated
+7a87bd0c K1/FL: generated
+6e984301 K0/R: generated
+6e984301 K0/MMR: generated
+6e984301 K0/C: generated
+6e984301 K0/Q: generated
+6e984301 K0/FL: generated
+6e984301 K1/R: generated
+6e984301 K1/MMR: generated
+6e984301 K1/C: generated
+6e984301 K1/Q: generated
+6e984301 K1/FL: generated
+{
+  "expected": 100,
+  "recorded": 100,
+  "missing": 0,
+  "statuses": {
+    "generated": 95,
+    "truncated": 5,
+    "empty": 0,
+    "technical_failure": 0
+  },
+  "attempts": 100,
+  "needs_review": 100,
+  "all_generated": false,
+  "scored": false
+}
