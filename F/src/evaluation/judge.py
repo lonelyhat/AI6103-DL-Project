@@ -361,6 +361,36 @@ def is_finished(score, answer):
             and score_matches_answer(score, answer))
 
 
+def acquire_run_lock(scores_path):
+    """
+    同一個評分檔同時只允許一個 judge.py 寫入（2026-11-20 新增）。
+
+    起因：F04 batch-05 有兩個程序先後寫同一個評分檔（一個被暫停後才繼續），
+    後者用的是開始時的進度，把 95 筆已評過的紀錄重評一次。
+    做法：在評分檔旁建立 <評分檔>.lock 並用作業系統的檔案鎖（flock）鎖住；
+    已被鎖住 → 直接停止。程序結束（含當機、Ctrl+C）時作業系統會自動解鎖，
+    留下的 .lock 檔不影響下次執行；被 Ctrl+Z 暫停的程序仍持有鎖，因此也會擋下第二個程序。
+    回傳開啟中的鎖檔（呼叫端需保持開啟到寫完為止）；不支援 flock 的系統（Windows）回傳 None 並提示。
+    """
+    try:
+        import fcntl
+    except ImportError:
+        print("[注意] 此系統不支援檔案鎖，請自行確認同一個評分檔只有一個程序在執行", file=sys.stderr)
+        return None
+    lock_path = scores_path.with_name(scores_path.name + ".lock")
+    lock_file = open(lock_path, "w")
+    try:
+        fcntl.flock(lock_file, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        lock_file.close()
+        sys.exit(f"[停止] 已有另一個 judge.py 正在寫入 {scores_path}。\n"
+                 f"       請先讓那個程序跑完，或到它的終端機按 Ctrl+C 停止；"
+                 f"被 Ctrl+Z 暫停的程序可用 `jobs` 查看、`fg` 叫回前景後再停止。")
+    lock_file.write(f"pid {os.getpid()}\n")
+    lock_file.flush()
+    return lock_file
+
+
 # ===========================================================================
 # 7. 摘要統計
 # ===========================================================================
@@ -585,6 +615,7 @@ def main():
 
     # ---- 8-5 斷點續跑：跳過已處理的紀錄 ----
     scores_path.parent.mkdir(parents=True, exist_ok=True)
+    run_lock = acquire_run_lock(scores_path)  # noqa: F841  保持開啟到程式結束，避免兩個程序同時寫入
     latest = load_latest_scores(scores_path)
     todo = [a for a in answers if not is_finished(latest.get(record_key(a)), a)]
     changed = sum(1 for a in todo if latest.get(record_key(a)) is not None
