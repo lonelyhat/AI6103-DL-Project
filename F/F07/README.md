@@ -54,7 +54,7 @@ C04 只記錄了 149 個補抽事實鍵的耗時，另外 18,692 個鍵沿用作
 
 - **回答佔每次提問的 78–96%**，約 9 秒；檢索只要約 0.03 秒。
 - 選材：R 最快（0.4–0.5 秒），FL 最慢（約 2.3 秒）。Q 每題比 R 多花約 1.0–1.2 秒，比 C 少約 0.3 秒。
-- 回答時間主要取決於模型寫了多長，和選材方法沒有直接關係。各設定之間差不到 1.5 秒。
+- 十種設定的平均回答時間介於 8.48 至 9.95 秒。平均輸出 token 數也隨設定而異，表格同時列出這兩項觀測值。
 
 ## 複用：建庫什麼時候可以忽略
 
@@ -89,7 +89,7 @@ batch-05 有 95 筆被意外重評，約 0.09 美元，沒有算在內，詳見 
   - 回答用 A40，batch-07 用 L40S。
 
   表格保留各階段的原始秒數，合計只當參考。
-- **E04 的設備**：只有 batch-01 的 `runtime.jsonl` 記錄了 GPU（A40）。其他批次依 [F05 README](../F05/g02-v1/README.md)：batch-07 用 L40S，其餘用 A40。實測 L40S 約 36.9 token／秒，A40 約 25 token／秒。同一題的十種設定都在同一批跑，所以設定之間的比較不受設備影響。`f07_per_query.csv` 另外附一欄只算 A40 批次（70 題）的回答耗時。
+- **E04 的設備**：只有 batch-01 的 `runtime.jsonl` 記錄了 GPU（A40）。其他批次依 [F05 README](../F05/g02-v1/README.md)：batch-07 用 L40S，其餘用 A40。實測 L40S 約 36.9 token／秒，A40 約 25 token／秒。同一題的十種設定都在同一批、同一設備執行，設備分配在每個題目的設定間一致。`f07_per_query.csv` 另外附一欄只算 A40 批次（70 題）的回答耗時。
 - **一次性成本的範圍**：沒有包含作者快取的原始抽取成本、未記錄的重試開銷，也沒有包含整批的總耗時（wall time）。C05 把這些列為未知。
 
 ## 檢查
@@ -126,7 +126,7 @@ batch-05 有 95 筆被意外重評，約 0.09 美元，沒有算在內，詳見 
 git fetch origin
 ```
 ```bash
-mkdir -p /tmp/e04 && git archive 95438df E/E04/results/g02-v1 | tar -x -C /tmp/e04
+mkdir -p /tmp/e04 && git -c core.autocrlf=false archive 95438df E/E04/results/g02-v1 | tar -x -C /tmp/e04
 ```
 ```bash
 python src/evaluation/f07_cost.py --e04-dir /tmp/e04/E/E04/results/g02-v1 --scores scores/formal_g02-v1_batch-0{1,2,3,4,5,6,7,8}.jsonl --out-dir F07

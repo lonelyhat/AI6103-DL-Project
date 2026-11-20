@@ -1,0 +1,298 @@
+{
+  "result_commit": "09bdcad139bad6d26c4b6cc9db417bb37b8dc570",
+  "d08_commit": "5b1c02fa45ae9c71e8ed0bcc5b0171daec530c89",
+  "e04_commit": "95438df71b0730d58ab260d97f4528e3b3228e72",
+  "plan_sha256": "6bc62c2c934fbcb9526d846cdeb9fc8c65a54849f2d2a1ac305801f53dfdc29e",
+  "evaluation_sha256": "bbfe0c77c847a5bd94665ec2cdc2a62cd9ded7bb9738e14db7ef1ea386561ffd",
+  "questions": 80,
+  "batches": {
+    "batch-01": {
+      "records": 100,
+      "statuses": {
+        "generated": 95,
+        "truncated": 5
+      },
+      "correct": 41,
+      "job_ids": [
+        "56264"
+      ],
+      "gpu": "NVIDIA A40",
+      "archive_missing": [],
+      "truncated": [
+        {
+          "question_id": "7a87bd0c",
+          "index": "K0",
+          "strategy": "C",
+          "record_id": "df8293844fbd44d48f5767661067d43a648a7be65cda7e503f28a533235efe99",
+          "label": 0
+        },
+        {
+          "question_id": "gpt4_8e165409",
+          "index": "K0",
+          "strategy": "MMR",
+          "record_id": "29501137d00bf5fc8b0a6b7c2571501d80caff8faab8369616b96eb5f9ade3f4",
+          "label": 1
+        },
+        {
+          "question_id": "gpt4_8e165409",
+          "index": "K0",
+          "strategy": "R",
+          "record_id": "60b7f07ca9b4f8377ce54795b44c4188df2fbc3af4dcb9b96cd152101e3767f3",
+          "label": 1
+        },
+        {
+          "question_id": "gpt4_8e165409",
+          "index": "K1",
+          "strategy": "MMR",
+          "record_id": "c9c55d6db0b42427711db1729bcebb7cf0a7cbc25f731105d6afc8b9640c0420",
+          "label": 1
+        },
+        {
+          "question_id": "gpt4_8e165409",
+          "index": "K1",
+          "strategy": "R",
+          "record_id": "5797bde8083991047f46a268496304294d10409e109052662007860c84f2c41d",
+          "label": 1
+        }
+      ]
+    },
+    "batch-02": {
+      "records": 100,
+      "statuses": {
+        "generated": 99,
+        "truncated": 1
+      },
+      "correct": 48,
+      "job_ids": [
+        "56270"
+      ],
+      "gpu": "NVIDIA A40",
+      "archive_missing": [
+        "attempts.jsonl",
+        "e03-56270.err",
+        "e03-56270.out",
+        "inputs.jsonl",
+        "invocations.jsonl",
+        "runtime.jsonl",
+        "slurm_final.txt"
+      ],
+      "truncated": [
+        {
+          "question_id": "0db4c65d",
+          "index": "K0",
+          "strategy": "C",
+          "record_id": "a6807338b1f134a074f2a13d40d7a7a108814a2c9614b7a21f38cd9da89ffd8e",
+          "label": 0
+        }
+      ]
+    },
+    "batch-03": {
+      "records": 100,
+      "statuses": {
+        "generated": 98,
+        "truncated": 2
+      },
+      "correct": 36,
+      "job_ids": [
+        "56271"
+      ],
+      "gpu": "NVIDIA A40",
+      "archive_missing": [
+        "attempts.jsonl",
+        "e03-56271.err",
+        "e03-56271.out",
+        "inputs.jsonl",
+        "invocations.jsonl",
+        "runtime.jsonl",
+        "slurm_final.txt"
+      ],
+      "truncated": [
+        {
+          "question_id": "00ca467f",
+          "index": "K1",
+          "strategy": "R",
+          "record_id": "d41281f5e76f72c014568f18be0be7245fd0298eb12d7d9d6c2c4ba21f22fcad",
+          "label": 0
+        },
+        {
+          "question_id": "gpt4_85da3956",
+          "index": "K1",
+          "strategy": "FL",
+          "record_id": "b699c18b2feb50e6d68950af5a378eb9f7a032702fe5ecb58d890117962c0d16",
+          "label": 0
+        }
+      ]
+    },
+    "batch-04": {
+      "records": 100,
+      "statuses": {
+        "generated": 100
+      },
+      "correct": 33,
+      "job_ids": [
+        "56276"
+      ],
+      "gpu": "NVIDIA A40",
+      "archive_missing": [
+        "attempts.jsonl",
+        "e03-56276.err",
+        "e03-56276.out",
+        "inputs.jsonl",
+        "invocations.jsonl",
+        "runtime.jsonl",
+        "slurm_final.txt"
+      ],
+      "truncated": []
+    },
+    "batch-05": {
+      "records": 100,
+      "statuses": {
+        "generated": 99,
+        "truncated": 1
+      },
+      "correct": 34,
+      "job_ids": [
+        "56277"
+      ],
+      "gpu": "NVIDIA A40",
+      "archive_missing": [
+        "attempts.jsonl",
+        "e03-56277.err",
+        "e03-56277.out",
+        "inputs.jsonl",
+        "invocations.jsonl",
+        "runtime.jsonl",
+        "slurm_final.txt"
+      ],
+      "truncated": [
+        {
+          "question_id": "gpt4_7abb270c",
+          "index": "K1",
+          "strategy": "FL",
+          "record_id": "93debf7bb9f91cb925ef039cc3e099b890dc01cc53d1f4d22f65bac32822d46e",
+          "label": 0
+        }
+      ]
+    },
+    "batch-06": {
+      "records": 100,
+      "statuses": {
+        "generated": 99,
+        "truncated": 1
+      },
+      "correct": 32,
+      "job_ids": [
+        "56286"
+      ],
+      "gpu": "NVIDIA A40",
+      "archive_missing": [
+        "attempts.jsonl",
+        "e03-56286.err",
+        "e03-56286.out",
+        "inputs.jsonl",
+        "invocations.jsonl",
+        "runtime.jsonl",
+        "slurm_final.txt"
+      ],
+      "truncated": [
+        {
+          "question_id": "f9e8c073",
+          "index": "K1",
+          "strategy": "FL",
+          "record_id": "7b68d7297e133e0cd2b2a3309070b1bfd3fe80c93cc6de81a683c1f1256237e3",
+          "label": 0
+        }
+      ]
+    },
+    "batch-07": {
+      "records": 100,
+      "statuses": {
+        "generated": 99,
+        "truncated": 1
+      },
+      "correct": 49,
+      "job_ids": [
+        "56287"
+      ],
+      "gpu": "NVIDIA L40S",
+      "archive_missing": [
+        "attempts.jsonl",
+        "e03-56287.err",
+        "e03-56287.out",
+        "inputs.jsonl",
+        "invocations.jsonl",
+        "runtime.jsonl",
+        "slurm_final.txt"
+      ],
+      "truncated": [
+        {
+          "question_id": "gpt4_d6585ce9",
+          "index": "K0",
+          "strategy": "Q",
+          "record_id": "b2858b78a009e8d83a6e19c594d09586a7e0d25b39af97a513e2adcc888b9633",
+          "label": 0
+        }
+      ]
+    },
+    "batch-08": {
+      "records": 100,
+      "statuses": {
+        "generated": 97,
+        "truncated": 3
+      },
+      "correct": 66,
+      "job_ids": [
+        "56292"
+      ],
+      "gpu": "NVIDIA A40",
+      "archive_missing": [
+        "attempts.jsonl",
+        "e03-56292.err",
+        "e03-56292.out",
+        "inputs.jsonl",
+        "invocations.jsonl",
+        "runtime.jsonl",
+        "slurm_final.txt"
+      ],
+      "truncated": [
+        {
+          "question_id": "1568498a",
+          "index": "K1",
+          "strategy": "MMR",
+          "record_id": "a4b5adeee30819384a603f6c9432a083cc7ef91cb29fddba1fd7d4860421dcc1",
+          "label": 1
+        },
+        {
+          "question_id": "1568498a",
+          "index": "K1",
+          "strategy": "Q",
+          "record_id": "c1f04035a0c7e4a64bcd2b5f4d8f2100864cca26cab71071516b15cb304f631d",
+          "label": 1
+        },
+        {
+          "question_id": "7401057b",
+          "index": "K1",
+          "strategy": "C",
+          "record_id": "8c476c4ca3331b41ceb7ed8cc47b7e21b6a820e5db67a6d706f02ef7a6970e7c",
+          "label": 0
+        }
+      ]
+    }
+  },
+  "records": 800,
+  "correct": 339,
+  "f05": {
+    "reviews": 121,
+    "settings": 161,
+    "agreed": 120,
+    "mismatches": [
+      "F05-075"
+    ]
+  },
+  "a05": {
+    "cases": 5,
+    "variants": 10
+  },
+  "g01_known_failure_keys": 6,
+  "g01_keys_in_frozen_c04": []
+}

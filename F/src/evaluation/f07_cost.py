@@ -120,7 +120,9 @@ def main():
     for i in INDICES:
         c = c05["index_cost"][i]
         src = TEAM_ROOT / c["source"]
-        if sha256_file(src) != c["cost_sha256"]:
+        # C05 fingerprints the JSON after normalizing Git checkout line endings.
+        cost_hash = hashlib.sha256(src.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+        if cost_hash != c["cost_sha256"]:
             problems.append(f"{i}：{c['source']} 的指紋與 C05 記錄不同")
         b = json.loads(src.read_text(encoding="utf-8"))
         retrieval_q[i] = {q: v["query_encode_s"] + v["rank_s"] for q, v in b["per_question"].items()}
