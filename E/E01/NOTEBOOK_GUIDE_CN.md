@@ -1,10 +1,8 @@
 # E01 notebook：先准备，模型批准后再生成
 
-2026-11-17 更新：E01 已有完成归档，见 `ACCEPTANCE_UPDATE_20261117.md`。以下保留为复核/复跑步骤，代码路径已迁移到 `E/E01/`，当前无需为目录调整重跑实验。
+2026-11-17 更新：E01 已有完成归档，见 [验收补充](../../archive/E/E01/ACCEPTANCE_UPDATE_20261117.md)。以下保留为复核/复跑步骤，代码路径已迁移到 `E/E01/`，当前无需为目录调整重跑实验。
 
-本地仓库：`C:\Users\avalon\Desktop\Project\AI6103-DL-Project`。
-服务器仓库：`/home/msai/chunjie001/projects/AI6103-DL-Project`。
-Git 分支：`e01`。后续命令均在 VS Code Terminal 中执行。
+在项目仓库根目录执行命令。模型和运行环境使用复跑者自己的账户与缓存。
 
 ## 当前可以做什么
 
@@ -15,35 +13,21 @@ Git 分支：`e01`。后续命令均在 VS Code Terminal 中执行。
 学校登录节点只用于编辑、安装环境、下载文件与提交作业。Notebook 在服务器端通过 sbatch 执行，在 VS Code 中查看执行后的副本；无需在登录节点启动 Jupyter 服务。
 Notebook 首个代码单元会阻止在未分配 SLURM 作业的 Linux 环境中继续运行。
 
-## 1. 同步本地新文件
+## 1. 准备服务器运行环境
 
-在本地 VS Code 的 PowerShell Terminal：
-
-```powershell
-Set-Location 'C:\Users\avalon\Desktop\Project\AI6103-DL-Project'
-git status --short --branch
-git add E/E01/E01_environment_and_generation.ipynb E/E01/notebook_utils.py E/E01/input_manifest.json E/E01/requirements-notebook.txt E/E01/NOTEBOOK_GUIDE_CN.md jobs/e01_notebook_tc2.sh
-git commit -m "Add E01 preparation and generation notebook"
-git push origin e01
-```
-
-在服务器 VS Code 的 Bash Terminal：
+从自己的服务器项目副本进入仓库根目录。以下依赖安装到 E01 的运行环境。
 
 ```bash
-cd /home/msai/chunjie001/projects/AI6103-DL-Project
-git status --short --branch
-git pull --ff-only origin e01
+cd /path/to/AI6103-DL-Project
 module load anaconda
 eval "$(conda shell.bash hook)"
 conda activate e01
-python -m pip install -r E/E01/requirements-notebook.txt
+python -m pip install -r E/E01/requirements.txt -r E/E01/requirements-notebook.txt
 python -m pip check
 mkdir -p logs runs/e01
 ```
 
-如果有本地或远程改动，先检查内容再合并。不要丢弃已有实验日志。
-
-## 2. 现在提交准备检查
+## 2. 提交准备检查
 
 在服务器 Bash Terminal：
 
@@ -91,7 +75,7 @@ huggingface-cli login
 
 ```bash
 export MODEL=meta-llama/Llama-3.1-8B-Instruct
-REV=$(python -c 'import os; from huggingface_hub import HfApi; print(HfApi().model_info(os.environ["MODEL"]).sha)')
+REV=0e9e39f249a16976918f6564b8830bc894c89659
 printf '%s\n' "$REV"
 huggingface-cli download "$MODEL" --revision "$REV" --include '*.json' '*.safetensors' '*.model' '*.jinja' '*.txt' --exclude 'original/*'
 ```
@@ -109,7 +93,7 @@ sbatch --partition=MGPU-TC2 --qos=normal --cpus-per-task=2 --gres=gpu:1 --mem=28
 `generation/` 内保存真实回答及配置，`executed.ipynb` 汇总 Token、耗时与实际输入输出。
 生成前用同一模型 SHA 的 tokenizer 记录完整 prompt 长度，并检查不会超出模型上下文；不强行截短原始材料。
 
-该 notebook 使用原有直接回答运行器，只完成 E01。原论文逐块笔记再汇总回答的 CoN 核对是 E02 范围。
+Notebook 使用 E01 的直接回答运行器。[E02](../E02/README.md)核对的是单次 CoN 提示及排名前 50 的参照设置。
 
 ## 4. 交付前人工检查
 

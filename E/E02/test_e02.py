@@ -103,7 +103,7 @@ class E02Tests(unittest.TestCase):
 
 
 F_DIR = HERE.parents[1] / 'F/src/evaluation'
-@unittest.skipUnless((F_DIR / 'judge.py').exists(), 'F branch is not present; apply handoff patch there to run F checks')
+@unittest.skipUnless((F_DIR / 'judge.py').exists(), 'F evaluation code is not included in this checkout')
 class FHandoffTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -138,13 +138,12 @@ class FHandoffTests(unittest.TestCase):
             base = Path(temp)
             answers, scores = base / 'synthetic_answers.jsonl', base / 'synthetic_scores.jsonl'
             answers.write_text(''.join(json.dumps(r) + '\n' for r in exports), encoding='utf-8')
-            args = types.SimpleNamespace(answers=str(answers), eval=str(self.judge.DEFAULT_EVAL_FILE),
-                    questions=str(self.judge.DEFAULT_QUESTIONS_FILE), out=str(scores), model='offline-mock',
-                    expected=None, limit=None, dry_run=False, summary_only=False)
+            argv = ['judge.py', '--answers', str(answers), '--out', str(scores),
+                    '--model', 'offline-mock']
             fake = types.SimpleNamespace(OpenAI=lambda **kw: object())
             result = dict(status='ok', judge_output='no', judge_model_returned='offline-mock',
                           judge_prompt_tokens=0, judge_output_tokens=0, judge_elapsed_s=0, judge_attempts=1)
-            with patch.object(self.judge, 'parse_args', return_value=args), patch.object(self.judge, 'load_env_file'), \
+            with patch.object(sys, 'argv', argv), patch.object(self.judge, 'load_env_file'), \
                  patch.dict('os.environ', {'OPENAI_API_KEY': 'offline-test-not-a-key'}), \
                  patch.dict(sys.modules, {'openai': fake}), patch.object(self.judge, 'call_judge', return_value=result) as mock, \
                  contextlib.redirect_stdout(io.StringIO()):

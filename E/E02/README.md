@@ -1,6 +1,6 @@
 # E02：五题阅读验证
 
-2026-11-17：**E02 生成、解析核对及交接验收完成**。两种设置各有五条真实回答，F02 正确性评分和证据统计待完成。
+2026-11-17：**E02 生成、解析核对及交接验收完成**。两种设置各有五条真实回答，F02 预算版评分与证据已纳入 [G01 验收](../../G/G01/ACCEPTANCE.md)。
 
 | 设置 | 作业与耗时 | 实际输入 | 归档 |
 | --- | --- | --- | --- |
@@ -30,7 +30,7 @@ F02 的主交接使用 [预算版回答](results/job-55386/answers_for_f.jsonl)�
 - `inputs/sources/`：固定版本的 D02、B02、五题 A01 公开轮次和来源指纹。只有开发题原文，不含参考答案或证据标签。
 - `prepare_inputs.py`：从以上来源重建全部输入，不需要模型或 GPU。修改来源文件后会因哈希不匹配而拒绝运行。
 - `export_for_f.py`：把真实生成结果转换为 F 的交接格式，保留原始结果，不调用评分 API。
-- `handoff/f_evaluation.patch`：给 F 分支的最小兼容补丁；没有把 F 分支合入 E 分支。
+- [历史 F 补丁](../../archive/E/E02/handoff/README.md)：记录早期接口交接。
 
 预算版和参照版使用不同的历史文本格式。这是“项目预算材料 vs 原排名官方格式”的流程参照，不是仅控制 token 数的纯预算消融。正式两索引×五方法实验仍须统一使用项目材料格式。
 
@@ -49,23 +49,21 @@ F02 的主交接使用 [预算版回答](results/job-55386/answers_for_f.jsonl)�
 在项目根目录执行（本地 `python` 指向 Python 3.10 或以上）：
 
 ```bash
-python E/E02/prepare_inputs.py
+python E/E02/prepare_inputs.py --output runs/e02/rebuilt-inputs
 python E/E02/run_generation.py --input E/E02/inputs/dev5.jsonl --schema-only
 python -B E/E02/test_e02.py
 ```
 
-E 线有8项测试；存在并修补 F 分支时再执行3项 F 交接测试。隔离副本中11项均通过，包括真实 D02/B02 输入、模拟 Judge 到真实 A02 证据关联。模拟回答和评分只存在于临时测试目录，不是实验成果；未调用 GPU 或付费 API。
+E 线有 8 项测试，项目仓库内的 F 代码另提供 3 项交接测试。测试包含从 D02/B02 重建输入，以及用模拟 Judge 核对 A02 证据关联。测试使用临时目录、合成回答和模拟评分。
 
-本地没有缓存对应 Llama tokenizer，`--schema-only` 不能代替服务器的 `--check-only`。
+结构检查使用 `--schema-only`；具备固定 Llama 分词器缓存时，用 `--check-only` 检查实际 Token 数、指纹和容量。
 
 ## 服务器运行
 
-先同步本地代码和输入到服务器的 e01 分支，再在服务器终端执行：
+使用包含本目录的项目版本，在集群终端从仓库根目录运行。
 
 ```bash
-cd /home/msai/chunjie001/projects/AI6103-DL-Project
-git switch e01
-git pull --ff-only origin e01
+cd /path/to/AI6103-DL-Project
 module load anaconda
 eval "$(conda shell.bash hook)"
 conda activate e01
@@ -98,6 +96,6 @@ python E/E02/export_for_f.py --input runs/e02/job-JOBID/results.jsonl --output r
 
 导出器仅把 `generated` 映射为 F 接受的 `ok`，同时保留 `generation_status`。其他失败状态不会伪装成功。F补丁使 E02 v2 的明确答案提取由 E 负责；没有明确答案标记时使用全文评分并保留需复核标记，不再重复用另一套规则提取。
 
-给 F：`answers_for_f.jsonl`、`config.json`、原始 `results.jsonl`；同时给出本目录的 D02 selections、B02 candidates、topk selections 和 [补丁说明](handoff/README.md)。`config_version` 保留选择配置，阅读器单独记录 `reader_config_version=e02-v2`。
+给 F：`answers_for_f.jsonl`、`config.json`、原始 `results.jsonl`；同时给出本目录的 D02 selections、B02 candidates、topk selections 和 [历史补丁](../../archive/E/E02/handoff/README.md)。`config_version` 保留选择配置，阅读器单独记录 `reader_config_version=e02-v2`。
 
 归档时还应保存实际作业终态 `slurm_final.txt`。五题两种版本的真实输出、提取核对和参照核对齐全后才验收 E02；正确率由 F02 实际评分确认。

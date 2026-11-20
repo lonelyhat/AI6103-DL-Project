@@ -1,4 +1,4 @@
-# E02 → F 兼容补丁
+# E02 → F 历史兼容补丁
 
 基于 `origin/F_Evaluation` commit `36dd0a8f39ae89d416c81dda6a95f06a1945a8c7`。补丁仅修改 `F/src/evaluation/judge.py`、`join_f02.py`，本地隔离副本已完成11项离线测试。E 分支没有直接复制/合入 F 源码。
 
@@ -10,15 +10,13 @@
 4. F02 关联键增加配置版本、variant/topk，防止混合两版结果。旧 D02 缺省 variant 按 budget 处理。
 5. B/D 版本核对使用 D 记录的 input_config_version 对照 B 版本；不再把 B 的 a01-v2 与 D 的 d02-v1 当成同一个阶段版本。
 
-在包含 F 代码的分支、仓库根目录中执行：
+当前项目主线已含兼容的 F 代码。本补丁供复查旧版交接。需要检查补丁时，将当前项目中的补丁绝对路径传给指定历史 F 提交的工作树。
 
 ```bash
-git apply --check E/E02/handoff/f_evaluation.patch
-git apply E/E02/handoff/f_evaluation.patch
-python -B E/E02/test_e02.py
+git -C /path/to/legacy-F-checkout apply --check "/path/to/current-project/archive/E/E02/handoff/f_evaluation.patch"
 ```
 
-若 F 又更新了这两个文件，先 review 差异再应用；不要覆盖新工作。补丁不更改评分提示词、Judge 模型或标准答案。
+补丁的适用范围是当时的导出兼容逻辑。当前正式评分规则见 [F 评分配置](../../../../F/SCORING_CONFIG.md)。
 
 E 的 `answers_for_f.jsonl` 已把正常生成转换为 `status=ok`；F 不需要把所有 E 状态都当作成功。`truncated/empty/technical_failure` 不进入正常答案评分，保留失败记录，不应从最终完成率统计中悄悄删除。
 
