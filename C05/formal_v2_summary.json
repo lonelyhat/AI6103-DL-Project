@@ -1,0 +1,136 @@
+{
+  "g02_version": "g02-v1",
+  "a03_version": "a03-v2",
+  "questions": 80,
+  "plan_sha256": "6bc62c2c934fbcb9526d846cdeb9fc8c65a54849f2d2a1ac305801f53dfdc29e",
+  "ledger_sha256": "03070b2c56ae519c5101d3a8ad490b88f6fb476cd797e329f48c7a1cd2bafa9d",
+  "spotcheck_sha256": "c5ef331d8c80815911b12dd9b3301a388bd511c2f27f2aa7877cd77a7fc6cef8",
+  "notes_on_cost_scope": "Recorded per-turn extraction plus Stella model load and encoding; retrieval is per question. Cached author's original costs and unrecorded attempt costs remain unknown.",
+  "fact_snapshot_sha256": "d0f096f7f38a1ab8715b74469ce364999fd82ba9226baf8c6e4844398cab0473",
+  "fact_quality": {
+    "seed": 42,
+    "turns_per_origin": 20,
+    "by_origin": {
+      "extracted": {
+        "supported": 86,
+        "uncertain": 4,
+        "unsupported": 1
+      },
+      "reused": {
+        "supported": 61,
+        "uncertain": 9,
+        "unsupported": 8
+      }
+    },
+    "all": {
+      "supported": 147,
+      "uncertain": 13,
+      "unsupported": 9
+    }
+  },
+  "c04_extraction": {
+    "model": "Meta-Llama-3.1-8B-Instruct (Q3_K_M GGUF, ollama model 'llama31-8b-q3')",
+    "unique_keys": 18841,
+    "reused_keys": 18692,
+    "extracted_keys": 149,
+    "initial_pass_keys": 133,
+    "first_pass_issue_keys": 16,
+    "first_pass_issue_rate": 0.10738255033557047,
+    "recorded_attempts": 165,
+    "finalization": {
+      "curated": 2,
+      "no_facts": 14
+    },
+    "failure_reasons": {
+      "icl_echo": 3,
+      "json_quote": 2,
+      "refusal": 6,
+      "semantic_hallucination": 1,
+      "task_execution": 4
+    },
+    "null_final_values": 0,
+    "value_kinds_by_origin": {
+      "extracted": {
+        "empty_list": 25,
+        "list_of_strings": 124
+      },
+      "reused": {
+        "empty_list": 7629,
+        "list_of_strings": 11060,
+        "list_with_non_string": 2,
+        "string": 1
+      }
+    },
+    "canonical_facts_by_origin": {
+      "extracted": 484,
+      "reused": 44105
+    },
+    "recorded_turn_seconds": 914.4,
+    "recorded_input_tokens": 207474,
+    "recorded_output_tokens": 12118,
+    "author_cache_original_usage": null,
+    "per_attempt_usage": null,
+    "batch_wall_time_s": null
+  },
+  "formal_turn_positions": 19539,
+  "fallback_to_original_user_text_positions": 7949,
+  "noncanonical_keys": {
+    "sharegpt_6EDKmvB_0_1": {
+      "kind": "string",
+      "candidate_occurrences": {
+        "K0": 0,
+        "K1": 0
+      }
+    },
+    "sharegpt_hHGVWPU_4_1": {
+      "kind": "list_with_non_string",
+      "candidate_occurrences": {
+        "K0": 0,
+        "K1": 0
+      }
+    },
+    "sharegpt_wcqglLd_0_1": {
+      "kind": "list_with_non_string",
+      "candidate_occurrences": {
+        "K0": 0,
+        "K1": 0
+      }
+    }
+  },
+  "index_cost": {
+    "K0": {
+      "source": "B-检索线/B04/results/cost.json",
+      "cost_sha256": "608ec88ea62c133f8be388e0b2ca262683f43c877eef3b7291b88e2459e4c7ec",
+      "provenance_sha256": "fa187401c45dcdf908ce93119dd1e7d838a3b1d0e87fcec46befad955ec7ae06",
+      "model_load_s": 14.351042733062059,
+      "index_build_s": 953.1020013412926,
+      "recorded_fact_turn_seconds": 0,
+      "known_one_time_s": 967.4530440743547,
+      "query_encode_s": 2.866991575807333,
+      "rank_s": 0.10343155614100397,
+      "retrieval_s": 2.970423131948337,
+      "mean_retrieval_s": 0.03713028914935421,
+      "indexed_turns": 19539,
+      "stella_tokens_before_truncation": 1113534,
+      "stella_tokens_after_truncation": 969872,
+      "truncated_index_texts": 119
+    },
+    "K1": {
+      "source": "B-检索线/B06/results/cost.json",
+      "cost_sha256": "a43b1e43af13d579672ca801ee9119fd5b842bcfa8efedf38a08a04909c24347",
+      "provenance_sha256": "c0bc348eceb26ccf515a100989461032e14690f8fbebba5c265c1c9a99dcd906",
+      "model_load_s": 10.146993883885443,
+      "index_build_s": 1128.4560187701136,
+      "recorded_fact_turn_seconds": 914.4,
+      "known_one_time_s": 2053.003012653999,
+      "query_encode_s": 2.6102991031948477,
+      "rank_s": 0.08557793847285211,
+      "retrieval_s": 2.6958770416677,
+      "mean_retrieval_s": 0.033698463020846246,
+      "indexed_turns": 19539,
+      "stella_tokens_before_truncation": 1713454,
+      "stella_tokens_after_truncation": 1561818,
+      "truncated_index_texts": 128
+    }
+  }
+}
