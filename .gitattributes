@@ -28,3 +28,7 @@
 /D/D07/output/dev34-budgets-v1/*.jsonl -text
 /D/D07/output/dev34-budgets-v1/*.csv -text whitespace=cr-at-eol
 /D/D07/output/dev34-budgets-v1/*.md -text
+# Preserve the final scoring and blind-review archives byte for byte.
+/F/scores/formal_g02-v1_batch-*.jsonl -text
+/F/F05/g02-v1/**/*.csv -text whitespace=cr-at-eol
+/F/F05/g02-v1/audit/sampling_manifest.json -text
