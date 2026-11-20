@@ -1,0 +1,15 @@
+{
+  "expected": 100,
+  "recorded": 100,
+  "missing": 0,
+  "statuses": {
+    "generated": 98,
+    "truncated": 2,
+    "empty": 0,
+    "technical_failure": 0
+  },
+  "attempts": 100,
+  "needs_review": 100,
+  "all_generated": false,
+  "scored": false
+}
